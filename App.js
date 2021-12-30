@@ -3,8 +3,15 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import { Asset } from "expo-asset";
-import * as SplashScreen from "expo-splash-screen";
-import Loading from "./screens/Loading";
+//import * as SplashScreen from "expo-splash-screen";
+import {
+  AppearanceProvider,
+  useColorScheme,
+} from "react-native-appearance";
+import { ThemeProvider } from "styled-components/native";
+
+import { lightTheme, darkTheme } from "./Styles/Theme";
+import SplashView from "./screens/SplashView";
 import AuthNavigation from "./navigators/AuthNavigation";
 
 export default function App() {
@@ -13,15 +20,16 @@ export default function App() {
   const onFinish = () =>
     setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 2000);
   // startAsync는 항상 promise를 반환해야함.
   const preload = () => {
     const fontsToLoad = [Ionicons.font];
     const fontPromises = fontsToLoad.map(font => Font.loadAsync(font)); // font package의 loadAsync func로 비동기처리 다른 방법들도 있음 DOCS참고
     // preloading images
     const imagesToLoad = [
-      require("./assets/loadingPage/Pocipe.png"),
-      //require("./assets/loadingPage/loadpageEng2.png"),
+      require("./assets/loadingPage/Logo-black.png"),
+      require("./assets/loadingPage/Logo-yellow.png"),
+      require("./assets/AuthView/bgImage01.jpg"),
     ];
     const imagePromises = imagesToLoad.map(image => Asset.loadAsync(image));
     // preloading caches
@@ -37,21 +45,23 @@ export default function App() {
       } catch (e) {
         console.warn(e);
       } finally {
-        setLoading(true);
         onFinish();
       }
     };
     prepare();
   }, []);
 
+  let colorScheme = useColorScheme();
+  let Theme = colorScheme === "light" ? lightTheme : darkTheme;
+
   // SplashScreen.preventAutoHideAsync() 자체를 안써서
   // onLayout={onLayoutRootView} 안써도 되는듯..?
-  const onLayoutRootView = useCallback(async () => {
-    if (!loading) {
-      await SplashScreen.hideAsync();
-    }
-  }, [loading]);
-
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (!loading) {
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [loading]);
+  //
   // if (loading) {
   //   // 로딩, 에러, 로딩완료 처리
   //   return (
@@ -67,8 +77,16 @@ export default function App() {
   // }
 
   if (loading) {
-    return <Loading />;
+    return <SplashView />;
   }
 
-  return <AuthNavigation />;
+  return (
+    <>
+      <AppearanceProvider>
+        <ThemeProvider theme={Theme}>
+          <AuthNavigation />
+        </ThemeProvider>
+      </AppearanceProvider>
+    </>
+  );
 }

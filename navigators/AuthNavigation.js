@@ -25,7 +25,7 @@ const horizontalTransition = {
 };
 const verticallTransition = {
   gestureDirection: "vertical",
-  // gestureResponseDistance: 135, // default
+  //gestureResponseDistance: 135, // default
   transitionSpec: {
     open: TransitionSpecs.TransitionIOSSpec,
     close: TransitionSpecs.TransitionIOSSpec,
@@ -42,6 +42,7 @@ export default () => {
           //headerShown: false,
           presentation: "card",
           gestureEnabled: true,
+          headerShown: false,
           ...verticallTransition,
         }}
       >
@@ -49,12 +50,21 @@ export default () => {
         <AuthNavigation.Screen
           name="LogIn"
           component={LogIn}
+          options={{
+            headerShown: true,
+            headerTitle: "",
+            headerTransparent: true,
+            headerTintColor: "#F6B93B",
+          }}
         />
         <AuthNavigation.Screen
           name="CreateAccount"
           component={CreateAccount}
           options={{
-            ...verticallTransition,
+            headerShown: true,
+            headerTitle: "",
+            headerTransparent: true,
+            headerTintColor: "#F6B93B",
           }}
         />
       </AuthNavigation.Navigator>
