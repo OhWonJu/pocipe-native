@@ -50,22 +50,10 @@ export default () => {
         <AuthNavigation.Screen
           name="LogIn"
           component={LogIn}
-          // options={{
-          //   headerShown: true,
-          //   headerTitle: "로그인",
-          //   headerTransparent: true,
-          //   headerTintColor: "#F6B93B",
-          // }}
         />
         <AuthNavigation.Screen
           name="CreateAccount"
           component={CreateAccount}
-          options={{
-            headerShown: true,
-            headerTitle: "회원가입",
-            headerTransparent: true,
-            headerTintColor: "#F6B93B",
-          }}
         />
       </AuthNavigation.Navigator>
     </NavigationContainer>

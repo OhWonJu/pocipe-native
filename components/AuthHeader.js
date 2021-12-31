@@ -8,11 +8,14 @@ import constants from "../constants";
 const Container = styled.View`
   flex-direction: row;
   background-color: ${props => props.theme.bgColor};
-  height: ${constants.statusBarHeight + 50}px;
-  padding-top: ${constants.statusBarHeight + 10}px;
+  height: ${constants.statusBarHeight + 55}px;
+  padding-top: ${constants.statusBarHeight + 5}px;
   width: 100%;
   justify-content: center;
   align-items: center;
+  border-style: solid;
+  border-bottom-color: ${props => props.theme.greyColor};
+  border-bottom-width: 1.5px;
 `;
 const Left = styled.View`
   flex: 1;
@@ -26,12 +29,12 @@ const Right = styled.View`
   flex: 2;
 `;
 
-const MidText = styled.Text`
+const Title = styled.Text`
   position: absolute;
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 700;
   color: ${props => props.titleColor};
-  left: 50%;
+  bottom: 20%;
 `;
 
 export default AuthHeader = ({
@@ -42,18 +45,18 @@ export default AuthHeader = ({
 }) => {
   return (
     <Container>
+      <Title titleColor={titleColor}>{title}</Title>
       <Left>
         <TouchableOpacity onPress={leftOnPress}>
           <MaterialIcons
             name="keyboard-arrow-left"
-            size={35}
+            size={38}
             color={tiltColor}
-            style={{ paddingLeft: 25 }}
+            style={{ paddingLeft: 20 }}
           />
         </TouchableOpacity>
       </Left>
       <Mid>
-        <MidText titleColor={titleColor}>{title}</MidText>
       </Mid>
       <Right></Right>
     </Container>

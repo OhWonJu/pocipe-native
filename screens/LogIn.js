@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StatusBar, TouchableOpacity } from "react-native";
 import styled, { ThemeContext } from "styled-components";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  MaterialIcons,
+  Ionicons,
+  AntDesign,
+  FontAwesome,
+} from "@expo/vector-icons";
 
 import AuthHeader from "../components/AuthHeader";
 import AuthButton from "../components/AuthButton";
@@ -19,10 +23,10 @@ const Container = styled.View`
   /* padding-top: ${statusbarHeight + 50}px; */
 `;
 const InputView = styled.View`
-  border-style: solid;
+  /* border-style: solid;
   border-top-color: ${props => props.theme.greyColor};
-  border-top-width: 1.5px;
-  margin: 10px 20px 0px 20px;
+  border-top-width: 1.5px; */
+  margin: 0px 20px 0px 20px;
   padding: 35px 0px 10px 0px;
   /* height: 28%; */
   height: 235px;
@@ -72,6 +76,8 @@ const EasySignInBox = styled.TouchableOpacity`
   border-radius: 25px;
   height: 50px;
   width: 50px;
+  justify-content: center;
+  align-items: center;
   background-color: ${props => props.bgColor};
 `;
 const EasySignText = styled.Text`
@@ -94,6 +100,12 @@ const OpacityBox = styled.View`
   width: 100%;
   align-items: center;
   opacity: ${props => (props.disable ? "0.5" : "1")};
+`;
+
+const Text = styled.Text`
+  font-size: 32px;
+  font-weight: bold;
+  color: #FBFBFB;
 `;
 
 export default LogIn = ({ navigation }) => {
@@ -145,13 +157,10 @@ export default LogIn = ({ navigation }) => {
   const goToCreateAccount = () => {
     navigation.navigate("CreateAccount");
   };
-  const goBack = () => {
-    navigation.goBack();
-  };
 
   return (
     <Container>
-      <AuthHeader title={"로그인"} leftOnPress={goBack} />
+      <AuthHeader title={"로그인"} leftOnPress={navigation.goBack} />
       <InputView>
         <AuthInput
           placeholder={"이메일"}
@@ -198,10 +207,18 @@ export default LogIn = ({ navigation }) => {
       <EasySignInView>
         <EasySignText>간편 로그인 / 간편 가입</EasySignText>
         <EasySingBoxs>
-          <EasySignInBox bgColor={"#F6B93B"}></EasySignInBox>
-          <EasySignInBox bgColor={"#003569"}></EasySignInBox>
-          <EasySignInBox bgColor={"#3897f0"}></EasySignInBox>
-          <EasySignInBox bgColor={"green"}></EasySignInBox>
+          <EasySignInBox bgColor={"#F7D500"}>
+            <Ionicons name="chatbubble-sharp" size={24} color="#573D1A" />
+          </EasySignInBox>
+          <EasySignInBox bgColor={"#4064AC"}>
+            <FontAwesome name="facebook" size={26} color="#FBFBFB" />
+          </EasySignInBox>
+          <EasySignInBox bgColor={"#3897f0"}>
+            <AntDesign name="twitter" size={24} color="#FBFBFB" />
+          </EasySignInBox>
+          <EasySignInBox bgColor={"#03C157"}>
+            <Text>N</Text>
+          </EasySignInBox>
         </EasySingBoxs>
       </EasySignInView>
       <NoticView>
