@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StatusBar, TouchableOpacity } from "react-native";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
+import AuthHeader from "../components/AuthHeader";
 import AuthButton from "../components/AuthButton";
 import AuthInput from "../components/AuthInput";
 import AuthPasswordInput from "../components/AuthPasswordInput";
@@ -13,7 +16,7 @@ const statusbarHeight = StatusBar.currentHeight;
 const Container = styled.View`
   flex: 1;
   background-color: ${props => props.theme.bgColor};
-  padding-top: ${statusbarHeight + 50}px;
+  /* padding-top: ${statusbarHeight + 50}px; */
 `;
 const InputView = styled.View`
   border-style: solid;
@@ -27,7 +30,7 @@ const InputView = styled.View`
   /* background-color: blue; */
 `;
 const UtilView = styled.View`
-  margin: 0px 20px 0px 20px;
+  margin: 5px 20px 0px 20px;
   height: 3%;
   height: 35px;
   flex-direction: row;
@@ -47,6 +50,7 @@ const RightBox = styled.View`
 const UtilText = styled.Text`
   font-size: 12px;
   font-weight: bold;
+  top: 1%;
   color: ${props => props.theme.blackColor};
 `;
 const EasySignInView = styled.View`
@@ -93,6 +97,7 @@ const OpacityBox = styled.View`
 `;
 
 export default LogIn = ({ navigation }) => {
+  const themeContext = useContext(ThemeContext);
   const [signButtonOPC, setSignButtonOPC] = useState({
     email: false,
     password: false,
@@ -140,9 +145,13 @@ export default LogIn = ({ navigation }) => {
   const goToCreateAccount = () => {
     navigation.navigate("CreateAccount");
   };
+  const goBack = () => {
+    navigation.goBack();
+  };
 
   return (
     <Container>
+      <AuthHeader title={"로그인"} leftOnPress={goBack} />
       <InputView>
         <AuthInput
           placeholder={"이메일"}
@@ -159,17 +168,30 @@ export default LogIn = ({ navigation }) => {
       </InputView>
       <UtilView>
         <LeftBox>
-          <TouchableOpacity onPress={goToCreateAccount}>
-            <UtilText>회원가입 &gt;</UtilText>
+          <TouchableOpacity
+            onPress={goToCreateAccount}
+            style={{ flexDirection: "row" }}
+          >
+            <UtilText>회원가입</UtilText>
+            <MaterialIcons
+              name="keyboard-arrow-right"
+              size={18}
+              color={themeContext.blackColor}
+            />
           </TouchableOpacity>
         </LeftBox>
         <RightBox>
           <TouchableOpacity>
-            <UtilText>아이디 찾기 </UtilText>
+            <UtilText>아이디 찾기</UtilText>
           </TouchableOpacity>
-          <UtilText> | </UtilText>
+          <Ionicons
+            name="remove-outline"
+            size={18}
+            color={themeContext.blackColor}
+            style={{ transform: [{ rotate: "90deg" }] }}
+          />
           <TouchableOpacity>
-            <UtilText> 비밀번호 찾기</UtilText>
+            <UtilText>비밀번호 찾기</UtilText>
           </TouchableOpacity>
         </RightBox>
       </UtilView>

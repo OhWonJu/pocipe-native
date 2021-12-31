@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components/native";
 import AuthButton from "../components/AuthButton";
 
-import Loader from "../components/Loader";
-
 const Container = styled.View`
   flex: 1;
   /* align-items: center; */
