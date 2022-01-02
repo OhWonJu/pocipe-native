@@ -39,6 +39,7 @@ const AuthPasswordInput = ({
   returnKeyType = "done",
   onSubmitEditing = () => null,
   autoCorrect = true,
+  ref = null,
 }) => {
   const [passwordUnvisible, setPasswordUnvisible] = useState(true);
 
@@ -58,10 +59,11 @@ const AuthPasswordInput = ({
         onSubmitEditing={onSubmitEditing}
         autoCorrect={autoCorrect}
         secureTextEntry={passwordUnvisible}
+        ref={ref}
       />
       <VisibleControler onPress={_handlePasswordVisible}>
         {passwordUnvisible === true ? (
-          <AntDesign name="eyeo" size={20} color="#262626"/>
+          <AntDesign name="eyeo" size={20} color="#262626" />
         ) : (
           <AntDesign name="eye" size={20} color="#262626" />
         )}

@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import constants from "../constants";
 
 const Container = styled.View`
-  width: 100%;
+  width: ${props => (props.width ? props.width : "100%")};
   margin-bottom: 15px;
 `;
 const TextInput = styled.TextInput`
@@ -13,8 +13,6 @@ const TextInput = styled.TextInput`
   /* width: ${constants.width / 1.2}px; */
   width: 100%;
   padding: 10px;
-  /* margin: 0px 50px; */
-  /* border: 1px solid ${props => props.theme.darkGreyColor}; */
   border-radius: 10px;
 `;
 
@@ -28,8 +26,10 @@ const AuthInput = ({
   returnKeyType = "done",
   onSubmitEditing = () => null,
   autoCorrect = true,
+  width = null,
+  ref = null,
 }) => (
-  <Container>
+  <Container width={width}>
     <TextInput
       placeholder={placeholder}
       value={value}
@@ -39,6 +39,7 @@ const AuthInput = ({
       returnKeyType={returnKeyType}
       onSubmitEditing={onSubmitEditing}
       autoCorrect={autoCorrect}
+      ref={ref}
     />
   </Container>
 );

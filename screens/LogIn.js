@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { StatusBar, TouchableOpacity } from "react-native";
 import styled, { ThemeContext } from "styled-components";
 import {
@@ -26,7 +26,7 @@ const InputView = styled.View`
   /* border-style: solid;
   border-top-color: ${props => props.theme.greyColor};
   border-top-width: 1.5px; */
-  margin: 0px 20px 0px 20px;
+  margin: 5px 20px 0px 20px;
   padding: 35px 0px 10px 0px;
   /* height: 28%; */
   height: 235px;
@@ -61,8 +61,7 @@ const EasySignInView = styled.View`
   border-style: solid;
   border-top-color: ${props => props.theme.greyColor};
   border-top-width: 1.5px;
-  margin: 10px 20px 40px 20px;
-
+  margin: 8px 20px 40px 20px;
   /* height: 10%; */
   align-items: center;
   /* background-color: orange; */
@@ -105,7 +104,30 @@ const OpacityBox = styled.View`
 const Text = styled.Text`
   font-size: 32px;
   font-weight: bold;
-  color: #FBFBFB;
+  color: #fbfbfb;
+`;
+
+const TextInput = styled.TextInput`
+  background-color: ${props => props.theme.greyColor};
+  height: 50px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 13px;
+`;
+
+const PasswordBox = styled.View`
+  width: 100%;
+  margin-bottom: 10px;
+`;
+const VisibleControler = styled.TouchableOpacity`
+  position: absolute;
+  left: 88%;
+  margin: 10px;
+  height: 30px;
+  width: 30px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default LogIn = ({ navigation }) => {
@@ -154,6 +176,17 @@ export default LogIn = ({ navigation }) => {
     }
   }, [signButtonOPC]);
 
+  const passwordRef = useRef();
+  const _onEmailNext = () => {
+    passwordRef?.current?.focus();
+  };
+
+  const [passwordUnvisible, setPasswordUnvisible] = useState(true);
+
+  const _handlePasswordVisible = () => {
+    setPasswordUnvisible(!passwordUnvisible);
+  };
+
   const goToCreateAccount = () => {
     navigation.navigate("CreateAccount");
   };
@@ -162,15 +195,29 @@ export default LogIn = ({ navigation }) => {
     <Container>
       <AuthHeader title={"로그인"} leftOnPress={navigation.goBack} />
       <InputView>
-        <AuthInput
+        <TextInput
           placeholder={"이메일"}
           keyboardType={"email-address"}
+          returnKeyType="next"
           onChange={_emailCompleted}
+          onSubmitEditing={_onEmailNext}
         />
-        <AuthPasswordInput
-          placeholder={"비밀번호"}
-          onChange={_passwordCompleted}
-        />
+        <PasswordBox>
+          <TextInput
+            ref={passwordRef}
+            placeholder={"비밀번호"}
+            returnKeyType={"done"}
+            onChange={_passwordCompleted}
+            secureTextEntry={passwordUnvisible}
+          />
+          <VisibleControler onPress={_handlePasswordVisible}>
+            {passwordUnvisible === true ? (
+              <AntDesign name="eyeo" size={20} color="#262626" />
+            ) : (
+              <AntDesign name="eye" size={20} color="#262626" />
+            )}
+          </VisibleControler>
+        </PasswordBox>
         <OpacityBox disable={turnOff}>
           <AuthButton text={"로그인"} />
         </OpacityBox>

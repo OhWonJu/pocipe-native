@@ -8,14 +8,9 @@ const Container = styled.TouchableOpacity`
   background-color: ${props =>
     props.bgColor ? props.bgColor : props.theme.yellowColor};
   padding: 10px;
-  margin: 5px;
-  height: 55px;
+  /* margin-bottom: 15px; */
   border-radius: 10px;
-  /* width: ${props =>
-    props.widthPer
-      ? constants.width / props.widthPer
-      : constants.width / 1.2}px; */
-  width: 100%;
+  width: ${props => (props.width ? props.width : "50%")};
   align-items: center;
   justify-content: center;
   opacity: ${props => (props.disabled ? "0.5" : "1")};
@@ -24,30 +19,23 @@ const Text = styled.Text`
   /* color: #ffffff; */
   color: ${props => (props.txColor ? props.txColor : props.theme.bgColor)};
   text-align: center;
-  font-weight: 700;
-  font-size: ${props => (props.txSize ? props.txSize : "19")}px;
 `;
 
 const Button = ({
   text,
   onPress,
-  loading = false,
+  disable = false,
+  width,
   bgColor = null,
   txColor = null,
-  txSize = null,
 }) => (
   <Container
-    disabled={loading}
+    disabled={disable}
     onPress={onPress}
     bgColor={bgColor}
+    width={width}
   >
-    {loading ? (
-      <ActivityIndicator color={"#FFFFFF"} />
-    ) : (
-      <Text txColor={txColor} txSize={txSize}>
-        {text}
-      </Text>
-    )}
+    <Text txColor={txColor}>{text}</Text>
   </Container>
 );
 
