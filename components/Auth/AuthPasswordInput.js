@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Text } from "react-native";
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
 
-import constants from "../constants";
+import constants from "../../constants";
 
 const Container = styled.View`
   width: 100%;

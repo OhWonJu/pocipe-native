@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 
-import constants from "../constants";
+import constants from "../../constants";
 
 const Container = styled.View`
   width: ${props => (props.width ? props.width : "100%")};

@@ -1,14 +1,10 @@
 import React from "react";
 import styled from "styled-components/native";
 
-import constants from "../constants";
-import { ActivityIndicator } from "react-native";
-
 const Container = styled.TouchableOpacity`
   background-color: ${props =>
     props.bgColor ? props.bgColor : props.theme.yellowColor};
   padding: 10px;
-  /* margin-bottom: 15px; */
   border-radius: 10px;
   width: ${props => (props.width ? props.width : "50%")};
   align-items: center;
@@ -19,6 +15,7 @@ const Text = styled.Text`
   /* color: #ffffff; */
   color: ${props => (props.txColor ? props.txColor : props.theme.bgColor)};
   text-align: center;
+  font-size: ${props => (props.txSize ? props.txSize : "12")}px;
 `;
 
 const Button = ({
@@ -28,6 +25,7 @@ const Button = ({
   width,
   bgColor = null,
   txColor = null,
+  txSize = null,
 }) => (
   <Container
     disabled={disable}
@@ -35,7 +33,9 @@ const Button = ({
     bgColor={bgColor}
     width={width}
   >
-    <Text txColor={txColor}>{text}</Text>
+    <Text txColor={txColor} txSize={txSize}>
+      {text}
+    </Text>
   </Container>
 );
 

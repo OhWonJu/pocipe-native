@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import AuthButton from "../components/AuthButton";
+import AuthButton from "../components/Auth/AuthButton";
 
 const Container = styled.View`
   flex: 1;

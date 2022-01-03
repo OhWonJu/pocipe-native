@@ -8,38 +8,32 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 
-import AuthHeader from "../components/AuthHeader";
-import AuthButton from "../components/AuthButton";
-import AuthInput from "../components/AuthInput";
-import AuthPasswordInput from "../components/AuthPasswordInput";
+import AuthHeader from "../components/Auth/AuthHeader";
+import AuthButton from "../components/Auth/AuthButton";
+import Container from "../components/Container";
+import { useForm } from "react-hook-form";
 
-const statusbarHeight = StatusBar.currentHeight;
+//const statusbarHeight = StatusBar.currentHeight;
 
 // %로 크기를 줬을 때 키보드가 올라오면 키보드가 올라온 만큼의 뷰를 뺴고 %를 다시 계산하는 듯.
-// px단위는 걍 전체 뷰에 px단위로 크기를 주니까 키보드가 올라와도 안밀려올라온다..?
-const Container = styled.View`
-  flex: 1;
-  background-color: ${props => props.theme.bgColor};
-  /* padding-top: ${statusbarHeight + 50}px; */
-`;
+// px단위는 걍 전체 뷰에 px단위로 크기를 주니까 키보드가 올라와도 안밀려올라온다.
+// const Container = styled.View`
+//   flex: 1;
+//   background-color: ${props => props.theme.bgColor};
+//   /* padding-top: ${statusbarHeight + 50}px; */
+// `;
 const InputView = styled.View`
-  /* border-style: solid;
-  border-top-color: ${props => props.theme.greyColor};
-  border-top-width: 1.5px; */
-  margin: 5px 20px 0px 20px;
+  margin-top: 5px;
   padding: 35px 0px 10px 0px;
   /* height: 28%; */
   height: 235px;
   align-items: center;
-  /* background-color: blue; */
 `;
 const UtilView = styled.View`
-  margin: 5px 20px 0px 20px;
-  height: 3%;
+  /* height: 3%; */
   height: 35px;
   flex-direction: row;
   align-items: center;
-  /* background-color: green; */
 `;
 const LeftBox = styled.View`
   flex: 1;
@@ -61,10 +55,8 @@ const EasySignInView = styled.View`
   border-style: solid;
   border-top-color: ${props => props.theme.greyColor};
   border-top-width: 1.5px;
-  margin: 8px 20px 40px 20px;
-  /* height: 10%; */
+  margin: 8px 0px 40px 0px;
   align-items: center;
-  /* background-color: orange; */
 `;
 const EasySingBoxs = styled.View`
   flex-direction: row;
@@ -98,7 +90,7 @@ const NoticText = styled.Text`
 const OpacityBox = styled.View`
   width: 100%;
   align-items: center;
-  opacity: ${props => (props.disable ? "0.5" : "1")};
+  margin-top: 4px;
 `;
 
 const Text = styled.Text`
@@ -113,7 +105,7 @@ const TextInput = styled.TextInput`
   width: 100%;
   padding: 10px;
   border-radius: 10px;
-  margin-bottom: 13px;
+  margin-bottom: 10px;
 `;
 
 const PasswordBox = styled.View`
@@ -132,14 +124,15 @@ const VisibleControler = styled.TouchableOpacity`
 
 export default LogIn = ({ navigation }) => {
   const themeContext = useContext(ThemeContext);
+
+  // 로그인 버튼 활성화 관련
   const [signButtonOPC, setSignButtonOPC] = useState({
     email: false,
     password: false,
   });
   const [turnOff, setTurnOff] = useState(true);
-
-  const _emailCompleted = event => {
-    if (event.length > 6) {
+  const emailCompleted = text => {
+    if (text.length > 6) {
       setSignButtonOPC(prevState => {
         return { ...prevState, email: true };
       });
@@ -149,9 +142,8 @@ export default LogIn = ({ navigation }) => {
       });
     }
   };
-
-  const _passwordCompleted = event => {
-    if (event.length > 7 && event.length < 17) {
+  const passwordCompleted = text => {
+    if (text.length > 7 && text.length < 17) {
       setSignButtonOPC(prevState => {
         return {
           ...prevState,
@@ -167,7 +159,6 @@ export default LogIn = ({ navigation }) => {
       });
     }
   };
-
   useEffect(() => {
     if (signButtonOPC.email === true && signButtonOPC.password === true) {
       setTurnOff(false);
@@ -176,104 +167,129 @@ export default LogIn = ({ navigation }) => {
     }
   }, [signButtonOPC]);
 
+  // Ref
   const passwordRef = useRef();
   const _onEmailNext = () => {
     passwordRef?.current?.focus();
   };
 
+  // password 보기 관련
   const [passwordUnvisible, setPasswordUnvisible] = useState(true);
-
   const _handlePasswordVisible = () => {
     setPasswordUnvisible(!passwordUnvisible);
   };
 
+  // navigate
   const goToCreateAccount = () => {
     navigation.navigate("CreateAccount");
   };
 
+  // react hook form
+  const { register, handleSubmit, setValue } = useForm();
+  const onValid = data => {
+    console.log(data);
+  };
+  useEffect(() => {
+    register("email");
+    register("password");
+  }, [register]);
+
   return (
-    <Container>
+    <>
       <AuthHeader title={"로그인"} leftOnPress={navigation.goBack} />
-      <InputView>
-        <TextInput
-          placeholder={"이메일"}
-          keyboardType={"email-address"}
-          returnKeyType="next"
-          onChange={_emailCompleted}
-          onSubmitEditing={_onEmailNext}
-        />
-        <PasswordBox>
+      <Container>
+        <InputView>
           <TextInput
-            ref={passwordRef}
-            placeholder={"비밀번호"}
-            returnKeyType={"done"}
-            onChange={_passwordCompleted}
-            secureTextEntry={passwordUnvisible}
+            placeholder={"이메일"}
+            keyboardType={"email-address"}
+            returnKeyType="next"
+            onChangeText={text => {
+              emailCompleted(text);
+              setValue("email", text);
+            }}
+            onSubmitEditing={_onEmailNext}
           />
-          <VisibleControler onPress={_handlePasswordVisible}>
-            {passwordUnvisible === true ? (
-              <AntDesign name="eyeo" size={20} color="#262626" />
-            ) : (
-              <AntDesign name="eye" size={20} color="#262626" />
-            )}
-          </VisibleControler>
-        </PasswordBox>
-        <OpacityBox disable={turnOff}>
-          <AuthButton text={"로그인"} />
-        </OpacityBox>
-      </InputView>
-      <UtilView>
-        <LeftBox>
-          <TouchableOpacity
-            onPress={goToCreateAccount}
-            style={{ flexDirection: "row" }}
-          >
-            <UtilText>회원가입</UtilText>
-            <MaterialIcons
-              name="keyboard-arrow-right"
+          <PasswordBox>
+            <TextInput
+              ref={passwordRef}
+              placeholder={"비밀번호"}
+              returnKeyType={"done"}
+              onChangeText={text => {
+                passwordCompleted(text);
+                setValue("password", text);
+              }}
+              secureTextEntry={passwordUnvisible}
+              onSubmitEditing={handleSubmit(onValid)}
+            />
+            <VisibleControler onPress={_handlePasswordVisible}>
+              {passwordUnvisible === true ? (
+                <AntDesign name="eyeo" size={20} color="#262626" />
+              ) : (
+                <AntDesign name="eye" size={20} color="#262626" />
+              )}
+            </VisibleControler>
+          </PasswordBox>
+          <OpacityBox>
+            <AuthButton
+              text={"로그인"}
+              disabled={turnOff}
+              onPress={handleSubmit(onValid)}
+            />
+          </OpacityBox>
+        </InputView>
+        <UtilView>
+          <LeftBox>
+            <TouchableOpacity
+              onPress={goToCreateAccount}
+              style={{ flexDirection: "row" }}
+            >
+              <UtilText>회원가입</UtilText>
+              <MaterialIcons
+                name="keyboard-arrow-right"
+                size={18}
+                color={themeContext.blackColor}
+              />
+            </TouchableOpacity>
+          </LeftBox>
+          <RightBox>
+            <TouchableOpacity>
+              <UtilText>아이디 찾기</UtilText>
+            </TouchableOpacity>
+            <Ionicons
+              name="remove-outline"
               size={18}
               color={themeContext.blackColor}
+              style={{ transform: [{ rotate: "90deg" }] }}
             />
-          </TouchableOpacity>
-        </LeftBox>
-        <RightBox>
-          <TouchableOpacity>
-            <UtilText>아이디 찾기</UtilText>
-          </TouchableOpacity>
-          <Ionicons
-            name="remove-outline"
-            size={18}
-            color={themeContext.blackColor}
-            style={{ transform: [{ rotate: "90deg" }] }}
-          />
-          <TouchableOpacity>
-            <UtilText>비밀번호 찾기</UtilText>
-          </TouchableOpacity>
-        </RightBox>
-      </UtilView>
-      <EasySignInView>
-        <EasySignText>간편 로그인 / 간편 가입</EasySignText>
-        <EasySingBoxs>
-          <EasySignInBox bgColor={"#F7D500"}>
-            <Ionicons name="chatbubble-sharp" size={24} color="#573D1A" />
-          </EasySignInBox>
-          <EasySignInBox bgColor={"#4064AC"}>
-            <FontAwesome name="facebook" size={26} color="#FBFBFB" />
-          </EasySignInBox>
-          <EasySignInBox bgColor={"#3897f0"}>
-            <AntDesign name="twitter" size={24} color="#FBFBFB" />
-          </EasySignInBox>
-          <EasySignInBox bgColor={"#03C157"}>
-            <Text>N</Text>
-          </EasySignInBox>
-        </EasySingBoxs>
-      </EasySignInView>
-      <NoticView>
-        <NoticText>
-          로그인 완료시 포시피 앱에 '자동 로그인'됩니다. 본인 기기가 아니거나
-          여러 사람이 사용중인 기기인 경우 [내정보]에서 '로그아웃'을 해주세요.
-        </NoticText>
-      </NoticView>
-    </Container>
+            <TouchableOpacity>
+              <UtilText>비밀번호 찾기</UtilText>
+            </TouchableOpacity>
+          </RightBox>
+        </UtilView>
+        <EasySignInView>
+          <EasySignText>간편 로그인 / 간편 가입</EasySignText>
+          <EasySingBoxs>
+            <EasySignInBox bgColor={"#F7D500"}>
+              <Ionicons name="chatbubble-sharp" size={24} color="#573D1A" />
+            </EasySignInBox>
+            <EasySignInBox bgColor={"#4064AC"}>
+              <FontAwesome name="facebook" size={26} color="#FBFBFB" />
+            </EasySignInBox>
+            <EasySignInBox bgColor={"#3897f0"}>
+              <AntDesign name="twitter" size={24} color="#FBFBFB" />
+            </EasySignInBox>
+            <EasySignInBox bgColor={"#03C157"}>
+              <Text>N</Text>
+            </EasySignInBox>
+          </EasySingBoxs>
+        </EasySignInView>
+        <NoticView>
+          <NoticText>
+            로그인 완료시 포시피 앱에 '자동 로그인'됩니다. 본인 기기가 아니거나
+            여러 사람이 사용중인 기기인 경우 [내정보]에서 '로그아웃'을 해주세요.
+          </NoticText>
+        </NoticView>
+      </Container>
+    </>
   );
 };

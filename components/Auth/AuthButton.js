@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components/native";
-
-import constants from "../constants";
 import { ActivityIndicator } from "react-native";
+
+import constants from "../../constants";
 
 const Container = styled.TouchableOpacity`
   background-color: ${props =>
@@ -32,15 +32,12 @@ const Button = ({
   text,
   onPress,
   loading = false,
+  disabled = false,
   bgColor = null,
   txColor = null,
   txSize = null,
 }) => (
-  <Container
-    disabled={loading}
-    onPress={onPress}
-    bgColor={bgColor}
-  >
+  <Container disabled={disabled} onPress={onPress} bgColor={bgColor}>
     {loading ? (
       <ActivityIndicator color={"#FFFFFF"} />
     ) : (

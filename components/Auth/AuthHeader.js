@@ -3,7 +3,7 @@ import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import constants from "../constants";
+import constants from "../../constants";
 
 const Container = styled.View`
   flex-direction: row;
