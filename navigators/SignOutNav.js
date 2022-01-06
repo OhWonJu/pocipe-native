@@ -1,28 +1,25 @@
-import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
 import {
-  CardStyleInterpolators,
   createStackNavigator,
+  CardStyleInterpolators,
   TransitionSpecs,
 } from "@react-navigation/stack";
-import React from "react";
 
 import AuthHome from "../screens/AuthHome";
-import LogIn from "../screens/LogIn";
+import SignIn from "../screens/SignIn";
 import CreateAccount from "../screens/CreateAccount";
 
-const AuthNavigation = createStackNavigator();
-// 맨 아래 스크린부터 스택형식으로 쌓인 것 (맨위가 제일 먼저 보임)
-// 뷰가 쌓인다는것
+const SignOutNav = createStackNavigator();
 
-const horizontalTransition = {
-  gestureDirection: "horizontal",
-  transitionSpec: {
-    open: TransitionSpecs.TransitionIOSSpec,
-    close: TransitionSpecs.TransitionIOSSpec,
-  },
-  //HeaderStyleInterpolator: HeaderStyleInterpolators.forFade,
-  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-};
+// const horizontalTransition = {
+//   gestureDirection: "horizontal",
+//   transitionSpec: {
+//     open: TransitionSpecs.TransitionIOSSpec,
+//     close: TransitionSpecs.TransitionIOSSpec,
+//   },
+//   //HeaderStyleInterpolator: HeaderStyleInterpolators.forFade,
+//   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+// };
 const verticallTransition = {
   gestureDirection: "vertical",
   //gestureResponseDistance: 135, // default
@@ -36,27 +33,19 @@ const verticallTransition = {
 
 export default () => {
   return (
-    <NavigationContainer>
-      <AuthNavigation.Navigator
-        screenOptions={{
-          //headerShown: false,
-          presentation: "card",
-          gestureEnabled: true,
-          headerShown: false,
-          ...verticallTransition,
-        }}
-      >
-        <AuthNavigation.Screen name="AuthHome" component={AuthHome} />
-        <AuthNavigation.Screen
-          name="LogIn"
-          component={LogIn}
-        />
-        <AuthNavigation.Screen
-          name="CreateAccount"
-          component={CreateAccount}
-        />
-      </AuthNavigation.Navigator>
-    </NavigationContainer>
+    <SignOutNav.Navigator
+      screenOptions={{
+        //headerShown: false,
+        presentation: "card",
+        gestureEnabled: true,
+        headerShown: false,
+        ...verticallTransition,
+      }}
+    >
+      <SignOutNav.Screen name="AuthHome" component={AuthHome} />
+      <SignOutNav.Screen name="SignIn" component={SignIn} />
+      <SignOutNav.Screen name="CreateAccount" component={CreateAccount} />
+    </SignOutNav.Navigator>
   );
 };
 

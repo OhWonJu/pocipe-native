@@ -1,26 +1,28 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 //import AppLoading from "expo-app-loading";
 import { Ionicons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import { Asset } from "expo-asset";
 //import * as SplashScreen from "expo-splash-screen";
-import {
-  AppearanceProvider,
-  useColorScheme,
-} from "react-native-appearance";
+import { NavigationContainer } from "@react-navigation/native";
+import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 import { ThemeProvider } from "styled-components/native";
+import { ApolloProvider, useReactiveVar } from "@apollo/client";
 
 import { lightTheme, darkTheme } from "./Styles/Theme";
 import SplashView from "./screens/SplashView";
-import AuthNavigation from "./navigators/AuthNavigation";
+import SignOutNav from "./navigators/SignOutNav";
+import SignInNav from "./navigators/SignInNav";
+import client, { isSignInVar } from "./apollo";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const isSignIn = useReactiveVar(isSignInVar);
 
   const onFinish = () =>
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 3000);
   // startAsync는 항상 promise를 반환해야함.
   const preload = () => {
     const fontsToLoad = [Ionicons.font];
@@ -82,11 +84,15 @@ export default function App() {
 
   return (
     <>
-      <AppearanceProvider>
-        <ThemeProvider theme={Theme}>
-          <AuthNavigation />
-        </ThemeProvider>
-      </AppearanceProvider>
+      <ApolloProvider client={client}>
+        <AppearanceProvider>
+          <ThemeProvider theme={Theme}>
+            <NavigationContainer>
+              {isSignIn ? <SignInNav /> : <SignOutNav />}
+            </NavigationContainer>
+          </ThemeProvider>
+        </AppearanceProvider>
+      </ApolloProvider>
     </>
   );
 }

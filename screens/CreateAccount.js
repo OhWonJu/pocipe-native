@@ -105,10 +105,18 @@ export default CreateAccount = ({ navigation }) => {
     console.log(data);
   };
   useEffect(() => {
-    register("userName");
-    register("email");
-    register("password");
-    register("passwordCheck");
+    register("userName", {
+      required: true,
+    });
+    register("email", {
+      required: true,
+    });
+    register("password", {
+      required: true,
+    });
+    register("passwordCheck", {
+      required: true,
+    });
   }, [register]);
 
   return (
@@ -166,7 +174,7 @@ export default CreateAccount = ({ navigation }) => {
               secureTextEntry={true}
               onSubmitEditing={() => _onNext(passwordCheckRef)}
               onChangeText={text => {
-                passwordCompleted(text), setValue("paasword", text);
+                passwordCompleted(text), setValue("password", text);
               }}
               style={{ marginBottom: 7 }}
             />

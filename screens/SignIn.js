@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { StatusBar, TouchableOpacity } from "react-native";
-import styled, { ThemeContext } from "styled-components";
+import { TouchableOpacity } from "react-native";
+import styled, { ThemeContext } from "styled-components/native";
 import {
   MaterialIcons,
   Ionicons,
   AntDesign,
   FontAwesome,
 } from "@expo/vector-icons";
+import { useForm } from "react-hook-form";
+import { gql, useMutation } from "@apollo/client";
 
+import Container from "../components/Container";
 import AuthHeader from "../components/Auth/AuthHeader";
 import AuthButton from "../components/Auth/AuthButton";
-import Container from "../components/Container";
-import { useForm } from "react-hook-form";
+import { isSignInVar } from "../apollo";
 
 //const statusbarHeight = StatusBar.currentHeight;
 
@@ -122,8 +124,54 @@ const VisibleControler = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export default LogIn = ({ navigation }) => {
+const SIGN_IN_MUTATION = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      ok
+      token
+      error
+    }
+  }
+`;
+
+export default SignIn = ({ navigation }) => {
   const themeContext = useContext(ThemeContext);
+
+  // react hook form
+  const { register, handleSubmit, setValue } = useForm();
+  const onValid = data => {
+    if (!loading) {
+      logInMutation({
+        variables: {
+          ...data,
+        },
+      });
+    }
+  };
+  useEffect(() => {
+    register("email");
+    register("password");
+  }, [register]);
+
+  // querys
+  const onCompleted = data => {
+    const {
+      login: { ok, token },
+    } = data;
+    if (ok) {
+      isSignInVar(true);
+    }
+  };
+  // back-endd의 typeDef+Mutation인거지 내가 임의로 재정의 불가
+  const [logInMutation, { loading }] = useMutation(SIGN_IN_MUTATION, {
+    onCompleted,
+  });
+
+  // Ref
+  const passwordRef = useRef();
+  const onEmailNext = () => {
+    passwordRef?.current?.focus();
+  };
 
   // 로그인 버튼 활성화 관련
   const [signButtonOPC, setSignButtonOPC] = useState({
@@ -143,7 +191,8 @@ export default LogIn = ({ navigation }) => {
     }
   };
   const passwordCompleted = text => {
-    if (text.length > 7 && text.length < 17) {
+    // 테스트를 위해 len 조절... 원래는 7자 이상
+    if (text.length > 3 && text.length < 17) {
       setSignButtonOPC(prevState => {
         return {
           ...prevState,
@@ -167,13 +216,7 @@ export default LogIn = ({ navigation }) => {
     }
   }, [signButtonOPC]);
 
-  // Ref
-  const passwordRef = useRef();
-  const _onEmailNext = () => {
-    passwordRef?.current?.focus();
-  };
-
-  // password 보기 관련
+  // password 입력 보안 보기 관련
   const [passwordUnvisible, setPasswordUnvisible] = useState(true);
   const _handlePasswordVisible = () => {
     setPasswordUnvisible(!passwordUnvisible);
@@ -183,16 +226,6 @@ export default LogIn = ({ navigation }) => {
   const goToCreateAccount = () => {
     navigation.navigate("CreateAccount");
   };
-
-  // react hook form
-  const { register, handleSubmit, setValue } = useForm();
-  const onValid = data => {
-    console.log(data);
-  };
-  useEffect(() => {
-    register("email");
-    register("password");
-  }, [register]);
 
   return (
     <>
@@ -207,7 +240,7 @@ export default LogIn = ({ navigation }) => {
               emailCompleted(text);
               setValue("email", text);
             }}
-            onSubmitEditing={_onEmailNext}
+            onSubmitEditing={onEmailNext}
           />
           <PasswordBox>
             <TextInput

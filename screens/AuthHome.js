@@ -21,7 +21,7 @@ const AuthBox = styled.View`
 
 // props의 navigation.naviagte(nav name)
 export default AuthHome = ({ navigation }) => {
-  const goToLogIn = () => navigation.navigate("LogIn");
+  const goToSignIn = () => navigation.navigate("SignIn");
   const goToCreateAccount = () => navigation.navigate("CreateAccount");
 
   return (
@@ -35,7 +35,7 @@ export default AuthHome = ({ navigation }) => {
           text={"로그인"}
           bgColor={"#FBFBFB"}
           txColor={"#F6B93B"}
-          onPress={goToLogIn}
+          onPress={goToSignIn}
         />
         <AuthButton text={"회원 가입"} onPress={goToCreateAccount} />
       </AuthBox>
