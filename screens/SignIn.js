@@ -141,7 +141,7 @@ export default SignIn = ({ navigation }) => {
   const { register, handleSubmit, setValue } = useForm();
   const onValid = data => {
     if (!loading) {
-      logInMutation({
+      loginMutation({
         variables: {
           ...data,
         },
@@ -153,7 +153,7 @@ export default SignIn = ({ navigation }) => {
     register("password");
   }, [register]);
 
-  // querys
+  // Back-end APIs
   const onCompleted = data => {
     const {
       login: { ok, token },
@@ -162,8 +162,7 @@ export default SignIn = ({ navigation }) => {
       isSignInVar(true);
     }
   };
-  // back-endd의 typeDef+Mutation인거지 내가 임의로 재정의 불가
-  const [logInMutation, { loading }] = useMutation(SIGN_IN_MUTATION, {
+  const [loginMutation, { loading }] = useMutation(SIGN_IN_MUTATION, {
     onCompleted,
   });
 

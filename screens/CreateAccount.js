@@ -1,12 +1,11 @@
+import { gql, useLazyQuery } from "@apollo/client";
 import React, { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import styled from "styled-components/native";
 
 import AuthHeader from "../components/Auth/AuthHeader";
 import Button from "../components/Button";
 import Container from "../components/Container";
-
-// const Container = styled.View`
 
 const CreateAccountLayout = styled.KeyboardAvoidingView`
   flex: 1;
@@ -50,59 +49,30 @@ const TextInput = styled.TextInput`
   margin-bottom: 2px;
 `;
 
-export default CreateAccount = ({ navigation }) => {
-  // 버튼 활성화 관련
-  const [condition, setCondition] = useState({
-    userName: false,
-    email: false,
-    password: false,
-  });
-  const userNameCompleted = text => {
-    if (text.length > 3) {
-      setCondition(prevState => {
-        return { ...prevState, userName: true };
-      });
-    } else {
-      setCondition(prevState => {
-        return { ...prevState, userName: false };
-      });
+const SEARCH_USER = gql`
+  query seeProfile($userName: String!) {
+    seeProfile(userName: $userName) {
+      userName
     }
-  };
-  const emailCompleted = text => {
-    if (text.length > 6) {
-      setCondition(prevState => {
-        return { ...prevState, email: true };
-      });
-    } else {
-      setCondition(prevState => {
-        return { ...prevState, email: false };
-      });
-    }
-  };
-  const passwordCompleted = text => {
-    if (text.length > 6 && text.length < 17) {
-      setCondition(prevState => {
-        return { ...prevState, password: true };
-      });
-    } else {
-      setCondition(prevState => {
-        return { ...prevState, password: false };
-      });
-    }
-  };
+  }
+`;
 
-  // ref
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordCheckRef = useRef();
-  const _onNext = next => {
-    next?.current?.focus();
-  };
+export default CreateAccount = ({ navigation }) => {
+  // 가입버튼 제어를 위한 state
+  const [condition, setCondition] = useState({
+    userNameLen: false, // 최소 길이 및 조건 만족 여부
+    userName: false, // 중복 체크 여부
+    emailLen: false,
+    email: false, // 이메일 인증 여부
+    passwordLen: false, // 최소 길이 및 조건 만족 여부
+    password: false, // 비밀번호 확인 여부
+  });
 
   // Form Hook
   const { register, handleSubmit, setValue, getValues } = useForm();
   const onValid = data => {
     console.log(data);
+    console.log(condition);
   };
   useEffect(() => {
     register("userName", {
@@ -118,6 +88,71 @@ export default CreateAccount = ({ navigation }) => {
       required: true,
     });
   }, [register]);
+
+  // Back-end APIs
+  // 유저명 중복확인 query 성공시
+  const onCompletedSearch = ({ seeProfile }) => {
+    if (seeProfile === null) {
+      setCondition(prevState => {
+        // 호출 결과를 즉시 받기 위헤 setState 안에서 호출
+        alert("사용 가능한 아이디입니다.");
+        return { ...prevState, userName: true };
+      });
+      // hooks에서 setValue한 직후에는 이전 값을 나타냄..
+      // rerender 하기 전에 뿌리고 rendering 되니까 그런듯
+    } else {
+      setCondition(prevState => {
+        alert("이미 사용중인 아이디입니다.");
+        return { ...prevState, userName: false };
+      });
+    }
+  };
+  const [searchExistUserName, { loading }] = useLazyQuery(SEARCH_USER, {
+    onCompleted: onCompletedSearch,
+  });
+
+  // 버튼 활성화 관련
+  const userNameCompleted = text => {
+    if (text.length > 3) {
+      setCondition(prevState => {
+        return { ...prevState, userNameLen: true };
+      });
+    } else {
+      setCondition(prevState => {
+        return { ...prevState, userNameLen: false };
+      });
+    }
+  };
+  const emailCompleted = text => {
+    if (text.length > 6) {
+      setCondition(prevState => {
+        return { ...prevState, emailLen: true };
+      });
+    } else {
+      setCondition(prevState => {
+        return { ...prevState, emailLen: false };
+      });
+    }
+  };
+  const passwordCompleted = text => {
+    if (text.length > 6 && text.length < 17) {
+      setCondition(prevState => {
+        return { ...prevState, passwordLen: true };
+      });
+    } else {
+      setCondition(prevState => {
+        return { ...prevState, passwordLen: false };
+      });
+    }
+  };
+
+  // ref
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordCheckRef = useRef();
+  const _onNext = next => {
+    next?.current?.focus();
+  };
 
   return (
     <>
@@ -141,12 +176,19 @@ export default CreateAccount = ({ navigation }) => {
               <Button
                 text={"중복확인"}
                 width={"31%"}
-                disable={!condition.userName}
+                disable={!condition.userNameLen}
+                onPress={() =>
+                  searchExistUserName({
+                    variables: { userName: getValues("userName") },
+                  })
+                }
               />
             </RowBox>
             <NoticSubContext>
-              4-12자/한글, 영문 소문자(숫자 조합 가능)
+              4-12자/한글, 영문 소문자(숫자 조합 가능) {`\n`}
+              Pocipe 내에서 표시될 이름입니다.
             </NoticSubContext>
+
             <NoticContext>이메일</NoticContext>
             <RowBox>
               <TextInput
@@ -163,9 +205,11 @@ export default CreateAccount = ({ navigation }) => {
               <Button
                 text={"인증코드 받기"}
                 width={"31%"}
-                disable={!condition.email}
+                disable={!condition.emailLen}
               />
             </RowBox>
+            <NoticSubContext>로그인 시에 사용됩니다</NoticSubContext>
+
             <NoticContext>비밀번호</NoticContext>
             <TextInput
               ref={passwordRef}
@@ -183,7 +227,6 @@ export default CreateAccount = ({ navigation }) => {
               placeholder={"비밀번호 확인"}
               secureTextEntry={true}
               returnKeyType={"done"}
-              onSubmitEditing={handleSubmit(onValid)}
               onChangeText={text => setValue("passwordCheck", text)}
             />
             <NoticSubContext>
@@ -192,6 +235,15 @@ export default CreateAccount = ({ navigation }) => {
           </InputView>
         </CreateAccountLayout>
       </Container>
+      <Button
+        text={"Pocipe 시작하기"}
+        width={"100%"}
+        radius={"0px"}
+        txSize={25}
+        //disable={!condition.email && !condition.userName && !condition.password}
+        disable={!condition.userName}
+        onPress={handleSubmit(onValid)}
+      />
     </>
   );
 };

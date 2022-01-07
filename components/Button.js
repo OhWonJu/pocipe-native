@@ -5,7 +5,7 @@ const Container = styled.TouchableOpacity`
   background-color: ${props =>
     props.bgColor ? props.bgColor : props.theme.yellowColor};
   padding: 10px;
-  border-radius: 10px;
+  border-radius: ${props => (props.radius ? props.radius : "10px")};
   width: ${props => (props.width ? props.width : "50%")};
   align-items: center;
   justify-content: center;
@@ -26,12 +26,14 @@ const Button = ({
   bgColor = null,
   txColor = null,
   txSize = null,
+  radius = null
 }) => (
   <Container
     disabled={disable}
     onPress={onPress}
     bgColor={bgColor}
     width={width}
+    radius={radius}
   >
     <Text txColor={txColor} txSize={txSize}>
       {text}
