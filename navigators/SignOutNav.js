@@ -5,9 +5,9 @@ import {
   TransitionSpecs,
 } from "@react-navigation/stack";
 
-import AuthHome from "../screens/AuthHome";
-import SignIn from "../screens/SignIn";
-import CreateAccount from "../screens/CreateAccount";
+import AuthHome from "../screens/AuthHome/index";
+import SignIn from "../screens/SignIn/index";
+import SignUp from "../screens/SignUp/index";
 
 const SignOutNav = createStackNavigator();
 
@@ -44,7 +44,7 @@ export default () => {
     >
       <SignOutNav.Screen name="AuthHome" component={AuthHome} />
       <SignOutNav.Screen name="SignIn" component={SignIn} />
-      <SignOutNav.Screen name="CreateAccount" component={CreateAccount} />
+      <SignOutNav.Screen name="SignUp" component={SignUp} />
     </SignOutNav.Navigator>
   );
 };

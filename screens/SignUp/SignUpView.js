@@ -1,11 +1,9 @@
-import { gql, useLazyQuery } from "@apollo/client";
-import React, { useEffect, useRef, useState } from "react";
-import { get, useForm } from "react-hook-form";
+import React from "react";
 import styled from "styled-components/native";
 
-import AuthHeader from "../components/Auth/AuthHeader";
-import Button from "../components/Button";
-import Container from "../components/Container";
+import AuthHeader from "../../components/Auth/AuthHeader";
+import Button from "../../components/Button";
+import Container from "../../components/Container";
 
 const CreateAccountLayout = styled.KeyboardAvoidingView`
   flex: 1;
@@ -49,115 +47,25 @@ const TextInput = styled.TextInput`
   margin-bottom: 2px;
 `;
 
-const SEARCH_USER = gql`
-  query seeProfile($userName: String!) {
-    seeProfile(userName: $userName) {
-      userName
-    }
-  }
-`;
-
-export default CreateAccount = ({ navigation }) => {
-  // 가입버튼 제어를 위한 state
-  const [condition, setCondition] = useState({
-    userNameLen: false, // 최소 길이 및 조건 만족 여부
-    userName: false, // 중복 체크 여부
-    emailLen: false,
-    email: false, // 이메일 인증 여부
-    passwordLen: false, // 최소 길이 및 조건 만족 여부
-    password: false, // 비밀번호 확인 여부
-  });
-
-  // Form Hook
-  const { register, handleSubmit, setValue, getValues } = useForm();
-  const onValid = data => {
-    console.log(data);
-    console.log(condition);
-  };
-  useEffect(() => {
-    register("userName", {
-      required: true,
-    });
-    register("email", {
-      required: true,
-    });
-    register("password", {
-      required: true,
-    });
-    register("passwordCheck", {
-      required: true,
-    });
-  }, [register]);
-
-  // Back-end APIs
-  // 유저명 중복확인 query 성공시
-  const onCompletedSearch = ({ seeProfile }) => {
-    if (seeProfile === null) {
-      setCondition(prevState => {
-        // 호출 결과를 즉시 받기 위헤 setState 안에서 호출
-        alert("사용 가능한 아이디입니다.");
-        return { ...prevState, userName: true };
-      });
-      // hooks에서 setValue한 직후에는 이전 값을 나타냄..
-      // rerender 하기 전에 뿌리고 rendering 되니까 그런듯
-    } else {
-      setCondition(prevState => {
-        alert("이미 사용중인 아이디입니다.");
-        return { ...prevState, userName: false };
-      });
-    }
-  };
-  const [searchExistUserName, { loading }] = useLazyQuery(SEARCH_USER, {
-    // query 호출 결과 인자 중 data인자를 callback에 전달
-    onCompleted: onCompletedSearch,
-  });
-
-  // 버튼 활성화 관련
-  const userNameCompleted = text => {
-    if (text.length > 3) {
-      setCondition(prevState => {
-        return { ...prevState, userNameLen: true };
-      });
-    } else {
-      setCondition(prevState => {
-        return { ...prevState, userNameLen: false };
-      });
-    }
-  };
-  const emailCompleted = text => {
-    if (text.length > 6) {
-      setCondition(prevState => {
-        return { ...prevState, emailLen: true };
-      });
-    } else {
-      setCondition(prevState => {
-        return { ...prevState, emailLen: false };
-      });
-    }
-  };
-  const passwordCompleted = text => {
-    if (text.length > 6 && text.length < 17) {
-      setCondition(prevState => {
-        return { ...prevState, passwordLen: true };
-      });
-    } else {
-      setCondition(prevState => {
-        return { ...prevState, passwordLen: false };
-      });
-    }
-  };
-
-  // ref
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordCheckRef = useRef();
-  const _onNext = next => {
-    next?.current?.focus();
-  };
-
+export default SignUpView = ({
+  condition,
+  emailRef,
+  passwordRef,
+  passwordCheckRef,
+  onNext,
+  goBack,
+  setValue,
+  getValues,
+  userNameCompleted,
+  searchExistUserName,
+  emailCompleted,
+  passwordCompleted,
+  handleSubmit,
+  onValid,
+}) => {
   return (
     <>
-      <AuthHeader title={"회원가입"} leftOnPress={navigation.goBack} />
+      <AuthHeader title={"회원가입"} leftOnPress={goBack} />
       <Container>
         <CreateAccountLayout behavior="padding">
           <WelcomeView></WelcomeView>
@@ -168,7 +76,7 @@ export default CreateAccount = ({ navigation }) => {
                 placeholder={"아이디"}
                 returnKeyType={"next"}
                 autoCapitalize={"none"}
-                onSubmitEditing={() => _onNext(emailRef)}
+                onSubmitEditing={() => onNext(emailRef)}
                 onChangeText={text => {
                   userNameCompleted(text), setValue("userName", text);
                 }}
@@ -177,7 +85,7 @@ export default CreateAccount = ({ navigation }) => {
               <Button
                 text={"중복확인"}
                 width={"31%"}
-                disable={!condition.userNameLen}
+                disable={!condition.userNameVaild}
                 onPress={() =>
                   searchExistUserName({
                     variables: { userName: getValues("userName") },
@@ -197,7 +105,7 @@ export default CreateAccount = ({ navigation }) => {
                 placeholder={"이메일"}
                 keyboardType={"email-address"}
                 returnKeyType={"next"}
-                onSubmitEditing={() => _onNext(passwordRef)}
+                onSubmitEditing={() => onNext(passwordRef)}
                 onChangeText={text => {
                   emailCompleted(text), setValue("email", text);
                 }}
@@ -206,7 +114,7 @@ export default CreateAccount = ({ navigation }) => {
               <Button
                 text={"인증코드 받기"}
                 width={"31%"}
-                disable={!condition.emailLen}
+                disable={!condition.emailVaild}
               />
             </RowBox>
             <NoticSubContext>로그인 시에 사용됩니다</NoticSubContext>
@@ -217,7 +125,7 @@ export default CreateAccount = ({ navigation }) => {
               placeholder={"비밀번호"}
               returnKeyType={"next"}
               secureTextEntry={true}
-              onSubmitEditing={() => _onNext(passwordCheckRef)}
+              onSubmitEditing={() => onNext(passwordCheckRef)}
               onChangeText={text => {
                 passwordCompleted(text), setValue("password", text);
               }}
@@ -242,7 +150,7 @@ export default CreateAccount = ({ navigation }) => {
         radius={"0px"}
         txSize={25}
         //disable={!condition.email && !condition.userName && !condition.password}
-        disable={!condition.userName}
+        disable={!condition.userNameConf}
         onPress={handleSubmit(onValid)}
       />
     </>

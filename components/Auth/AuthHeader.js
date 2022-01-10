@@ -52,7 +52,7 @@ export default AuthHeader = ({
             name="keyboard-arrow-left"
             size={38}
             color={tiltColor}
-            style={{ paddingLeft: 20 }}
+            style={{ paddingLeft: 15 }}
           />
         </TouchableOpacity>
       </Left>

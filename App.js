@@ -31,6 +31,7 @@ export default function App() {
     const imagesToLoad = [
       require("./assets/loadingPage/Logo-black.png"),
       require("./assets/loadingPage/Logo-yellow.png"),
+      require("./assets/loadingPage/Logo-white.png"),
       require("./assets/AuthView/bgImage01.jpg"),
     ];
     const imagePromises = imagesToLoad.map(image => Asset.loadAsync(image));

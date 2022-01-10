@@ -2,7 +2,6 @@ import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Home from "../screens/Home";
-import ForYou from "../screens/ForYou";
 import Search from "../screens/Search";
 import Profile from "../screens/Profile";
 import OptionMenu from "../screens/OptionMenu";
@@ -19,7 +18,6 @@ export default () => {
       }}
     >
       <Tabs.Screen name={"Home"} component={Home} />
-      <Tabs.Screen name={"ForYou"} component={ForYou} />
       <Tabs.Screen name={"Search"} component={Search} />
       <Tabs.Screen name={"Profile"} component={Profile} />
       <Tabs.Screen name={"OptionMenu"} component={OptionMenu} />
