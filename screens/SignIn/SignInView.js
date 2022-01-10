@@ -126,6 +126,7 @@ export default SignInView = ({
   goBack,
   goToSignUp,
   setValue,
+  watch,
   emailCompleted,
   passwordCompleted,
   passwordUnvisible,
@@ -142,6 +143,7 @@ export default SignInView = ({
       <Container>
         <InputView>
           <TextInput
+            value={watch("email")}
             placeholder={"이메일"}
             keyboardType={"email-address"}
             returnKeyType="next"
@@ -153,6 +155,7 @@ export default SignInView = ({
           />
           <PasswordBox>
             <TextInput
+              value={watch("password")}
               ref={passwordRef}
               placeholder={"비밀번호"}
               returnKeyType={"done"}

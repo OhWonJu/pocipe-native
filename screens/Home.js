@@ -1,9 +1,9 @@
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text } from "react-native";
 import styled from "styled-components/native";
 
 import Container from "../components/Container";
-import HomeHeader from "../components/Home/HomeHeader";
+import MainHeader from "../components/Main/MainHeader";
 import constants from "../constants";
 
 const StatusBar = styled.View`
@@ -76,7 +76,7 @@ export default Home = () => {
         stickyHeaderIndices={[2]}
         showsVerticalScrollIndicator={false}
       >
-        <HomeHeader leftOnPress={() => alert("HI")} />
+        <MainHeader leftOnPress={() => alert("HI")} />
         <Reconmmend>
           <ScrollView
             horizontal={true}
@@ -91,9 +91,10 @@ export default Home = () => {
           </ScrollView>
         </Reconmmend>
         <InnerHeader>
-          <HeaderText>Recent</HeaderText>
+          <HeaderText>New</HeaderText>
           <HeaderText>POCHELIN Guide</HeaderText>
           <HeaderText>For You</HeaderText>
+          <HeaderText>Subscribe</HeaderText>
         </InnerHeader>
         <Container>
           <Views>

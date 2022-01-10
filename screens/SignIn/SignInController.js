@@ -7,9 +7,15 @@ import { isSignInVar } from "../../apollo";
 import SignInView from "./SignInView";
 import { SIGN_IN_MUTATION } from "./SignInModel";
 
-export default SignInController = ({ navigation }) => {
+export default SignInController = ({ navigation, route }) => {
   const themeContext = useContext(ThemeContext);
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm({
+    defaultValues: {
+      // 이렇게 삼항을 줄일수도....? 데이터 보호..
+      email: route.params?.email,
+      password: route.params?.password,
+    },
+  });
   const [passwordUnvisible, setPasswordUnvisible] = useState(true);
 
   const [signButtonOPC, setSignButtonOPC] = useState({
@@ -109,6 +115,7 @@ export default SignInController = ({ navigation }) => {
       goBack={goBack}
       goToSignUp={goToSignUp}
       setValue={setValue}
+      watch={watch}
       emailCompleted={emailCompleted}
       passwordCompleted={passwordCompleted}
       passwordUnvisible={passwordUnvisible}

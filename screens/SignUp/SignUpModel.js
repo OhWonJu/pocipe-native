@@ -7,3 +7,26 @@ export const SEARCH_USER = gql`
     }
   }
 `;
+
+export const CREATE_ACCOUNT = gql`
+  mutation createAccount(
+    $firstName: String
+    $lastName: String
+    $userName: String!
+    $email: String!
+    $password: String!
+    $phoneNumber: String
+  ) {
+    createAccount(
+      firstName: $firstName
+      lastName: $lastName
+      userName: $userName
+      email: $email
+      password: $password
+      phoneNumber: $phoneNumber
+    ) {
+      ok
+      error
+    }
+  }
+`;

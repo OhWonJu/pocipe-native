@@ -34,7 +34,7 @@ const Logo = styled.Image`
   height: 100%;
 `;
 
-export default HomeHeader = ({ leftOnPress = () => null }) => {
+export default MainHeader = ({ leftOnPress = () => null }) => {
   return (
     <Container>
       <Left>

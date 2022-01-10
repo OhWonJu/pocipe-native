@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 
 import SignUpView from "./SignUpView";
-import { SEARCH_USER } from "./SignUpModel";
+import { CREATE_ACCOUNT, SEARCH_USER } from "./SignUpModel";
 
 export default CreateAccount = ({ navigation }) => {
   // 가입버튼 제어를 위한 state
@@ -15,7 +15,13 @@ export default CreateAccount = ({ navigation }) => {
     passwordVaild: false, // 최소 길이 및 조건 만족 여부
     passwordConf: false, // 비밀번호 확인 여부
   });
-  const { register, handleSubmit, setValue, getValues } = useForm();
+  const { register, handleSubmit, setValue, getValues } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+    },
+  });
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -24,7 +30,7 @@ export default CreateAccount = ({ navigation }) => {
   // Back-end APIs
   // 유저명 중복확인 query 성공시
   const onCompletedSearch = ({ seeProfile }) => {
-    if (seeProfile === null) {
+    if (!searchLoading && seeProfile === null) {
       setCondition(prevState => {
         // 호출 결과를 즉시 받기 위헤 setState 안에서 호출
         alert("사용 가능한 아이디입니다.");
@@ -39,15 +45,50 @@ export default CreateAccount = ({ navigation }) => {
       });
     }
   };
-  const [searchExistUserName, { loading }] = useLazyQuery(SEARCH_USER, {
-    // query 호출 결과 인자 중 data인자를 callback에 전달
-    onCompleted: onCompletedSearch,
-  });
+  const [searchExistUserName, { loading: searchLoading }] = useLazyQuery(
+    SEARCH_USER,
+    {
+      // query 호출 결과 인자 중 data인자를 callback에 전달
+      onCompleted: onCompletedSearch,
+    }
+  );
+
+  const onCompletedCreate = data => {
+    const {
+      createAccount: { ok },
+    } = data;
+    if (ok) {
+      const { email, password } = getValues();
+      //                     name, params
+      navigation.navigate("SignIn", {
+        email,
+        password,
+      });
+    }
+  };
+  const [createAccountMutation, { loading: createLoading }] = useMutation(
+    CREATE_ACCOUNT,
+    {
+      onCompleted: onCompletedCreate,
+    }
+  );
 
   // Form Hook
   const onValid = data => {
     console.log(data);
     console.log(condition);
+    if (!createLoading) {
+      createAccountMutation({
+        variables: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          userName: data.userName,
+          email: data.email,
+          password: data.password,
+          phoneNumber: data.phoneNumber,
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -63,6 +104,9 @@ export default CreateAccount = ({ navigation }) => {
     register("passwordCheck", {
       required: true,
     });
+    register("firstName");
+    register("lastName");
+    register("phoneNumber");
   }, [register]);
 
   // 버튼 활성화 관련
