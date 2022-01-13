@@ -8,7 +8,7 @@ export const isSignInVar = makeVar(false);
 // 두 가지 방법 중 하나를 써야..
 // lcaltunnel ->> npx lcaltunnel --port 4000
 const client = new ApolloClient({
-  uri: "http://9434-221-167-62-185.ngrok.io/graphql",
+  uri: "http://05ce-221-167-62-185.ngrok.io/graphql",
   cache: new InMemoryCache(),
 });
 

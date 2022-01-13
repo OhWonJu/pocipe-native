@@ -26,15 +26,21 @@ const RowBox = styled.View`
   justify-content: space-between;
 `;
 
+const AccountCodeBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 const NoticContext = styled.Text`
   font-size: 15px;
   font-weight: 700;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 3px;
   color: ${props => props.theme.darkGreyColor};
 `;
 const NoticSubContext = styled.Text`
   font-size: 12px;
+  margin-bottom: 5px;
   color: ${props => props.theme.darkGreyColor};
 `;
 
@@ -45,6 +51,17 @@ const TextInput = styled.TextInput`
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 2px;
+`;
+
+const PasswordCheckInput = styled.TextInput`
+  background-color: ${props => props.theme.greyColor};
+  height: 50px;
+  width: ${props => (props.width ? props.width : "100%")};
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  border: ${props => (props.passwordChecked ? 0 : 1)}px;
+  border-color: ${props => props.theme.redColor};
 `;
 
 export default SignUpView = ({
@@ -58,8 +75,13 @@ export default SignUpView = ({
   getValues,
   userNameCompleted,
   searchExistUserName,
+  requestAccountCode,
+  time,
   emailCompleted,
+  confirmAccountCode,
+  setCodeInput,
   passwordCompleted,
+  passwordConpration,
   handleSubmit,
   onValid,
 }) => {
@@ -99,25 +121,65 @@ export default SignUpView = ({
             </NoticSubContext>
 
             <NoticContext>이메일</NoticContext>
-            <RowBox>
-              <TextInput
-                ref={emailRef}
-                placeholder={"이메일"}
-                keyboardType={"email-address"}
-                returnKeyType={"next"}
-                onSubmitEditing={() => onNext(passwordRef)}
-                onChangeText={text => {
-                  emailCompleted(text), setValue("email", text);
-                }}
-                width={"66%"}
-              />
-              <Button
-                text={"인증코드 받기"}
-                width={"31%"}
-                disable={!condition.emailVaild}
-              />
-            </RowBox>
-            <NoticSubContext>로그인 시에 사용됩니다</NoticSubContext>
+            {condition.accountCode === "" ? (
+              <>
+                <RowBox>
+                  <TextInput
+                    ref={emailRef}
+                    value={getValues("email")}
+                    placeholder={"이메일"}
+                    keyboardType={"email-address"}
+                    returnKeyType={"next"}
+                    onSubmitEditing={() => onNext(passwordRef)}
+                    onChangeText={text => {
+                      emailCompleted(text), setValue("email", text);
+                    }}
+                    width={"66%"}
+                  />
+                  <Button
+                    text={"인증코드 받기"}
+                    width={"31%"}
+                    disable={
+                      !condition.emailVaild && condition.accountCode === ""
+                    }
+                    onPress={() =>
+                      requestAccountCode({
+                        variables: { email: getValues("email") },
+                      })
+                    }
+                  />
+                </RowBox>
+                <NoticSubContext>로그인 시에 사용됩니다</NoticSubContext>
+              </>
+            ) : (
+              <>
+                <RowBox
+                  visible={condition.accountCode === "" ? false : true}
+                  time={time}
+                >
+                  <TextInput
+                    ref={emailRef}
+                    placeholder={"인증코드"}
+                    returnKeyType={"done"}
+                    onChangeText={text => setCodeInput(text)}
+                    width={"66%"}
+                  />
+                  <Button
+                    text={"인증코드 확인"}
+                    width={"31%"}
+                    disable={
+                      !condition.emailVaild && !condition.accountCode === ""
+                    }
+                    onPress={confirmAccountCode}
+                  />
+                </RowBox>
+                <NoticSubContext>
+                  {`제한시간: ${Math.floor((time / (1000 * 60)) % 60)}분 ${
+                    (time / 1000) % 60
+                  }초`}
+                </NoticSubContext>
+              </>
+            )}
 
             <NoticContext>비밀번호</NoticContext>
             <TextInput
@@ -129,14 +191,18 @@ export default SignUpView = ({
               onChangeText={text => {
                 passwordCompleted(text), setValue("password", text);
               }}
+              onEndEditing={passwordConpration}
               style={{ marginBottom: 7 }}
             />
-            <TextInput
+            <PasswordCheckInput
               ref={passwordCheckRef}
               placeholder={"비밀번호 확인"}
               secureTextEntry={true}
               returnKeyType={"done"}
+              passwordChecked={condition.passwordConp}
               onChangeText={text => setValue("passwordCheck", text)}
+              onEndEditing={passwordConpration}
+              onSubmitEditing={() => console.log(condition)}
             />
             <NoticSubContext>
               6-16자/영문 대문자, 소문자, 숫자, 특수문자 중 2가지 이상 조합
@@ -149,8 +215,12 @@ export default SignUpView = ({
         width={"100%"}
         radius={"0px"}
         txSize={25}
-        //disable={!condition.email && !condition.userName && !condition.password}
-        disable={!condition.userNameConf}
+        disable={
+          !condition.userNameConp ||
+          !condition.passwordConp ||
+          !condition.emailConp ||
+          !condition.passwordVaild
+        }
         onPress={handleSubmit(onValid)}
       />
     </>

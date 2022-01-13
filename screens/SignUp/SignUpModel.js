@@ -8,6 +8,16 @@ export const SEARCH_USER = gql`
   }
 `;
 
+export const REQUEST_ACCOUNT_CODE = gql`
+  query requestAccountCode($email: String!) {
+    requestAccountCode(email: $email) {
+      ok
+      error
+      code
+    }
+  }
+`;
+
 export const CREATE_ACCOUNT = gql`
   mutation createAccount(
     $firstName: String

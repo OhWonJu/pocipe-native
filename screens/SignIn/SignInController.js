@@ -91,7 +91,10 @@ export default SignInController = ({ navigation, route }) => {
     }
   };
   useEffect(() => {
-    if (signButtonOPC.email === true && signButtonOPC.password === true) {
+    if (
+      (signButtonOPC.email === true && signButtonOPC.password === true) ||
+      route.params
+    ) {
       setTurnOff(false);
     } else {
       setTurnOff(true);
