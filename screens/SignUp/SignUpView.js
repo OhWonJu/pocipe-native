@@ -1,32 +1,40 @@
 import React from "react";
 import styled from "styled-components/native";
+import AuthGuide from "../../components/Auth/AuthGuide";
 
 import AuthHeader from "../../components/Auth/AuthHeader";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
+import constants from "../../constants";
 
 const CreateAccountLayout = styled.KeyboardAvoidingView`
   flex: 1;
 `;
 
 const WelcomeView = styled.View`
-  width: 100%;
+  width: ${constants.width}px;
+  /* width: 100%; */
+  right: 20px;
   height: 30%;
-  background-color: rgba(255, 0, 0, 0.5);
   padding: 10px;
 `;
 
-const InputView = styled.View`
+const InputLayout = styled.View`
+  flex: 1;
+  flex-direction: row;
+`;
+
+const RequiredInputView = styled.View`
   flex: 1;
   width: 100%;
 `;
 
-const RowBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
+const SubjoinInputView = styled.View`
+  flex: 1;
+  z-index: -1;
 `;
 
-const AccountCodeBox = styled.View`
+const RowBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
@@ -73,25 +81,37 @@ export default SignUpView = ({
   goBack,
   setValue,
   getValues,
-  userNameCompleted,
   searchExistUserName,
+  userNameVerification,
+  emailCode,
   requestAccountCode,
+  emailVerification,
+  setCode,
+  accountCodeComparsion,
   time,
-  emailCompleted,
-  confirmAccountCode,
-  setCodeInput,
-  passwordCompleted,
-  passwordConpration,
+  passwordVerification,
+  passwordComparison,
   handleSubmit,
   onValid,
+  trigger,
+  controlTrigger,
+  animationKey,
+  openEvent,
+  closeEvent,
 }) => {
   return (
     <>
       <AuthHeader title={"회원가입"} leftOnPress={goBack} />
       <Container>
         <CreateAccountLayout behavior="padding">
-          <WelcomeView></WelcomeView>
-          <InputView>
+          <WelcomeView>
+            <AuthGuide
+              trigger={trigger}
+              openEvent={openEvent}
+              closeEvent={closeEvent}
+            />
+          </WelcomeView>
+          <RequiredInputView>
             <NoticContext>아이디</NoticContext>
             <RowBox>
               <TextInput
@@ -100,14 +120,14 @@ export default SignUpView = ({
                 autoCapitalize={"none"}
                 onSubmitEditing={() => onNext(emailRef)}
                 onChangeText={text => {
-                  userNameCompleted(text), setValue("userName", text);
+                  userNameVerification(text), setValue("userName", text);
                 }}
                 width={"66%"}
               />
               <Button
                 text={"중복확인"}
                 width={"31%"}
-                disable={!condition.userNameVaild}
+                disable={!condition.userNameVerify}
                 onPress={() =>
                   searchExistUserName({
                     variables: { userName: getValues("userName") },
@@ -121,7 +141,7 @@ export default SignUpView = ({
             </NoticSubContext>
 
             <NoticContext>이메일</NoticContext>
-            {condition.accountCode === "" ? (
+            {emailCode === "" ? (
               <>
                 <RowBox>
                   <TextInput
@@ -132,16 +152,15 @@ export default SignUpView = ({
                     returnKeyType={"next"}
                     onSubmitEditing={() => onNext(passwordRef)}
                     onChangeText={text => {
-                      emailCompleted(text), setValue("email", text);
+                      emailVerification(text), setValue("email", text);
                     }}
+                    editable={condition.emailConfirm ? false : true}
                     width={"66%"}
                   />
                   <Button
                     text={"인증코드 받기"}
                     width={"31%"}
-                    disable={
-                      !condition.emailVaild && condition.accountCode === ""
-                    }
+                    disable={!condition.emailVerify || condition.emailConfirm}
                     onPress={() =>
                       requestAccountCode({
                         variables: { email: getValues("email") },
@@ -153,24 +172,18 @@ export default SignUpView = ({
               </>
             ) : (
               <>
-                <RowBox
-                  visible={condition.accountCode === "" ? false : true}
-                  time={time}
-                >
+                <RowBox>
                   <TextInput
                     ref={emailRef}
                     placeholder={"인증코드"}
                     returnKeyType={"done"}
-                    onChangeText={text => setCodeInput(text)}
+                    onChangeText={text => setCode(text)}
                     width={"66%"}
                   />
                   <Button
                     text={"인증코드 확인"}
                     width={"31%"}
-                    disable={
-                      !condition.emailVaild && !condition.accountCode === ""
-                    }
-                    onPress={confirmAccountCode}
+                    onPress={accountCodeComparsion}
                   />
                 </RowBox>
                 <NoticSubContext>
@@ -189,9 +202,9 @@ export default SignUpView = ({
               secureTextEntry={true}
               onSubmitEditing={() => onNext(passwordCheckRef)}
               onChangeText={text => {
-                passwordCompleted(text), setValue("password", text);
+                passwordVerification(text), setValue("password", text);
               }}
-              onEndEditing={passwordConpration}
+              onEndEditing={passwordComparison}
               style={{ marginBottom: 7 }}
             />
             <PasswordCheckInput
@@ -199,15 +212,15 @@ export default SignUpView = ({
               placeholder={"비밀번호 확인"}
               secureTextEntry={true}
               returnKeyType={"done"}
-              passwordChecked={condition.passwordConp}
+              passwordChecked={condition.passwordCofirm}
               onChangeText={text => setValue("passwordCheck", text)}
-              onEndEditing={passwordConpration}
+              onEndEditing={passwordComparison}
               onSubmitEditing={() => console.log(condition)}
             />
             <NoticSubContext>
               6-16자/영문 대문자, 소문자, 숫자, 특수문자 중 2가지 이상 조합
             </NoticSubContext>
-          </InputView>
+          </RequiredInputView>
         </CreateAccountLayout>
       </Container>
       <Button
@@ -215,13 +228,14 @@ export default SignUpView = ({
         width={"100%"}
         radius={"0px"}
         txSize={25}
-        disable={
-          !condition.userNameConp ||
-          !condition.passwordConp ||
-          !condition.emailConp ||
-          !condition.passwordVaild
-        }
-        onPress={handleSubmit(onValid)}
+        // disable={
+        //   !condition.userNameConfrim ||
+        //   !condition.emailConfrim ||
+        //   !condition.passwordConfrim ||
+        //   !condition.passwordVerify
+        // }
+        //onPress={handleSubmit(onValid)}
+        onPress={controlTrigger}
       />
     </>
   );

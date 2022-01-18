@@ -5,7 +5,7 @@ import AuthHomeView from "./AuthHomeView";
 export default AuthHomeController = ({ navigation }) => {
   const goToSignIn = () =>
     navigation.navigate("SignIn", {
-      email: "reopard506@gmail.com",
+      email: "mymy@pocipe.com",
       password: "test001",
     });
   const goToSignUp = () => navigation.navigate("SignUp");
