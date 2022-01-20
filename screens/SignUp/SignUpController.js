@@ -6,7 +6,6 @@ import {
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
-  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 
@@ -16,6 +15,7 @@ import {
   REQUEST_ACCOUNT_CODE,
   SEARCH_USER,
 } from "./SignUpModel";
+import useExcuteQuery from "../../Hooks/useExcuteQuery";
 
 const LIMIT_TIME = 1000 * 180;
 const EMAIL_REX =
@@ -47,6 +47,8 @@ export default CreateAccount = ({ navigation }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordCheckRef = useRef();
+  const firstNameRef = useRef();
+  const phoneNumberRef = useRef();
 
   // forms useEffect
   useEffect(() => {
@@ -62,7 +64,6 @@ export default CreateAccount = ({ navigation }) => {
     register("passwordCheck", {
       required: true,
     });
-    register("accountCode");
     register("firstName");
     register("lastName");
     register("phoneNumber");
@@ -75,18 +76,24 @@ export default CreateAccount = ({ navigation }) => {
         () => setTime(prevTime => prevTime - 1000),
         1000
       );
-      let timerId = setTimeout(() => {
+      if (time <= 0 || condition.emailConfirm) {
         clearInterval(intervalId);
         setEmailCode("");
-        setTime(LIMIT_TIME);
-      }, LIMIT_TIME);
+      }
+    } else {
+      setTime(LIMIT_TIME);
     }
-  }, [emailCode]);
+  }, [emailCode, condition.emailConfirm]);
+  useEffect(() => {
+    return () => {
+      setTime(LIMIT_TIME);
+    };
+  }, []);
 
   // Back-end APIs
   // 유저명 중복확인 query 성공시
   const onCompletedSearch = ({ seeProfile }) => {
-    if (!searchLoading && seeProfile === null) {
+    if (seeProfile === null) {
       setCondition(prevState => {
         // 호출 결과를 즉시 받기 위헤 setState 안에서 호출
         alert("사용 가능한 아이디입니다.");
@@ -101,13 +108,15 @@ export default CreateAccount = ({ navigation }) => {
       });
     }
   };
-  const [searchExistUserName, { loading: searchLoading }] = useLazyQuery(
-    SEARCH_USER,
-    {
-      // query 호출 결과 인자 중 data인자를 callback에 전달
-      onCompleted: onCompletedSearch,
-    }
-  );
+  // const [searchExistUserName, { loading: searchLoading }] = useLazyQuery(
+  //   SEARCH_USER,
+  //   {
+  //     // query 호출 결과 인자 중 data인자를 callback에 전달
+  //     fetchPolicy: "no-cache",
+  //     onCompleted: onCompletedSearch,
+  //   }
+  // );
+  const searchExistUserName = useExcuteQuery(SEARCH_USER, onCompletedSearch);
 
   // 인증 코드 발송
   const onCompletedRequestCode = ({ requestAccountCode }) => {
@@ -175,25 +184,19 @@ export default CreateAccount = ({ navigation }) => {
       });
     } else {
       setCondition(prevState => {
-        return { ...prevState, userNameVerfiy: false };
+        return { ...prevState, userNameVerify: false };
       });
     }
   };
 
   const emailVerification = text => {
-    if (text.length > 6) {
-      if (EMAIL_REX.test(text)) {
-        setCondition(prevState => {
-          return { ...prevState, emailVerify: true };
-        });
-      } else {
-        setCondition(prevState => {
-          return { ...prevState, emailVerify: false };
-        });
-      }
+    if (text.length > 6 && EMAIL_REX.test(text)) {
+      setCondition(prevState => {
+        return { ...prevState, emailVerify: true };
+      });
     } else {
       setCondition(prevState => {
-        return { ...prevState, emailVaild: false };
+        return { ...prevState, emailVerify: false };
       });
     }
   };
@@ -242,41 +245,32 @@ export default CreateAccount = ({ navigation }) => {
   const goBack = () => navigation.goBack();
 
   const [trigger, setTrigger] = useState(1);
-  const animationKey = useSharedValue(1);
+  const ANIME_TIME = 400;
+  const animationKey = useDerivedValue(() => trigger);
   const requiredInputViewX = useDerivedValue(() => {
-    return interpolate(animationKey.value, [0, 1], [100, 0], Extrapolate.CLAMP);
+    return interpolate(animationKey.value, [0, 1], [500, 0], Extrapolate.CLAMP);
   });
-  const SubjoinInputViewZIndex = useDerivedValue(() => {
-    return interpolate(animationKey.value, [0, 1], [1, -1], Extrapolate.CLAMP);
-  });
+
   const SubJoinViewX = useDerivedValue(() => {
-    return interpolate(animationKey.value, [0, 1], [0, 100], Extrapolate.CLAMP);
+    return interpolate(
+      animationKey.value,
+      [0, 1],
+      [0, -500],
+      Extrapolate.CLAMP
+    );
   });
   const SubJoinViewOpacity = useDerivedValue(() => {
     return interpolate(animationKey.value, [0, 1], [1, 0], Extrapolate.CLAMP);
   });
-
-  const controlTrigger = () => {
-    trigger == 0 ? setTrigger(1) : setTrigger(0);
-  };
-  const openEvent = () => {
-    animationKey.value = 0;
-    setTrigger(0);
-  };
-  const closeEvent = () => {
-    animationKey.value = 1;
-    setTrigger(1);
-  };
-
   const requiredInputAnimeStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(animationKey.value, {
-        duration: 300,
+        duration: ANIME_TIME + 300,
       }),
       transform: [
         {
           translateX: withTiming(requiredInputViewX.value, {
-            duration: 300,
+            duration: ANIME_TIME,
           }),
         },
       ],
@@ -285,20 +279,25 @@ export default CreateAccount = ({ navigation }) => {
   const SubjoinInputViewAnimeStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(SubJoinViewOpacity.value, {
-        duration: 300,
+        duration: ANIME_TIME + 300,
       }),
-      zIndex: withTiming(SubjoinInputViewZIndex.value, {
-        duration: 300,
-      }),
+
       transform: [
         {
           translateX: withTiming(SubJoinViewX.value, {
-            duration: 300,
+            duration: ANIME_TIME,
           }),
         },
       ],
     };
   });
+
+  const openEvent = () => {
+    setTrigger(0);
+  };
+  const closeEvent = () => {
+    setTrigger(1);
+  };
 
   return (
     <SignUpView
@@ -306,6 +305,8 @@ export default CreateAccount = ({ navigation }) => {
       emailRef={emailRef}
       passwordRef={passwordRef}
       passwordCheckRef={passwordCheckRef}
+      firstNameRef={firstNameRef}
+      phoneNumberRef={phoneNumberRef}
       onNext={onNext}
       goBack={goBack}
       setValue={setValue}
@@ -323,10 +324,10 @@ export default CreateAccount = ({ navigation }) => {
       handleSubmit={handleSubmit}
       onValid={onValid}
       trigger={trigger}
-      controlTrigger={controlTrigger}
-      animationKey={animationKey}
       openEvent={openEvent}
       closeEvent={closeEvent}
+      requiredInputAnimeStyle={requiredInputAnimeStyle}
+      SubjoinInputViewAnimeStyle={SubjoinInputViewAnimeStyle}
     />
   );
 };

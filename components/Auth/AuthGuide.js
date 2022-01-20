@@ -21,11 +21,13 @@ const Left = styled(Animated.View)`
   flex: 1;
   align-items: center;
   justify-content: center;
+  opacity: ${props => (props.disable ? "0" : "1")};
 `;
 const Right = styled(Animated.View)`
   flex: 1;
   align-items: center;
   justify-content: center;
+  opacity: ${props => (props.disable ? "0" : "1")};
 `;
 const Button = styled(Animated.View)`
   height: 25px;
@@ -54,22 +56,25 @@ const SubText = styled(Animated.Text)`
 `;
 
 // step에 따라 뷰 변경
-const AuthGuide = ({ trigger, openEvent, closeEvent }) => {
+const AuthGuide = ({ guideKey, trigger, openEvent, closeEvent }) => {
   const themeContext = useContext(ThemeContext);
 
   const step = useDerivedValue(() => trigger);
 
   const firstY = useDerivedValue(() => {
-    return interpolate(step.value, [0, 1], [10, 0], Extrapolate.CLAMP);
+    return interpolate(guideKey, [0, 1], [10, 0], Extrapolate.CLAMP);
   });
   const secondY = useDerivedValue(() => {
-    return interpolate(step.value, [0, 1], [0, 10], Extrapolate.CLAMP);
+    return interpolate(guideKey, [0, 1], [0, 10], Extrapolate.CLAMP);
   });
   const secondZIndex = useDerivedValue(() => {
-    return interpolate(step.value, [0, 1], [1, -1], Extrapolate.CLAMP);
+    return interpolate(guideKey, [0, 1], [1, -1], Extrapolate.CLAMP);
   });
+  const firstOpacity = useDerivedValue(() => {
+    return interpolate(guideKey, [0, 1], [0, 1], Extrapolate.CLAMP)
+  })
   const secondOpacity = useDerivedValue(() => {
-    return interpolate(step.value, [0, 1], [1, 0], Extrapolate.CLAMP);
+    return interpolate(guideKey, [0, 1], [1, 0], Extrapolate.CLAMP);
   });
   const leftButtonOpacity = useDerivedValue(() => {
     return interpolate(step.value, [0, 1], [1, 0], Extrapolate.CLAMP);
@@ -80,7 +85,7 @@ const AuthGuide = ({ trigger, openEvent, closeEvent }) => {
 
   const firstMainTextAnimeStyle = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(step.value, {
+      opacity: withTiming(firstOpacity.value, {
         duration: 700,
       }),
       transform: [
@@ -96,7 +101,7 @@ const AuthGuide = ({ trigger, openEvent, closeEvent }) => {
     return {
       opacity: withDelay(
         500,
-        withTiming(step.value, {
+        withTiming(firstOpacity.value, {
           duration: 300,
         })
       ),
@@ -169,7 +174,7 @@ const AuthGuide = ({ trigger, openEvent, closeEvent }) => {
 
   return (
     <Container>
-      <Left>
+      <Left disable={guideKey}>
         <TouchableOpacity onPress={closeEvent}>
           <Button style={leftButtonAnimeStyle}>
             <MaterialIcons
@@ -182,25 +187,23 @@ const AuthGuide = ({ trigger, openEvent, closeEvent }) => {
         </TouchableOpacity>
       </Left>
       <Content>
-        {trigger === 1 ? (
+        {guideKey === 1 ? (
           <>
-            <MainText style={firstMainTextAnimeStyle}>
-              {"반가워요! :)"}
-            </MainText>
+            <MainText style={firstMainTextAnimeStyle}>{"반가워요 :)"}</MainText>
             <SubText style={firstSubTextAnimeStyle} left={8}>
               손 안의 작은 레시피 Pocipe를 시작해볼까요?
             </SubText>
           </>
         ) : (
           <>
-            <MainText style={secondMainTextAnimeStyle}>더 많은 혜택</MainText>
+            <MainText style={secondMainTextAnimeStyle}>더 많은 혜택!</MainText>
             <SubText style={secondSubTextAnimeStyle} left={8} txSize={14}>
-              {"추가 정보를 입력하면 더 많은 혜택을 받을 수 있어요."}
+              추가 정보를 입력하면 더 많은 혜택을 받을 수 있어요.
             </SubText>
           </>
         )}
       </Content>
-      <Right>
+      <Right disable={guideKey}>
         <TouchableOpacity onPress={openEvent}>
           <Button style={rightButtonAnimeStyle}>
             <MaterialIcons

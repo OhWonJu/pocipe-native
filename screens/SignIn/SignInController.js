@@ -17,7 +17,6 @@ export default SignInController = ({ navigation, route }) => {
     },
   });
   const [passwordUnvisible, setPasswordUnvisible] = useState(true);
-
   const [signButtonOPC, setSignButtonOPC] = useState({
     email: false,
     password: false,
