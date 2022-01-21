@@ -3,7 +3,7 @@ import { ThemeContext } from "styled-components/native";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 
-import { isSignInVar } from "../../apollo";
+import { userSignIn } from "../../apollo";
 import SignInView from "./SignInView";
 import { SIGN_IN_MUTATION } from "./SignInModel";
 
@@ -26,12 +26,12 @@ export default SignInController = ({ navigation, route }) => {
 
   // Qureys
   // Back-end APIs
-  const onCompleted = data => {
+  const onCompleted = async data => {
     const {
       login: { ok, token },
     } = data;
     if (ok) {
-      isSignInVar(true);
+      await userSignIn(token);
     }
   };
   const [loginMutation, { loading }] = useMutation(SIGN_IN_MUTATION, {

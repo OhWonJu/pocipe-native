@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollView, Text } from "react-native";
 import styled from "styled-components/native";
+import { userSignOut } from "../apollo";
 
 import Container from "../components/Container";
 import MainHeader from "../components/Main/MainHeader";
@@ -76,7 +77,7 @@ export default Home = () => {
         stickyHeaderIndices={[2]}
         showsVerticalScrollIndicator={false}
       >
-        <MainHeader leftOnPress={() => alert("HI")} />
+        <MainHeader leftOnPress={async () => await userSignOut()} />
         <Reconmmend>
           <ScrollView
             horizontal={true}
