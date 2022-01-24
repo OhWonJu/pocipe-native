@@ -36,7 +36,7 @@ export const userSignOut = async () => {
 // 두 가지 방법 중 하나를 써야..
 // lcaltunnel ->> npx lcaltunnel --port 4000
 const client = new ApolloClient({
-  uri: "http://3f02-218-154-176-12.ngrok.io/graphql",
+  uri: "http://5d4e-221-167-62-185.ngrok.io/graphql",
   cache: new InMemoryCache(),
 });
 
