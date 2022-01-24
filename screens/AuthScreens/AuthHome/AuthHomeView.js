@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import AuthButton from "../../components/Auth/AuthButton";
+import AuthButton from "../../../components/Auth/AuthButton";
 
 const Container = styled.View`
   flex: 1;
@@ -24,7 +24,7 @@ export default AuthHomeView = ({ goToSignIn, goToSignUp }) => {
   return (
     <Container>
       <Logo
-        source={require("../../assets/loadingPage/Logo-yellow.png")}
+        source={require("../../../assets/loadingPage/Logo-yellow.png")}
         resizeMode="contain"
       />
       <AuthBox>

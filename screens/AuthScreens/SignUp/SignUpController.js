@@ -15,7 +15,7 @@ import {
   REQUEST_ACCOUNT_CODE,
   SEARCH_USER,
 } from "./SignUpModel";
-import useExcuteQuery from "../../Hooks/useExcuteQuery";
+import useExcuteQuery from "../../../Hooks/useExcuteQuery";
 
 const LIMIT_TIME = 1000 * 180;
 const EMAIL_REX =

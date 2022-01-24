@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "styled-components/native";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
+import * as Facebook from "expo-facebook";
 
-import { userSignIn } from "../../apollo";
+import { userSignIn } from "../../../apollo";
 import SignInView from "./SignInView";
 import { SIGN_IN_MUTATION } from "./SignInModel";
+import { Alert } from "react-native";
 
 export default SignInController = ({ navigation, route }) => {
   const themeContext = useContext(ThemeContext);
@@ -23,6 +25,13 @@ export default SignInController = ({ navigation, route }) => {
   });
   const [turnOff, setTurnOff] = useState(true);
   const passwordRef = useRef();
+
+  // route로 넘겼는데 defaultValues가 안먹혀서
+  // 마운트될때 걍 한번더 줘버렸엉..
+  useEffect(() => {
+    setValue("email", route.params?.email);
+    setValue("password", route.params?.password);
+  }, []);
 
   // Qureys
   // Back-end APIs
@@ -111,6 +120,36 @@ export default SignInController = ({ navigation, route }) => {
     navigation.navigate("SignUp");
   };
 
+  // facebook signin
+  const facebookSignIn = async () => {
+    try {
+      await Facebook.initializeAsync({
+        // 앱 아이디
+        appId: "953549025266085",
+      });
+      const { type, token, expirationDate, permissions, declinedPermissions } =
+        await Facebook.logInWithReadPermissionsAsync({
+          // 더 많은 퍼미션 옵션 확인 -> https://developers.facebook.com/docs/permissions/reference#---------
+          permissions: ["public_profile", "email"],
+        });
+      if (type === "success") {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(
+          // get 방식으로? 일부 필드를 전달 받을 수 있음.
+          // 간편 가입도 구현해봐야할둣..
+          `https://graph.facebook.com/me?access_token=${token}&fields=id,last_name,first_name,email`
+        );
+        const data = await response.json();
+        Alert.alert("Logged in!", `Hi ${data.last_name}${data.first_name} !`);
+        console.log(data);
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  };
+
   return (
     <SignInView
       themeContext={themeContext}
@@ -127,6 +166,7 @@ export default SignInController = ({ navigation, route }) => {
       handleSubmit={handleSubmit}
       onValid={onValid}
       turnOff={turnOff}
+      facebookSignIn={facebookSignIn}
     />
   );
 };

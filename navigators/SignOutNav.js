@@ -5,9 +5,9 @@ import {
   TransitionSpecs,
 } from "@react-navigation/stack";
 
-import AuthHome from "../screens/AuthHome/index";
-import SignIn from "../screens/SignIn/index";
-import SignUp from "../screens/SignUp/index";
+import AuthHome from "../screens/AuthScreens/AuthHome/index";
+import SignIn from "../screens/AuthScreens/SignIn/index";
+import SignUp from "../screens/AuthScreens/SignUp/index";
 
 const SignOutNav = createStackNavigator();
 

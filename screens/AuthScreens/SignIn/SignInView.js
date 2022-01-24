@@ -8,9 +8,9 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 
-import Container from "../../components/Container";
-import AuthHeader from "../../components/Auth/AuthHeader";
-import AuthButton from "../../components/Auth/AuthButton";
+import Container from "../../../components/Container";
+import AuthHeader from "../../../components/Auth/AuthHeader";
+import AuthButton from "../../../components/Auth/AuthButton";
 
 //const statusbarHeight = StatusBar.currentHeight;
 
@@ -136,6 +136,7 @@ export default SignInView = ({
   handleSubmit,
   onValid,
   turnOff,
+  facebookSignIn,
 }) => {
   return (
     <>
@@ -217,7 +218,7 @@ export default SignInView = ({
             <EasySignInBox bgColor={"#F7D500"}>
               <Ionicons name="chatbubble-sharp" size={24} color="#573D1A" />
             </EasySignInBox>
-            <EasySignInBox bgColor={"#4064AC"}>
+            <EasySignInBox bgColor={"#4064AC"} onPress={facebookSignIn}>
               <FontAwesome name="facebook" size={26} color="#FBFBFB" />
             </EasySignInBox>
             <EasySignInBox bgColor={"#3897f0"}>

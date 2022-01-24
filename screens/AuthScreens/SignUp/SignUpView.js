@@ -1,18 +1,12 @@
 import React from "react";
-import Animated, {
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  withTiming,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
-import AuthGuide from "../../components/Auth/AuthGuide";
 
-import AuthHeader from "../../components/Auth/AuthHeader";
-import Button from "../../components/Button";
-import Container from "../../components/Container";
-import constants from "../../constants";
+import AuthGuide from "../../../components/Auth/AuthGuide";
+import AuthHeader from "../../../components/Auth/AuthHeader";
+import Button from "../../../components/Button";
+import Container from "../../../components/Container";
+import constants from "../../../constants";
 
 const CreateAccountLayout = styled.KeyboardAvoidingView`
   flex: 1;
