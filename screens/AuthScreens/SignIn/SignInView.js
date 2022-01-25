@@ -11,6 +11,7 @@ import {
 import Container from "../../../components/Container";
 import AuthHeader from "../../../components/Auth/AuthHeader";
 import AuthButton from "../../../components/Auth/AuthButton";
+import AlertModal from "../../../components/AlertModal";
 
 //const statusbarHeight = StatusBar.currentHeight;
 
@@ -125,6 +126,7 @@ export default SignInView = ({
   themeContext,
   goBack,
   goToSignUp,
+  goToFaceBookAuth,
   setValue,
   watch,
   emailCompleted,
@@ -136,10 +138,17 @@ export default SignInView = ({
   handleSubmit,
   onValid,
   turnOff,
-  facebookSignIn,
+  modalVisible,
+  setModalVisible,
 }) => {
   return (
     <>
+      <AlertModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        context={"모달 만들기!"}
+        isSingleOption={false}
+      />
       <AuthHeader title={"로그인"} leftOnPress={goBack} />
       <Container>
         <InputView>
@@ -215,10 +224,13 @@ export default SignInView = ({
         <EasySignInView>
           <EasySignText>간편 로그인 / 간편 가입</EasySignText>
           <EasySingBoxs>
-            <EasySignInBox bgColor={"#F7D500"}>
+            <EasySignInBox
+              bgColor={"#F7D500"}
+              onPress={() => setModalVisible(true)}
+            >
               <Ionicons name="chatbubble-sharp" size={24} color="#573D1A" />
             </EasySignInBox>
-            <EasySignInBox bgColor={"#4064AC"} onPress={facebookSignIn}>
+            <EasySignInBox bgColor={"#4064AC"} onPress={goToFaceBookAuth}>
               <FontAwesome name="facebook" size={26} color="#FBFBFB" />
             </EasySignInBox>
             <EasySignInBox bgColor={"#3897f0"}>

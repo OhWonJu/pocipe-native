@@ -2,14 +2,13 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "styled-components/native";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
-import * as Facebook from "expo-facebook";
 
 import { userSignIn } from "../../../apollo";
 import SignInView from "./SignInView";
 import { SIGN_IN_MUTATION } from "./SignInModel";
-import { Alert } from "react-native";
 
 export default SignInController = ({ navigation, route }) => {
+  //console.log(route.params?.email);
   const themeContext = useContext(ThemeContext);
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
@@ -24,6 +23,8 @@ export default SignInController = ({ navigation, route }) => {
     password: false,
   });
   const [turnOff, setTurnOff] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
   const passwordRef = useRef();
 
   // route로 넘겼는데 defaultValues가 안먹혀서
@@ -119,35 +120,8 @@ export default SignInController = ({ navigation, route }) => {
   const goToSignUp = () => {
     navigation.navigate("SignUp");
   };
-
-  // facebook signin
-  const facebookSignIn = async () => {
-    try {
-      await Facebook.initializeAsync({
-        // 앱 아이디
-        appId: "953549025266085",
-      });
-      const { type, token, expirationDate, permissions, declinedPermissions } =
-        await Facebook.logInWithReadPermissionsAsync({
-          // 더 많은 퍼미션 옵션 확인 -> https://developers.facebook.com/docs/permissions/reference#---------
-          permissions: ["public_profile", "email"],
-        });
-      if (type === "success") {
-        // Get the user's name using Facebook's Graph API
-        const response = await fetch(
-          // get 방식으로? 일부 필드를 전달 받을 수 있음.
-          // 간편 가입도 구현해봐야할둣..
-          `https://graph.facebook.com/me?access_token=${token}&fields=id,last_name,first_name,email`
-        );
-        const data = await response.json();
-        Alert.alert("Logged in!", `Hi ${data.last_name}${data.first_name} !`);
-        console.log(data);
-      } else {
-        // type === 'cancel'
-      }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
-    }
+  const goToFaceBookAuth = () => {
+    navigation.navigate("FaceBookAuth");
   };
 
   return (
@@ -155,6 +129,7 @@ export default SignInController = ({ navigation, route }) => {
       themeContext={themeContext}
       goBack={goBack}
       goToSignUp={goToSignUp}
+      goToFaceBookAuth={goToFaceBookAuth}
       setValue={setValue}
       watch={watch}
       emailCompleted={emailCompleted}
@@ -166,7 +141,8 @@ export default SignInController = ({ navigation, route }) => {
       handleSubmit={handleSubmit}
       onValid={onValid}
       turnOff={turnOff}
-      facebookSignIn={facebookSignIn}
+      modalVisible={modalVisible}
+      setModalVisible={setModalVisible}
     />
   );
 };
