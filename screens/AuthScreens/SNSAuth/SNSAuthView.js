@@ -43,16 +43,14 @@ const PasswordBox = styled.View`
 export default SNSAuthView = ({
   authType,
   loading,
-  setLoading,
   getSNSInfo,
-  setSNSInfo,
   goBack,
   goSignIn,
   isExistUser,
   isExistSNSKey = "none",
   userData,
   setUserData,
-  modalContext,
+  modalControl,
   modalVisible,
   setModalVisible,
   handleSubmit,
@@ -92,20 +90,40 @@ export default SNSAuthView = ({
   return (
     <>
       <AuthHeader title={`${authType} 간편 로그인/가입`} leftOnPress={goBack} />
-      {isExistSNSKey === "different" ? (
+      {modalControl.type === "exist" && (
         <AlertModal
-          context={modalContext}
+          context={modalControl.context}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           isSingleOption={true}
           confirm={goSignIn}
         />
-      ) : (
+      )}
+      {modalControl.type === "connect" && (
         <AlertModal
           context={modalContext}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           isSingleOption={false}
+          cancel={goSignIn}
+        />
+      )}
+      {modalControl.type === "create" && (
+        <AlertModal
+          context={modalContext}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          isSingleOption={false}
+          cancel={goSignIn}
+        />
+      )}
+      {modalControl.type === "done" && (
+        <AlertModal
+          context={modalContext}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          isSingleOption={false}
+          confirm={modalControl.confirmCall}
           cancel={goSignIn}
         />
       )}
