@@ -1,17 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "styled-components/native";
+import React, { useEffect } from "react";
 import * as Facebook from "expo-facebook";
+import { View, Text } from "react-native";
+import Loader from "../Loader";
 
-import FaceBookAuthView from "./FaceBookAuthView";
-import { GET_SNS_INFO } from "./FaceBookAuthModel";
-import useExcuteQuery from "../../../Hooks/useExcuteQuery";
-
-export default FaceBookAuthController = ({ navigation }) => {
-  const themeContext = useContext(ThemeContext);
-
-  const [loading, setLoading] = useState(true);
-  const [SNSInfo, setSNSInfo] = useState(null);
-
+export default FacebookAuth = ({ setUserData, getSNSInfo, loading }) => {
   const facebookSignIn = async () => {
     try {
       await Facebook.initializeAsync({
@@ -46,6 +38,7 @@ export default FaceBookAuthController = ({ navigation }) => {
       try {
         const data = await facebookSignIn();
         if (data) {
+          setUserData(data);
           getSNSInfo({
             variables: {
               email: data?.email,
@@ -60,24 +53,8 @@ export default FaceBookAuthController = ({ navigation }) => {
     prepare();
   }, []);
 
-  const onCompletedGetSNSInfo = ({ getSNSInfo }) => {
-    const { ok, snsKey } = getSNSInfo;
-    setSNSInfo({ ok, snsKey });
-    setLoading(false);
-  };
-  const getSNSInfo = useExcuteQuery(GET_SNS_INFO, onCompletedGetSNSInfo);
-
-  console.log("SNS INFO: ", SNSInfo);
-  const goBack = () => navigation.goBack();
-  const goSignIn = () => navigation.navigate("SignIn");
-
-  return (
-    <FaceBookAuthView
-      loading={loading}
-      goBack={goBack}
-      goSignIn={goSignIn}
-      isExistUser={SNSInfo.ok}
-      isExistSNSKey={SNSInfo.snsKey}
-    />
-  );
+  if (loading) {
+    return <Loader />;
+  }
+  return null;
 };

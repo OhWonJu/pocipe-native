@@ -8,7 +8,7 @@ import {
 import AuthHome from "../screens/AuthScreens/AuthHome/index";
 import SignIn from "../screens/AuthScreens/SignIn/index";
 import SignUp from "../screens/AuthScreens/SignUp/index";
-import FaceBookAuth from "../screens/AuthScreens/FaceBookAuth/index";
+import SNSAuth from "../screens/AuthScreens/SNSAuth/index";
 
 const SignOutNav = createStackNavigator();
 
@@ -46,7 +46,7 @@ export default () => {
       <SignOutNav.Screen name="AuthHome" component={AuthHome} />
       <SignOutNav.Screen name="SignIn" component={SignIn} />
       <SignOutNav.Screen name="SignUp" component={SignUp} />
-      <SignOutNav.Screen name="FaceBookAuth" component={FaceBookAuth} />
+      <SignOutNav.Screen name="SNSAuth" component={SNSAuth} />
     </SignOutNav.Navigator>
   );
 };

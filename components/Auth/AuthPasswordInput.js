@@ -51,11 +51,11 @@ const AuthPasswordInput = ({
       <TextInput
         placeholder={placeholder}
         value={value}
-        onChangeText={onChange}
+        onChangeText={text => onChange(text)}
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
         returnKeyType={returnKeyType}
-        onSubmitEditing={onSubmitEditing}
+        onSubmitEditing={()=>onSubmitEditing}
         autoCorrect={autoCorrect}
         secureTextEntry={passwordUnvisible}
         ref={ref}

@@ -11,7 +11,6 @@ import {
 import Container from "../../../components/Container";
 import AuthHeader from "../../../components/Auth/AuthHeader";
 import AuthButton from "../../../components/Auth/AuthButton";
-import AlertModal from "../../../components/AlertModal";
 
 //const statusbarHeight = StatusBar.currentHeight;
 
@@ -126,7 +125,7 @@ export default SignInView = ({
   themeContext,
   goBack,
   goToSignUp,
-  goToFaceBookAuth,
+  goSNSAuth,
   setValue,
   watch,
   emailCompleted,
@@ -138,17 +137,9 @@ export default SignInView = ({
   handleSubmit,
   onValid,
   turnOff,
-  modalVisible,
-  setModalVisible,
 }) => {
   return (
     <>
-      <AlertModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        context={"모달 만들기!"}
-        isSingleOption={false}
-      />
       <AuthHeader title={"로그인"} leftOnPress={goBack} />
       <Container>
         <InputView>
@@ -226,17 +217,26 @@ export default SignInView = ({
           <EasySingBoxs>
             <EasySignInBox
               bgColor={"#F7D500"}
-              onPress={() => setModalVisible(true)}
+              onPress={() => goSNSAuth("kakao")}
             >
               <Ionicons name="chatbubble-sharp" size={24} color="#573D1A" />
             </EasySignInBox>
-            <EasySignInBox bgColor={"#4064AC"} onPress={goToFaceBookAuth}>
+            <EasySignInBox
+              bgColor={"#4064AC"}
+              onPress={() => goSNSAuth("facebook")}
+            >
               <FontAwesome name="facebook" size={26} color="#FBFBFB" />
             </EasySignInBox>
-            <EasySignInBox bgColor={"#3897f0"}>
+            <EasySignInBox
+              bgColor={"#3897f0"}
+              onPress={() => goSNSAuth("twitter")}
+            >
               <AntDesign name="twitter" size={24} color="#FBFBFB" />
             </EasySignInBox>
-            <EasySignInBox bgColor={"#03C157"}>
+            <EasySignInBox
+              bgColor={"#03C157"}
+              onPress={() => goSNSAuth("naver")}
+            >
               <Text>N</Text>
             </EasySignInBox>
           </EasySingBoxs>

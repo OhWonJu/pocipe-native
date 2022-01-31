@@ -23,7 +23,6 @@ export default SignInController = ({ navigation, route }) => {
     password: false,
   });
   const [turnOff, setTurnOff] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const passwordRef = useRef();
 
@@ -120,8 +119,10 @@ export default SignInController = ({ navigation, route }) => {
   const goToSignUp = () => {
     navigation.navigate("SignUp");
   };
-  const goToFaceBookAuth = () => {
-    navigation.navigate("FaceBookAuth");
+  const goSNSAuth = type => {
+    navigation.navigate("SNSAuth", {
+      authType: type,
+    });
   };
 
   return (
@@ -129,7 +130,7 @@ export default SignInController = ({ navigation, route }) => {
       themeContext={themeContext}
       goBack={goBack}
       goToSignUp={goToSignUp}
-      goToFaceBookAuth={goToFaceBookAuth}
+      goSNSAuth={goSNSAuth}
       setValue={setValue}
       watch={watch}
       emailCompleted={emailCompleted}
@@ -141,8 +142,6 @@ export default SignInController = ({ navigation, route }) => {
       handleSubmit={handleSubmit}
       onValid={onValid}
       turnOff={turnOff}
-      modalVisible={modalVisible}
-      setModalVisible={setModalVisible}
     />
   );
 };
