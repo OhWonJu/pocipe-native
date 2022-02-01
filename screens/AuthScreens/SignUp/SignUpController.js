@@ -38,15 +38,13 @@ export default CreateAccount = ({ navigation, route }) => {
   // forms
   const { register, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
-      email: route.params ? route.params.email : "",
-      firstName: route.params ? route.params.firstName : "",
-      lastName: route.params ? route.params.lastName : "",
-      phoneNumber: route.params ? route.params.phoneNumber : "",
-      snsKey: route.params ? route.params.snsKey : "",
+      email: route.params?.email,
+      firstName: route.params?.firstName,
+      lastName: route.params?.lastName,
+      phoneNumber: route.params?.phoneNumber,
+      snsKey: route.params?.snsKey,
     },
   });
-
-  console.log("Route: ", route.params);
   // refs
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -91,7 +89,7 @@ export default CreateAccount = ({ navigation, route }) => {
   }, [emailCode, condition.emailConfirm]);
 
   useEffect(() => {
-    if (route.params.email) {
+    if (route.params?.email) {
       setCondition(prevState => {
         return { ...prevState, emailConfirm: true };
       });
