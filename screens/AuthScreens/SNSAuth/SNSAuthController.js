@@ -25,7 +25,7 @@ export default SNSAuthController = ({ navigation, route }) => {
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       email: userData?.email,
-      snsKey: userData?.id,
+      snsKey: userData?.snsKey,
     },
   });
 
@@ -48,13 +48,8 @@ export default SNSAuthController = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    register("userName");
     register("email");
     register("password");
-    register("snsKey");
-    register("firstName");
-    register("lastName");
-    register("phoneNumber");
   });
 
   useEffect(() => {
@@ -76,11 +71,26 @@ export default SNSAuthController = ({ navigation, route }) => {
           signinMutation({
             variables: {
               email: userData.email,
-              snsKey: userData.id,
+              snsKey: userData.snsKey,
             },
           });
         }
       }
+    }
+    if (SNSInfo && SNSInfo.ok === false) {
+      setModalVisible(true);
+      setModalControl({
+        type: "create",
+        context: "Pocipe 계정을 만드시겠어요?",
+        confirmCall: () =>
+          navigation.navigate("SignUp", {
+            email: userData?.email,
+            firstName: userData?.firstName,
+            lastName: userData?.lastName,
+            snsKey: userData?.snsKey,
+            phoneNumber: userData?.phoneNumber,
+          }),
+      });
     }
   }, [SNSInfo]);
 
@@ -91,11 +101,13 @@ export default SNSAuthController = ({ navigation, route }) => {
   };
   const getSNSInfo = useExcuteQuery(GET_SNS_INFO, onCompletedGetSNSInfo);
 
-  const onCompletedSNSSignIn = data => {
+  const onCompletedSNSSignIn = async data => {
     const {
       loginWithSNS: { ok, token },
     } = data;
-    if (ok) {
+    if (SNSInfo.snsKey === "same") {
+      await userSignIn(token);
+    } else if (ok) {
       setLoading(false);
       setModalVisible(true);
       setModalControl({
@@ -118,7 +130,7 @@ export default SNSAuthController = ({ navigation, route }) => {
         signinMutation({
           variables: {
             email: userData.email,
-            snsKey: userData.id,
+            snsKey: userData.snsKey,
           },
         });
       }
@@ -138,14 +150,14 @@ export default SNSAuthController = ({ navigation, route }) => {
         variables: {
           email: userData.email,
           password: data.password,
-          snsKey: userData.id,
+          snsKey: userData.snsKey,
         },
       });
     }
   };
 
-  console.log("SNS INFO: ", SNSInfo);
-  console.log("USER DATA", userData);
+  //console.log("SNS INFO: ", SNSInfo);
+  // console.log("USER DATA", userData);
   const goBack = () => navigation.goBack();
   const goSignIn = () => navigation.navigate("SignIn");
 

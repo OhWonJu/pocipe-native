@@ -28,6 +28,7 @@ const ModalContextText = styled.Text`
 const ModalButtonBox = styled.View`
   height: 30%;
   width: 100%;
+  padding: 10px;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;

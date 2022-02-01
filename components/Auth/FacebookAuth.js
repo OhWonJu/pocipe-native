@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import * as Facebook from "expo-facebook";
-import { View, Text } from "react-native";
 import Loader from "../Loader";
 
 export default FacebookAuth = ({ setUserData, getSNSInfo, loading }) => {
@@ -23,7 +22,13 @@ export default FacebookAuth = ({ setUserData, getSNSInfo, loading }) => {
           `https://graph.facebook.com/me?access_token=${token}&fields=id,last_name,first_name,email`
         );
         const data = await response.json();
-        return data;
+        const reformData = {
+          email: data.email,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          snsKey: data.id,
+        };
+        return reformData;
       } else {
         // type === 'cancel'
         return null;
@@ -42,7 +47,7 @@ export default FacebookAuth = ({ setUserData, getSNSInfo, loading }) => {
           getSNSInfo({
             variables: {
               email: data?.email,
-              snsKey: data?.id,
+              snsKey: data?.snsKey,
             },
           });
         }

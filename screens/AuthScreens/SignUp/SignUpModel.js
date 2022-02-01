@@ -25,6 +25,7 @@ export const CREATE_ACCOUNT = gql`
     $userName: String!
     $email: String!
     $password: String!
+    $snsKey: String
     $phoneNumber: String
   ) {
     createAccount(
@@ -33,6 +34,7 @@ export const CREATE_ACCOUNT = gql`
       userName: $userName
       email: $email
       password: $password
+      snsKey: $snsKey
       phoneNumber: $phoneNumber
     ) {
       ok

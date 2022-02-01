@@ -8,9 +8,9 @@ import SignInView from "./SignInView";
 import { SIGN_IN_MUTATION } from "./SignInModel";
 
 export default SignInController = ({ navigation, route }) => {
-  //console.log(route.params?.email);
+  // console.log(route.params);
   const themeContext = useContext(ThemeContext);
-  const { register, handleSubmit, setValue, watch } = useForm({
+  const { register, handleSubmit, getValues, setValue, watch } = useForm({
     defaultValues: {
       // 이렇게 삼항을 줄일수도....? 데이터 보호..
       email: route.params?.email,
@@ -26,6 +26,10 @@ export default SignInController = ({ navigation, route }) => {
 
   const passwordRef = useRef();
 
+  useEffect(() => {
+    register("email");
+    register("password");
+  }, [register]);
   // route로 넘겼는데 defaultValues가 안먹혀서
   // 마운트될때 걍 한번더 줘버렸엉..
   useEffect(() => {
@@ -57,11 +61,6 @@ export default SignInController = ({ navigation, route }) => {
       });
     }
   };
-
-  useEffect(() => {
-    register("email");
-    register("password");
-  }, [register]);
 
   // Ref
   const onEmailNext = () => {

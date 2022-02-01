@@ -86,6 +86,7 @@ export default SNSAuthView = ({
       </InputView>
     );
   };
+
   // authtype: kakao, facebook, twitter, naver //
   return (
     <>
@@ -101,32 +102,24 @@ export default SNSAuthView = ({
       )}
       {modalControl.type === "connect" && (
         <AlertModal
-          context={modalContext}
+          context={modalControl.context}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           isSingleOption={false}
           cancel={goSignIn}
         />
       )}
-      {modalControl.type === "create" && (
-        <AlertModal
-          context={modalContext}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          isSingleOption={false}
-          cancel={goSignIn}
-        />
-      )}
-      {modalControl.type === "done" && (
-        <AlertModal
-          context={modalContext}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          isSingleOption={false}
-          confirm={modalControl.confirmCall}
-          cancel={goSignIn}
-        />
-      )}
+      {modalControl.type === "done" ||
+        (modalControl.type === "create" && (
+          <AlertModal
+            context={modalControl.context}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            isSingleOption={modalControl.type === "done" ? true : false}
+            confirm={modalControl.confirmCall}
+            cancel={goSignIn}
+          />
+        ))}
       <Container>
         {authType === "카카오" && (
           <KakaoAuth

@@ -13,7 +13,7 @@ import Animated, {
 import styled from "styled-components/native";
 
 const Container = styled.View`
-  position: absolute;
+  /* position: absolute; */
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -21,8 +21,8 @@ const Container = styled.View`
   z-index: 999;
 `;
 const Loader = styled(Animated.View)`
-  height: 120px;
-  width: 120px;
+  height: 100px;
+  width: 100px;
   padding: 15px;
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 60px;

@@ -21,7 +21,7 @@ const LIMIT_TIME = 1000 * 180;
 const EMAIL_REX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export default CreateAccount = ({ navigation }) => {
+export default CreateAccount = ({ navigation, route }) => {
   // 가입버튼 제어를 위한 state
   const [condition, setCondition] = useState({
     userNameVerify: false, // 유저명 양식
@@ -38,11 +38,15 @@ export default CreateAccount = ({ navigation }) => {
   // forms
   const { register, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
+      email: route.params ? route.params.email : "",
+      firstName: route.params ? route.params.firstName : "",
+      lastName: route.params ? route.params.lastName : "",
+      phoneNumber: route.params ? route.params.phoneNumber : "",
+      snsKey: route.params ? route.params.snsKey : "",
     },
   });
+
+  console.log("Route: ", route.params);
   // refs
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -67,6 +71,7 @@ export default CreateAccount = ({ navigation }) => {
     register("firstName");
     register("lastName");
     register("phoneNumber");
+    register("snsKey");
   }, [register]);
 
   // timer Effects
@@ -84,7 +89,13 @@ export default CreateAccount = ({ navigation }) => {
       setTime(LIMIT_TIME);
     }
   }, [emailCode, condition.emailConfirm]);
+
   useEffect(() => {
+    if (route.params.email) {
+      setCondition(prevState => {
+        return { ...prevState, emailConfirm: true };
+      });
+    }
     return () => {
       setTime(LIMIT_TIME);
     };
@@ -170,6 +181,7 @@ export default CreateAccount = ({ navigation }) => {
           userName: data.userName,
           email: data.email,
           password: data.password,
+          snsKey: data.snsKey,
           phoneNumber: data.phoneNumber,
         },
       });
