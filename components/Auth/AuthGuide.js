@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components/native";
 import Animated, {
   Extrapolate,
@@ -44,25 +44,36 @@ const MainText = styled(Animated.Text)`
   color: ${props => props.theme.yellowColor};
   font-weight: 700;
   font-size: 40px;
-  top: 28%;
+  top: 30%;
   left: 2%;
 `;
 const SubText = styled(Animated.Text)`
   color: ${props => props.theme.yellowColor};
   font-size: ${props => (props.txSize ? props.txSize : 15)}px;
   font-weight: 700;
-  top: 30%;
+  top: 32%;
   left: ${props => (props.left ? props.left : 2)}%;
 `;
 
 // step에 따라 뷰 변경
 const AuthGuide = ({ guideKey, trigger, openEvent, closeEvent }) => {
   const themeContext = useContext(ThemeContext);
-
   const step = useDerivedValue(() => trigger);
 
+  const [firstAnimeKey, setFirstAnimeKey] = useState(0);
+  useEffect(() => {
+    if (guideKey == 1) {
+      setFirstAnimeKey(0);
+      setTimeout(() => {
+        setFirstAnimeKey(guideKey);
+      }, 300);
+    }
+  }, []);
+
+  //console.log(a);
+
   const firstY = useDerivedValue(() => {
-    return interpolate(guideKey, [0, 1], [10, 0], Extrapolate.CLAMP);
+    return interpolate(firstAnimeKey, [0, 1], [10, 0], Extrapolate.CLAMP);
   });
   const secondY = useDerivedValue(() => {
     return interpolate(guideKey, [0, 1], [0, 10], Extrapolate.CLAMP);
@@ -71,8 +82,8 @@ const AuthGuide = ({ guideKey, trigger, openEvent, closeEvent }) => {
     return interpolate(guideKey, [0, 1], [1, -1], Extrapolate.CLAMP);
   });
   const firstOpacity = useDerivedValue(() => {
-    return interpolate(guideKey, [0, 1], [0, 1], Extrapolate.CLAMP)
-  })
+    return interpolate(firstAnimeKey, [0, 1], [0, 1], Extrapolate.CLAMP);
+  });
   const secondOpacity = useDerivedValue(() => {
     return interpolate(guideKey, [0, 1], [1, 0], Extrapolate.CLAMP);
   });

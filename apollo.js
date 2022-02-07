@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, makeVar } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const isSignInVar = makeVar(false);
-export const tonkenVar = makeVar(""); // 매번 storage를 불러오지 않기 위해
+export const tokenVar = makeVar(""); // 매번 storage를 불러오지 않기 위해
 
 // 비동기라..
 export const userSignIn = async token => {
@@ -13,7 +13,7 @@ export const userSignIn = async token => {
       ["signedIn", JSON.stringify("true")],
     ]);
     isSignInVar(true);
-    tonkenVar(token);
+    tokenVar(token);
   } catch (e) {
     console.log("SET ERROR: ", e);
   }
@@ -24,7 +24,7 @@ export const userSignOut = async () => {
     await AsyncStorage.removeItem("token");
     await AsyncStorage.setItem("signedIn", JSON.stringify("false"));
     isSignInVar(false);
-    tonkenVar("");
+    tokenVar("");
   } catch (e) {
     console.log("SignOutERROR: ", e);
   }
@@ -36,7 +36,7 @@ export const userSignOut = async () => {
 // 두 가지 방법 중 하나를 써야..
 // lcaltunnel ->> npx lcaltunnel --port 4000
 const client = new ApolloClient({
-  uri: "http://c177-118-235-43-186.ngrok.io/graphql",
+  uri: "http://ba3c-221-167-62-185.ngrok.io/graphql",
   cache: new InMemoryCache(),
 });
 

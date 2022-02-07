@@ -16,8 +16,9 @@ const WelcomeView = styled.View`
   width: ${constants.width}px;
   /* width: 100%; */
   right: 20px;
-  height: 30%;
-  padding: 10px;
+  height: 25%;
+  padding: 0px 10px 10px 10px;
+  margin: 0px 0px 20px 0px;
 `;
 
 const RequiredInputView = styled(Animated.View)`

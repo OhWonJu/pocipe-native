@@ -14,7 +14,7 @@ import { lightTheme, darkTheme } from "./Styles/Theme";
 import SplashView from "./screens/SplashView";
 import SignOutNav from "./navigators/SignOutNav";
 import SignInNav from "./navigators/SignInNav";
-import client, { isSignInVar, tonkenVar } from "./apollo";
+import client, { isSignInVar, tokenVar } from "./apollo";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -47,7 +47,7 @@ export default function App() {
         // ReactiveVar update
         // 로그인이 되면 토큰값을 저장을 해놔서..나중에 다시 getItem을 안해도 되게끔..
         isSignInVar(true);
-        tonkenVar(token);
+        tokenVar(token);
       }
     } catch (e) {
       console.log("getTOKEN ERROR: ", e);

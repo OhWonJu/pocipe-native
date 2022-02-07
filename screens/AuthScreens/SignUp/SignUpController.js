@@ -169,8 +169,8 @@ export default CreateAccount = ({ navigation, route }) => {
 
   // Form Hook
   const onValid = data => {
-    console.log(data);
-    console.log(condition);
+    //console.log(data);
+    //console.log(condition);
     if (!createLoading) {
       createAccountMutation({
         variables: {
@@ -257,10 +257,10 @@ export default CreateAccount = ({ navigation, route }) => {
   const [trigger, setTrigger] = useState(1);
   const ANIME_TIME = 400;
   const animationKey = useDerivedValue(() => trigger);
+
   const requiredInputViewX = useDerivedValue(() => {
     return interpolate(animationKey.value, [0, 1], [500, 0], Extrapolate.CLAMP);
   });
-
   const SubJoinViewX = useDerivedValue(() => {
     return interpolate(
       animationKey.value,
@@ -272,6 +272,7 @@ export default CreateAccount = ({ navigation, route }) => {
   const SubJoinViewOpacity = useDerivedValue(() => {
     return interpolate(animationKey.value, [0, 1], [1, 0], Extrapolate.CLAMP);
   });
+
   const requiredInputAnimeStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(animationKey.value, {
