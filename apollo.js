@@ -9,8 +9,8 @@ export const userSignIn = async token => {
   //await AsyncStorage.setItem("token", JSON.stringify(token));
   try {
     await AsyncStorage.multiSet([
-      ["token", JSON.stringify(token)],
-      ["signedIn", JSON.stringify("true")],
+      ["token", token],
+      ["signedIn", "yes"],
     ]);
     isSignInVar(true);
     tokenVar(token);
@@ -22,7 +22,7 @@ export const userSignIn = async token => {
 export const userSignOut = async () => {
   try {
     await AsyncStorage.removeItem("token");
-    await AsyncStorage.setItem("signedIn", JSON.stringify("false"));
+    await AsyncStorage.setItem("signedIn", "no");
     isSignInVar(false);
     tokenVar("");
   } catch (e) {
@@ -35,9 +35,12 @@ export const userSignOut = async () => {
 // ngrok, localtunnel을 사용하는거
 // 두 가지 방법 중 하나를 써야..
 // lcaltunnel ->> npx lcaltunnel --port 4000
+const TEMP_URI = "http://3560-221-167-62-185.ngrok.io ";
+
 const client = new ApolloClient({
-  uri: "http://ba3c-221-167-62-185.ngrok.io/graphql",
+  uri: `${TEMP_URI.trim()}/graphql`,
   cache: new InMemoryCache(),
 });
+
 
 export default client;

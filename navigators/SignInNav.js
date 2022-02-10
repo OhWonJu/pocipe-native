@@ -1,26 +1,20 @@
-import React from "react"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Home from "../screens/Home";
-import Search from "../screens/Search";
-import Profile from "../screens/Profile";
-import OptionMenu from "../screens/OptionMenu";
+import MainBottomTabNav from "./MainBottomTabNav";
+import RecipeDetail from "../screens/RecipeDetailScreens/RecipeDetail";
 
-const Tabs = createBottomTabNavigator();
+const Stacks = createNativeStackNavigator();
 
 export default () => {
   return (
-    <Tabs.Navigator
+    <Stacks.Navigator
       screenOptions={{
-        //headerShown: false,
-        gestureEnabled: true,
         headerShown: false,
       }}
     >
-      <Tabs.Screen name={"Home"} component={Home} />
-      <Tabs.Screen name={"Search"} component={Search} />
-      <Tabs.Screen name={"Profile"} component={Profile} />
-      <Tabs.Screen name={"OptionMenu"} component={OptionMenu} />
-    </Tabs.Navigator>
+      <Stacks.Screen name="MainBottomTabNav" component={MainBottomTabNav} />
+      <Stacks.Screen name="RecipeDetail" component={RecipeDetail} />
+    </Stacks.Navigator>
   );
 };

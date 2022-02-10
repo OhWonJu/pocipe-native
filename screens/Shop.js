@@ -2,12 +2,12 @@ import React from "react"
 import { View, Text } from "react-native";
 import Container from "../components/Container";
 
-export default OptionMenu = () => {
+export default Shop = () => {
   return (
     <>
       <Container>
         <View>
-          <Text>Options</Text>
+          <Text>Will be sooooon...🔧</Text>
         </View>
       </Container>
     </>
