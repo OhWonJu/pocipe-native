@@ -9,7 +9,7 @@ const Container = styled.TouchableOpacity`
 `;
 
 // TouchableWithoutFeedback은 자식 컴포넌트가 하나로 묶여서 와야하나봄..
-export default CreateAccount = ({ children }) => {
+export default ({ children }) => {
   const dismissKeyboard = () => {
     // RN Keyboard API
     Keyboard.dismiss();

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Text } from "react-native";
 import { ThemeContext } from "styled-components/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -8,17 +8,50 @@ import ForYou from "../screens/HomeScreens/ForYouScreens/ForYou";
 import Subscribes from "../screens/HomeScreens/SubscribesScreens/Subscribes";
 import constants from "../constants";
 
-const Tabs = createMaterialTopTabNavigator();
-
 const FONT_SIZE = 17;
 const FONT_WEIGHT = "bold";
+// 상수는 컴포넌트 내에서만 존재하나벼
+// props로 넘어가면 잃어버리는둣,,?
 
-export default () => {
+const Tabs = createMaterialTopTabNavigator();
+
+export default ({
+  headerHeight,
+  scrollY,
+  tabBarTranslateY,
+  onMomentumScrollBegin,
+  onMomentumScrollEnd,
+  onScrollEndDrag,
+}) => {
   const themeContext = useContext(ThemeContext);
 
-  const NEWRECIPES = () => <NewRecipes />;
-  const FORYOU = () => <ForYou />;
-  const SUBSCRIBES = () => <Subscribes />;
+  const NEWRECIPES = () => (
+    <NewRecipes
+      headerHeight={headerHeight}
+      scrollY={scrollY}
+      onMomentumScrollBegin={onMomentumScrollBegin}
+      onMomentumScrollEnd={onMomentumScrollEnd}
+      onScrollEndDrag={onScrollEndDrag}
+    />
+  );
+  const FORYOU = () => (
+    <ForYou
+      headerHeight={headerHeight}
+      scrollY={scrollY}
+      onMomentumScrollBegin={onMomentumScrollBegin}
+      onMomentumScrollEnd={onMomentumScrollEnd}
+      onScrollEndDrag={onScrollEndDrag}
+    />
+  );
+  const SUBSCRIBES = () => (
+    <Subscribes
+      headerHeight={headerHeight}
+      scrollY={scrollY}
+      onMomentumScrollBegin={onMomentumScrollBegin}
+      onMomentumScrollEnd={onMomentumScrollEnd}
+      onScrollEndDrag={onScrollEndDrag}
+    />
+  );
 
   return (
     <Tabs.Navigator
@@ -27,10 +60,11 @@ export default () => {
           backgroundColor: themeContext.bgColor,
           borderBottomWidth: 0,
           elevation: 0, // 그림자 제거 - 고도 옵션이라.....0이면 딱 달라붙어있는 너낌?
+          transform: [{ translateY: tabBarTranslateY }],
         },
         tabBarContentContainerStyle: {
           width: constants.width,
-          marginBottom: 5,
+          marginBottom: 4,
           marginLeft: 5,
         },
         tabBarItemStyle: {

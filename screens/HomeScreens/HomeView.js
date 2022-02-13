@@ -8,28 +8,43 @@ import HomeTopTabNav from "../../navigators/HomeTopTabNav";
 const StatusBar = styled.View`
   background-color: ${props => props.theme.bgColor};
   height: ${constants.statusBarHeight}px;
+  z-index: 999;
 `;
 
-const HeaderBox = styled.View`
-  elevation: 4;
-`;
-
-const Footer = styled.View`
-  padding: 0px 20px 0px 20px;
-  height: 200px;
+const Container = styled.View`
+  flex: 1;
   background-color: ${props => props.theme.bgColor};
-  justify-content: center;
-  align-items: center;
 `;
 
-
-
-export default HomeView = () => {
+export default HomeView = ({
+  headerHeight,
+  setHeaderHeight,
+  scrollY,
+  headerTranslateY,
+  tabBarTranslateY,
+  onMomentumScrollBegin,
+  onMomentumScrollEnd,
+  onScrollEndDrag,
+}) => {
   return (
     <>
       <StatusBar />
-      <HomeHeader />
-      <HomeTopTabNav />
+      <Container>
+        {headerHeight > 0 ? (
+          <HomeTopTabNav
+            headerHeight={headerHeight}
+            scrollY={scrollY}
+            tabBarTranslateY={tabBarTranslateY}
+          />
+        ) : null}
+        <HomeHeader
+          setHeaderHeight={setHeaderHeight}
+          headerTranslateY={headerTranslateY}
+          onMomentumScrollBegin={onMomentumScrollBegin}
+          onMomentumScrollEnd={onMomentumScrollEnd}
+          onScrollEndDrag={onScrollEndDrag}
+        />
+      </Container>
     </>
   );
 };

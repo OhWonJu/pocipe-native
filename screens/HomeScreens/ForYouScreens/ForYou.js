@@ -3,18 +3,19 @@ import { Text } from "react-native";
 import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 
-import Container from "../../../components/Container";
+import CollapsibleTabViewWrapper from "../../../components/CollapsibleTabNav/CollapsibleTabViewWrapper";
 
-const ScrollView = styled(Animated.ScrollView)``;
-
-export default ForYou = () => {
+export default ForYou = ({ headerHeight, scrollY }) => {
   return (
-    <>
-      <Container>
-        <ScrollView showsVerticalScrollIndicator={false} >
-          <Text>ForYouScreens</Text>
-        </ScrollView>
-      </Container>
-    </>
+    <CollapsibleTabViewWrapper headerHeight={headerHeight} scrollY={scrollY}>
+      {new Array(20).fill(null).map((_, index) => {
+        return (
+          // eslint-disable-next-line react/no-array-index-key
+          <Text key={index} style={{ paddingVertical: 20, color: "blue" }}>
+            {index}
+          </Text>
+        );
+      })}
+    </CollapsibleTabViewWrapper>
   );
 };

@@ -7,7 +7,7 @@ import Container from "../../../components/Container";
 
 const ScrollView = styled(Animated.ScrollView)``;
 
-export default Subscribes = () => {
+export default Subscribes = ({ headerHeight, scrollY }) => {
   return (
     <>
       <Container>

@@ -35,7 +35,7 @@ export const userSignOut = async () => {
 // ngrok, localtunnel을 사용하는거
 // 두 가지 방법 중 하나를 써야..
 // lcaltunnel ->> npx lcaltunnel --port 4000
-const TEMP_URI = "http://3560-221-167-62-185.ngrok.io ";
+const TEMP_URI = "http://a9c0-221-167-62-185.ngrok.io ";
 
 const client = new ApolloClient({
   uri: `${TEMP_URI.trim()}/graphql`,

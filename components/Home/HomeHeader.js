@@ -2,10 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 
 import { userSignOut } from "../../apollo";
-
-const Container = styled.View`
-  background-color: ${props => props.theme.bgColor};
-`;
+import CollapsibleTabHeaderWrapper from "../CollapsibleTabNav/CollapsibleTabHeaderWrapper";
 
 const HeaderBox = styled.View`
   flex-direction: row;
@@ -47,7 +44,7 @@ const Reconmmend = styled.View`
   height: 200px;
   justify-content: center;
   background-color: ${props => props.theme.bgColor};
-  margin: 10px 0px 5px 0px;
+  margin: 10px 0px 4px 0px;
 `;
 const Box = styled.View`
   width: 300px;
@@ -57,7 +54,7 @@ const Box = styled.View`
   border-radius: 25px;
 `;
 
-export default HomeHeader = () => {
+export default HomeHeader = ({ setHeaderHeight, headerTranslateY }) => {
   const signOut = async () => await userSignOut();
 
   const PAGES = [
@@ -88,7 +85,10 @@ export default HomeHeader = () => {
   ];
 
   return (
-    <Container >
+    <CollapsibleTabHeaderWrapper
+      setHeaderHeight={setHeaderHeight}
+      headerTranslateY={headerTranslateY}
+    >
       <HeaderBox>
         <Left>
           <TouchableWithoutFeedback onPress={signOut}>
@@ -114,6 +114,6 @@ export default HomeHeader = () => {
           ))}
         </ScrollView>
       </Reconmmend>
-    </Container>
+    </CollapsibleTabHeaderWrapper>
   );
 };
