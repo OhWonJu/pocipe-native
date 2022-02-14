@@ -25,6 +25,12 @@ export default HomeView = ({
   onMomentumScrollBegin,
   onMomentumScrollEnd,
   onScrollEndDrag,
+  tabRoutes,
+  tabIndex,
+  setTabRoutes,
+  onTabIndexChange,
+  onTabPress,
+  listArrRef,
 }) => {
   return (
     <>
@@ -35,14 +41,20 @@ export default HomeView = ({
             headerHeight={headerHeight}
             scrollY={scrollY}
             tabBarTranslateY={tabBarTranslateY}
+            onMomentumScrollBegin={onMomentumScrollBegin}
+            onMomentumScrollEnd={onMomentumScrollEnd}
+            onScrollEndDrag={onScrollEndDrag}
+            tabRoutes={tabRoutes}
+            tabIndex={tabIndex}
+            setTabRoutes={setTabRoutes}
+            onTabIndexChange={onTabIndexChange}
+            onTabPress={onTabPress}
+            listArrRef={listArrRef}
           />
         ) : null}
         <HomeHeader
           setHeaderHeight={setHeaderHeight}
           headerTranslateY={headerTranslateY}
-          onMomentumScrollBegin={onMomentumScrollBegin}
-          onMomentumScrollEnd={onMomentumScrollEnd}
-          onScrollEndDrag={onScrollEndDrag}
         />
       </Container>
     </>

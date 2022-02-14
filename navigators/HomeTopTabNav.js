@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Text } from "react-native";
 import { ThemeContext } from "styled-components/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -22,34 +22,68 @@ export default ({
   onMomentumScrollBegin,
   onMomentumScrollEnd,
   onScrollEndDrag,
+  tabRoutes,
+  tabIndex,
+  setTabRoutes,
+  onTabIndexChange,
+  onTabPress,
+  listArrRef,
 }) => {
   const themeContext = useContext(ThemeContext);
 
-  const NEWRECIPES = () => (
+  useEffect(() => {
+    setTabRoutes(["NewRecipes", "ForYou", "Subscribes"]);
+  }, []);
+
+  const NEWRECIPES = ({ navigation, route }) => (
     <NewRecipes
+      navigation={navigation}
+      route={route}
+      idx={0}
+      tabRoutes={tabRoutes}
+      tabIndex={tabIndex}
+      listArrRef={listArrRef}
       headerHeight={headerHeight}
       scrollY={scrollY}
       onMomentumScrollBegin={onMomentumScrollBegin}
       onMomentumScrollEnd={onMomentumScrollEnd}
       onScrollEndDrag={onScrollEndDrag}
+      onTabIndexChange={onTabIndexChange}
+      onTabPress={onTabPress}
     />
   );
-  const FORYOU = () => (
+  const FORYOU = ({ navigation, route }) => (
     <ForYou
+      navigation={navigation}
+      route={route}
+      idx={1}
+      tabRoutes={tabRoutes}
+      tabIndex={tabIndex}
+      listArrRef={listArrRef}
       headerHeight={headerHeight}
       scrollY={scrollY}
       onMomentumScrollBegin={onMomentumScrollBegin}
       onMomentumScrollEnd={onMomentumScrollEnd}
       onScrollEndDrag={onScrollEndDrag}
+      onTabIndexChange={onTabIndexChange}
+      onTabPress={onTabPress}
     />
   );
-  const SUBSCRIBES = () => (
+  const SUBSCRIBES = ({ navigation, route }) => (
     <Subscribes
+      navigation={navigation}
+      route={route}
+      idx={2}
+      tabRoutes={tabRoutes}
+      tabIndex={tabIndex}
+      listArrRef={listArrRef}
       headerHeight={headerHeight}
       scrollY={scrollY}
       onMomentumScrollBegin={onMomentumScrollBegin}
       onMomentumScrollEnd={onMomentumScrollEnd}
       onScrollEndDrag={onScrollEndDrag}
+      onTabIndexChange={onTabIndexChange}
+      onTabPress={onTabPress}
     />
   );
 

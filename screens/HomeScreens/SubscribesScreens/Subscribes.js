@@ -1,20 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
-import Animated from "react-native-reanimated";
-import styled from "styled-components/native";
+import CollapsibleTabViewWrapper from "../../../components/CollapsibleTabNav/CollapsibleTabViewWrapper";
 
-import Container from "../../../components/Container";
+export default Subscribes = ({
+  navigation,
+  route,
+  idx,
+  tabRoutes,
+  tabIndex,
+  listArrRef,
+  headerHeight,
+  scrollY,
+  onMomentumScrollBegin,
+  onMomentumScrollEnd,
+  onScrollEndDrag,
+  onTabIndexChange,
+  onTabPress,
+}) => {
+  const isFocused = route.name === tabRoutes[tabIndex];
 
-const ScrollView = styled(Animated.ScrollView)``;
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", e => {
+      onTabIndexChange(idx);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
-export default Subscribes = ({ headerHeight, scrollY }) => {
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("tabPress", e => {
+      onTabPress(idx);
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
-    <>
-      <Container>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text>Subscribes</Text>
-        </ScrollView>
-      </Container>
-    </>
+    <CollapsibleTabViewWrapper
+      route={route}
+      listArrRef={listArrRef}
+      headerHeight={headerHeight}
+      scrollY={scrollY}
+      isFocused={isFocused}
+      onMomentumScrollBegin={onMomentumScrollBegin}
+      onMomentumScrollEnd={onMomentumScrollEnd}
+      onScrollEndDrag={onScrollEndDrag}
+    >
+      <Text style={{ paddingVertical: 20 }}>SUBSCRIPTIONS💛</Text>
+    </CollapsibleTabViewWrapper>
   );
 };
