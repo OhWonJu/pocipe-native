@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { View } from "react-native";
 import styled from "styled-components/native";
 
 import { userSignOut } from "../../apollo";
-import CollapsibleTabHeaderWrapper from "../CollapsibleTabNav/CollapsibleTabHeaderWrapper";
+
+const Container = styled.View`
+  background-color: ${props => props.theme.bgColor};
+`;
 
 const HeaderBox = styled.View`
   flex-direction: row;
-  background-color: ${props => props.theme.bgColor};
   /* background-color: #f6b93b; */
   height: 55px;
   width: 100%;
@@ -43,7 +46,6 @@ const ScrollView = styled.ScrollView`
 const Reconmmend = styled.View`
   height: 200px;
   justify-content: center;
-  background-color: ${props => props.theme.bgColor};
   margin: 10px 0px 4px 0px;
 `;
 const Box = styled.View`
@@ -54,7 +56,12 @@ const Box = styled.View`
   border-radius: 25px;
 `;
 
-export default HomeHeader = ({ setHeaderHeight, headerTranslateY }) => {
+export default HomeHeader = ({ setHeaderHeight, goToProfile }) => {
+  const headerOnLayout = useCallback(event => {
+    const { height } = event.nativeEvent.layout;
+    setHeaderHeight(height);
+  }, []);
+
   const signOut = async () => await userSignOut();
 
   const PAGES = [
@@ -85,13 +92,10 @@ export default HomeHeader = ({ setHeaderHeight, headerTranslateY }) => {
   ];
 
   return (
-    <CollapsibleTabHeaderWrapper
-      setHeaderHeight={setHeaderHeight}
-      headerTranslateY={headerTranslateY}
-    >
+    <Container onLayout={headerOnLayout} pointerEvents="box-none">
       <HeaderBox>
         <Left>
-          <TouchableWithoutFeedback onPress={signOut}>
+          <TouchableWithoutFeedback onPress={goToProfile}>
             <Logo
               source={require("../../assets/loadingPage/Logo-yellow.png")}
               resizeMode="contain"
@@ -114,6 +118,6 @@ export default HomeHeader = ({ setHeaderHeight, headerTranslateY }) => {
           ))}
         </ScrollView>
       </Reconmmend>
-    </CollapsibleTabHeaderWrapper>
+    </Container>
   );
 };

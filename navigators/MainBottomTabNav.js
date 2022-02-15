@@ -11,8 +11,10 @@ const Tabs = createBottomTabNavigator();
 
 // 여기서 스택으로 레시피 디테일 뷰 등을 넣어놓고..
 // 여기 안에서 tabNav를 불러오는 형식이 낫지 않을까??
+
 export default () => {
   const themeContext = useContext(ThemeContext);
+
   return (
     <Tabs.Navigator
       screenOptions={{

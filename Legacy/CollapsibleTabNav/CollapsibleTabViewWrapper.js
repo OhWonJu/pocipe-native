@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { Animated, Text, View } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { Animated } from "react-native";
 import styled from "styled-components/native";
 import constants from "../../constants";
 
@@ -46,10 +46,10 @@ export default ({
               )
             : null
         }
-        bounces={false}
         onMomentumScrollBegin={onMomentumScrollBegin}
         onMomentumScrollEnd={onMomentumScrollEnd}
         onScrollEndDrag={onScrollEndDrag}
+        bounces={false}
       >
         {children}
       </Animated.ScrollView>

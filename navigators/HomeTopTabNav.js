@@ -1,100 +1,50 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Text } from "react-native";
 import { ThemeContext } from "styled-components/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createMaterialCollapsibleTopTabNavigator } from "react-native-collapsible-tab-view";
+import styled from "styled-components/native";
 
+import constants from "../constants";
+import HomeHeader from "../components/Home/HomeHeader";
 import NewRecipes from "../screens/HomeScreens/NewRecipesScreens/NewRecipes";
 import ForYou from "../screens/HomeScreens/ForYouScreens/ForYou";
 import Subscribes from "../screens/HomeScreens/SubscribesScreens/Subscribes";
-import constants from "../constants";
 
 const FONT_SIZE = 17;
 const FONT_WEIGHT = "bold";
-// 상수는 컴포넌트 내에서만 존재하나벼
-// props로 넘어가면 잃어버리는둣,,?
 
-const Tabs = createMaterialTopTabNavigator();
+const NEWRECIPES = ({ route }) => <NewRecipes route={route} />;
+const FORYOU = ({ route }) => <ForYou route={route} />;
+const SUBSCRIBES = ({ route }) => <Subscribes route={route} />;
+
+const Tabs = createMaterialCollapsibleTopTabNavigator();
 
 export default ({
   headerHeight,
-  scrollY,
-  tabBarTranslateY,
-  onMomentumScrollBegin,
-  onMomentumScrollEnd,
-  onScrollEndDrag,
-  tabRoutes,
-  tabIndex,
-  setTabRoutes,
-  onTabIndexChange,
-  onTabPress,
-  listArrRef,
+  setHeaderHeight,
+  goToProfile,
+  goToRecipeDetail,
 }) => {
   const themeContext = useContext(ThemeContext);
 
-  useEffect(() => {
-    setTabRoutes(["NewRecipes", "ForYou", "Subscribes"]);
-  }, []);
-
-  const NEWRECIPES = ({ navigation, route }) => (
-    <NewRecipes
-      navigation={navigation}
-      route={route}
-      idx={0}
-      tabRoutes={tabRoutes}
-      tabIndex={tabIndex}
-      listArrRef={listArrRef}
-      headerHeight={headerHeight}
-      scrollY={scrollY}
-      onMomentumScrollBegin={onMomentumScrollBegin}
-      onMomentumScrollEnd={onMomentumScrollEnd}
-      onScrollEndDrag={onScrollEndDrag}
-      onTabIndexChange={onTabIndexChange}
-      onTabPress={onTabPress}
-    />
-  );
-  const FORYOU = ({ navigation, route }) => (
-    <ForYou
-      navigation={navigation}
-      route={route}
-      idx={1}
-      tabRoutes={tabRoutes}
-      tabIndex={tabIndex}
-      listArrRef={listArrRef}
-      headerHeight={headerHeight}
-      scrollY={scrollY}
-      onMomentumScrollBegin={onMomentumScrollBegin}
-      onMomentumScrollEnd={onMomentumScrollEnd}
-      onScrollEndDrag={onScrollEndDrag}
-      onTabIndexChange={onTabIndexChange}
-      onTabPress={onTabPress}
-    />
-  );
-  const SUBSCRIBES = ({ navigation, route }) => (
-    <Subscribes
-      navigation={navigation}
-      route={route}
-      idx={2}
-      tabRoutes={tabRoutes}
-      tabIndex={tabIndex}
-      listArrRef={listArrRef}
-      headerHeight={headerHeight}
-      scrollY={scrollY}
-      onMomentumScrollBegin={onMomentumScrollBegin}
-      onMomentumScrollEnd={onMomentumScrollEnd}
-      onScrollEndDrag={onScrollEndDrag}
-      onTabIndexChange={onTabIndexChange}
-      onTabPress={onTabPress}
-    />
-  );
+  const HOMEHEADER = () => {
+    return (
+      <HomeHeader setHeaderHeight={setHeaderHeight} goToProfile={goToProfile} />
+    );
+  };
 
   return (
     <Tabs.Navigator
+      collapsibleOptions={{
+        headerHeight: headerHeight,
+        renderHeader: HOMEHEADER,
+        disableSnap: true,
+      }}
       screenOptions={{
         tabBarStyle: {
           backgroundColor: themeContext.bgColor,
           borderBottomWidth: 0,
           elevation: 0, // 그림자 제거 - 고도 옵션이라.....0이면 딱 달라붙어있는 너낌?
-          transform: [{ translateY: tabBarTranslateY }],
         },
         tabBarContentContainerStyle: {
           width: constants.width,
@@ -114,6 +64,7 @@ export default ({
           borderWidth: 1,
         },
         tabBarIndicatorStyle: {
+          backgroundColor: themeContext.bgColor,
           borderBottomColor: themeContext.yellowColor,
           borderBottomWidth: 2,
         },
