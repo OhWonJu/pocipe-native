@@ -9,7 +9,7 @@ const Container = styled.View`
   margin-bottom: 15px;
 `;
 const TextInput = styled.TextInput`
-  background-color: ${props => props.theme.greyColor};
+  background-color: ${props => props.theme.lightGreyColor};
   height: 50px;
   /* width: ${constants.width / 1.2}px; */
   width: 100%;

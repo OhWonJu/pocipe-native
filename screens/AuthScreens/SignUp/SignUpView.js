@@ -49,7 +49,7 @@ const NoticSubContext = styled.Text`
 `;
 
 const TextInput = styled.TextInput`
-  background-color: ${props => props.theme.greyColor};
+  background-color: ${props => props.theme.lightGreyColor};
   height: 50px;
   width: ${props => (props.width ? props.width : "100%")};
   padding: 10px;
@@ -58,7 +58,7 @@ const TextInput = styled.TextInput`
 `;
 
 const PasswordCheckInput = styled.TextInput`
-  background-color: ${props => props.theme.greyColor};
+  background-color: ${props => props.theme.lightGreyColor};
   height: 50px;
   width: ${props => (props.width ? props.width : "100%")};
   padding: 10px;

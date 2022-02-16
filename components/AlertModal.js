@@ -33,7 +33,7 @@ const ModalButtonBox = styled.View`
   justify-content: space-around;
   align-items: center;
   border-style: solid;
-  border-top-color: ${props => props.theme.greyColor};
+  border-top-color: ${props => props.theme.lightGreyColor};
   border-top-width: 1.5px;
 `;
 const ModalButtonText = styled.Text`

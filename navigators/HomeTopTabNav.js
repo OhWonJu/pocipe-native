@@ -2,34 +2,40 @@ import React, { useContext } from "react";
 import { Text } from "react-native";
 import { ThemeContext } from "styled-components/native";
 import { createMaterialCollapsibleTopTabNavigator } from "react-native-collapsible-tab-view";
-import styled from "styled-components/native";
 
 import constants from "../constants";
 import HomeHeader from "../components/Home/HomeHeader";
-import NewRecipes from "../screens/HomeScreens/NewRecipesScreens/NewRecipes";
+import Recipes from "../screens/HomeScreens/RecipesScreens/Recipes";
 import ForYou from "../screens/HomeScreens/ForYouScreens/ForYou";
 import Subscribes from "../screens/HomeScreens/SubscribesScreens/Subscribes";
 
 const FONT_SIZE = 17;
 const FONT_WEIGHT = "bold";
 
-const NEWRECIPES = ({ route }) => <NewRecipes route={route} />;
-const FORYOU = ({ route }) => <ForYou route={route} />;
-const SUBSCRIBES = ({ route }) => <Subscribes route={route} />;
+const NEWRECIPES = ({ navigation, route }) => (
+  <Recipes navigation={navigation} route={route} />
+);
+const FORYOU = ({ navigation, route }) => (
+  <ForYou navigation={navigation} route={route} />
+);
+const SUBSCRIBES = ({ navigation, route }) => (
+  <Subscribes navigation={navigation} route={route} />
+);
 
 const Tabs = createMaterialCollapsibleTopTabNavigator();
 
 export default ({
   headerHeight,
   setHeaderHeight,
-  goToProfile,
-  goToRecipeDetail,
+  goToNotification,
 }) => {
   const themeContext = useContext(ThemeContext);
-
   const HOMEHEADER = () => {
     return (
-      <HomeHeader setHeaderHeight={setHeaderHeight} goToProfile={goToProfile} />
+      <HomeHeader
+        setHeaderHeight={setHeaderHeight}
+        goToNotification={goToNotification}
+      />
     );
   };
 
@@ -48,12 +54,12 @@ export default ({
         },
         tabBarContentContainerStyle: {
           width: constants.width,
-          marginBottom: 4,
+          marginBottom: 3,
           marginLeft: 5,
         },
         tabBarItemStyle: {
           width: "auto",
-          paddingHorizontal: 15,
+          paddingHorizontal: 12,
         },
         tabBarActiveTintColor: themeContext.yellowColor,
         tabBarIndicatorContainerStyle: {
@@ -83,10 +89,10 @@ export default ({
                 fontWeight: FONT_WEIGHT,
                 color: focused
                   ? themeContext.yellowColor
-                  : themeContext.yellowColor + "66",
+                  : themeContext.blackColor + "55",
               }}
             >
-              New
+              레시피
             </Text>
           ),
         }}
@@ -102,7 +108,7 @@ export default ({
                 fontWeight: FONT_WEIGHT,
                 color: focused
                   ? themeContext.yellowColor
-                  : themeContext.yellowColor + "66",
+                  : themeContext.blackColor + "55",
               }}
             >
               For You
@@ -121,7 +127,7 @@ export default ({
                 fontWeight: FONT_WEIGHT,
                 color: focused
                   ? themeContext.yellowColor
-                  : themeContext.yellowColor + "66",
+                  : themeContext.blackColor + "55",
               }}
             >
               구독

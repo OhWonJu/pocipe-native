@@ -1,11 +1,26 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+  TransitionSpecs,
+} from "@react-navigation/stack";
 
 import MainBottomTabNav from "./MainBottomTabNav";
 import RecipeDetail from "../screens/RecipeDetailScreens/RecipeDetail";
-import Profile from "../screens/Profile";
+import Notification from "../screens/HomeScreens/NotificationScreens/Notification";
 
-const Stacks = createNativeStackNavigator();
+const Stacks = createStackNavigator();
+
+const verticallTransition = {
+  gestureDirection: "vertical-inverted",
+  //gestureResponseDistance: 135, // default
+  transitionSpec: {
+    open: TransitionSpecs.TransitionIOSSpec,
+    close: TransitionSpecs.TransitionIOSSpec,
+  },
+  //HeaderStyleInterpolator: HeaderStyleInterpolators.forFade,
+  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+};
 
 export default () => {
   return (
@@ -14,9 +29,33 @@ export default () => {
         headerShown: false,
       }}
     >
-      <Stacks.Screen name="MainBottomTabNav" component={MainBottomTabNav} />
-      <Stacks.Screen name="Profile" component={Profile} />
-      <Stacks.Screen name="RecipeDetail" component={RecipeDetail} />
+      <Stacks.Screen
+        name="MainBottomTabNav"
+        component={MainBottomTabNav}
+        options={{
+          presentation: "card",
+          headerShown: false,
+          ...verticallTransition,
+        }}
+      />
+      <Stacks.Screen
+        name="RecipeDetail"
+        component={RecipeDetail}
+        options={{
+          presentation: "card",
+          headerShown: false,
+          ...verticallTransition,
+        }}
+      />
+      <Stacks.Screen
+        name="Notification"
+        component={Notification}
+        options={{
+          presentation: "card",
+          headerShown: false,
+          ...verticallTransition,
+        }}
+      />
     </Stacks.Navigator>
   );
 };

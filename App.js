@@ -34,6 +34,7 @@ export default function App() {
       require("./assets/loadingPage/Logo-yellow.png"),
       require("./assets/loadingPage/Logo-white.png"),
       require("./assets/AuthView/bgImage01.jpg"),
+      require("./assets/HomeView/star.svg"),
     ];
     const imagePromises = imagesToLoad.map(image => Asset.loadAsync(image));
     // preloading caches

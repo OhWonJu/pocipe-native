@@ -8,13 +8,13 @@ import constants from "../../constants";
 const Container = styled.View`
   flex-direction: row;
   background-color: ${props => props.theme.bgColor};
-  height: ${constants.statusBarHeight + 55}px;
+  height: ${constants.statusBarHeight + 60}px;
   padding-top: ${constants.statusBarHeight + 5}px;
   width: 100%;
   justify-content: center;
   align-items: center;
   border-style: solid;
-  border-bottom-color: ${props => props.theme.greyColor};
+  border-bottom-color: ${props => props.theme.lightGreyColor};
   border-bottom-width: 1.5px;
 `;
 const Left = styled.View`

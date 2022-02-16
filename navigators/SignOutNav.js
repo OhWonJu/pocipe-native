@@ -36,7 +36,6 @@ export default () => {
   return (
     <SignOutNav.Navigator
       screenOptions={{
-        //headerShown: false,
         presentation: "card",
         gestureEnabled: true,
         headerShown: false,

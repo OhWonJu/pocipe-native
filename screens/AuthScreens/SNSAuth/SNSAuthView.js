@@ -29,7 +29,7 @@ const OpacityBox = styled.View`
   margin-top: 4px;
 `;
 const TextInput = styled.TextInput`
-  background-color: ${props => props.theme.greyColor};
+  background-color: ${props => props.theme.lightGreyColor};
   height: 50px;
   width: 100%;
   padding: 10px;

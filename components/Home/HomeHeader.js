@@ -1,8 +1,10 @@
-import React, { useCallback } from "react";
-import { View } from "react-native";
-import styled from "styled-components/native";
+import React, { useCallback, useContext } from "react";
+import styled, { ThemeContext } from "styled-components/native";
 
 import { userSignOut } from "../../apollo";
+import constants from "../../constants";
+import { NoticStar } from "../Icons";
+import HomeCarousel from "./HomeCarousel";
 
 const Container = styled.View`
   background-color: ${props => props.theme.bgColor};
@@ -10,14 +12,10 @@ const Container = styled.View`
 
 const HeaderBox = styled.View`
   flex-direction: row;
-  /* background-color: #f6b93b; */
-  height: 55px;
+  height: 65px; /* commonHeader 60 + 5(padding) */
   width: 100%;
   justify-content: center;
   align-items: center;
-  /* border-style: solid;
-  border-bottom-color: ${props => props.theme.greyColor};
-  border-bottom-width: 1.5px; */
 `;
 
 const Left = styled.View`
@@ -30,6 +28,9 @@ const Mid = styled.View`
 `;
 const Right = styled.View`
   flex: 2;
+  padding-right: 20px;
+  justify-content: center;
+  align-items: flex-end;
 `;
 const TouchableWithoutFeedback = styled.TouchableWithoutFeedback`
   width: 100%;
@@ -40,23 +41,14 @@ const Logo = styled.Image`
   width: 150%;
   height: 100%;
 `;
-const ScrollView = styled.ScrollView`
-  /* background-color: ${props => props.theme.bgColor}; */
-`;
-const Reconmmend = styled.View`
-  height: 200px;
+const IconWrapper = styled.View`
+  height: 100%;
   justify-content: center;
-  margin: 10px 0px 4px 0px;
-`;
-const Box = styled.View`
-  width: 300px;
-  height: 200px;
-  margin: 0px 10px 0px 10px;
-  background-color: ${props => props.color};
-  border-radius: 25px;
 `;
 
-export default HomeHeader = ({ setHeaderHeight, goToProfile }) => {
+export default HomeHeader = ({ setHeaderHeight, goToNotification }) => {
+  const themeContext = useContext(ThemeContext);
+
   const headerOnLayout = useCallback(event => {
     const { height } = event.nativeEvent.layout;
     setHeaderHeight(height);
@@ -64,38 +56,11 @@ export default HomeHeader = ({ setHeaderHeight, goToProfile }) => {
 
   const signOut = async () => await userSignOut();
 
-  const PAGES = [
-    {
-      num: 1,
-      color: "#86E3CE",
-    },
-    {
-      num: 2,
-      color: "#D0E6A5",
-    },
-    {
-      num: 3,
-      color: "#FFDD94",
-    },
-    {
-      num: 4,
-      color: "#FA897B",
-    },
-    {
-      num: 5,
-      color: "#CCABD8",
-    },
-    {
-      num: 6,
-      color: "#F6B93B",
-    },
-  ];
-
   return (
     <Container onLayout={headerOnLayout} pointerEvents="box-none">
       <HeaderBox>
         <Left>
-          <TouchableWithoutFeedback onPress={goToProfile}>
+          <TouchableWithoutFeedback onPress={signOut}>
             <Logo
               source={require("../../assets/loadingPage/Logo-yellow.png")}
               resizeMode="contain"
@@ -103,21 +68,15 @@ export default HomeHeader = ({ setHeaderHeight, goToProfile }) => {
           </TouchableWithoutFeedback>
         </Left>
         <Mid></Mid>
-        <Right></Right>
+        <Right>
+          <TouchableWithoutFeedback onPress={goToNotification}>
+            <IconWrapper style={{ height: "100%" }}>
+              <NoticStar size={30} color={themeContext.blackColor} />
+            </IconWrapper>
+          </TouchableWithoutFeedback>
+        </Right>
       </HeaderBox>
-      <Reconmmend>
-        <ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          decelerationRate={"fast"}
-          snapToInterval={300 + 10}
-          pagingEnabled={true}
-        >
-          {PAGES.map(page => (
-            <Box key={page.num} color={page.color} />
-          ))}
-        </ScrollView>
-      </Reconmmend>
+      <HomeCarousel />
     </Container>
   );
 };

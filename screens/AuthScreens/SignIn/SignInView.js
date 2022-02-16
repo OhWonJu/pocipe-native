@@ -52,7 +52,7 @@ const UtilText = styled.Text`
 `;
 const EasySignInView = styled.View`
   border-style: solid;
-  border-top-color: ${props => props.theme.greyColor};
+  border-top-color: ${props => props.theme.lightGreyColor};
   border-top-width: 1.5px;
   margin: 8px 0px 40px 0px;
   align-items: center;
@@ -99,7 +99,7 @@ const Text = styled.Text`
 `;
 
 const TextInput = styled.TextInput`
-  background-color: ${props => props.theme.greyColor};
+  background-color: ${props => props.theme.lightGreyColor};
   height: 50px;
   width: 100%;
   padding: 10px;

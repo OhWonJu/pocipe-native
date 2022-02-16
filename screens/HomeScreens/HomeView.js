@@ -13,9 +13,7 @@ const StatusBar = styled.View`
 export default HomeView = ({
   headerHeight,
   setHeaderHeight,
-  goBack,
-  goToProfile,
-  goToRecipeDetail,
+  goToNotification,
 }) => {
   return (
     <>
@@ -23,8 +21,7 @@ export default HomeView = ({
       <HomeTopTabNav
         headerHeight={headerHeight}
         setHeaderHeight={setHeaderHeight}
-        goToProfile={goToProfile}
-        goToRecipeDetail={goToRecipeDetail}
+        goToNotification={goToNotification}
       />
     </>
   );
