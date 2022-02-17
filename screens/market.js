@@ -8,7 +8,9 @@ export default ({ navigation }) => {
     <>
       <CommonHeader navigation={navigation} title={"마켓"} />
       <Container>
-        <View>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
           <Text>Will be sooooon...🔧</Text>
         </View>
       </Container>

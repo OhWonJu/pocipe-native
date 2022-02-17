@@ -9,7 +9,7 @@ const Container = styled.View`
 `;
 const TextInput = styled.TextInput`
   background-color: ${props => props.theme.lightGreyColor};
-  height: 50px;
+  height: ${props => props.height}px;
   /* width: ${constants.width / 1.2}px; */
   width: 100%;
   padding: 10px;
@@ -28,6 +28,7 @@ const AuthInput = ({
   autoCorrect = true,
   width = null,
   ref = null,
+  height = 50,
 }) => (
   <Container width={width}>
     <TextInput
@@ -40,6 +41,7 @@ const AuthInput = ({
       onSubmitEditing={onSubmitEditing}
       autoCorrect={autoCorrect}
       ref={ref}
+      height={height}
     />
   </Container>
 );

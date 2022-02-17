@@ -41,7 +41,7 @@ export default () => {
     },
     {
       num: 6,
-      color: "#F6B93B",
+      color: "#F6B93B" + "95",
     },
   ];
 

@@ -47,15 +47,6 @@ export default () => {
           ...verticallTransition,
         }}
       />
-      <Stacks.Screen
-        name="Notification"
-        component={Notification}
-        options={{
-          presentation: "card",
-          headerShown: false,
-          ...verticallTransition,
-        }}
-      />
     </Stacks.Navigator>
   );
 };

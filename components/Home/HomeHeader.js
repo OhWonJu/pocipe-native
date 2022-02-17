@@ -42,7 +42,7 @@ const Logo = styled.Image`
   height: 100%;
 `;
 const IconWrapper = styled.View`
-  height: 100%;
+  height: 40px;
   justify-content: center;
 `;
 
@@ -71,7 +71,7 @@ export default HomeHeader = ({ setHeaderHeight, goToNotification }) => {
         <Right>
           <TouchableWithoutFeedback onPress={goToNotification}>
             <IconWrapper style={{ height: "100%" }}>
-              <NoticStar size={30} color={themeContext.blackColor} />
+              <NoticStar size={28} color={themeContext.blackColors} />
             </IconWrapper>
           </TouchableWithoutFeedback>
         </Right>

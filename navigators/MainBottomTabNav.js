@@ -2,13 +2,10 @@ import React, { useContext } from "react";
 import { Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ThemeContext } from "styled-components/native";
-import { Feather } from "@expo/vector-icons";
-
-import Home from "../screens/HomeScreens/index";
-import Search from "../screens/Search";
-import Market from "../screens/market";
-import Profile from "../screens/Profile";
+import { Feather, Entypo } from "@expo/vector-icons";
 import Svg, { Circle, ClipPath, Image } from "react-native-svg";
+
+import StackNavFactorty from "./StackNavFactorty";
 
 const FONT_SIZE = 10;
 const FONT_WEIGHT = "normal";
@@ -38,8 +35,7 @@ export default () => {
       }}
     >
       <Tabs.Screen
-        name={"Home"}
-        component={Home}
+        name={"TabHome"}
         options={{
           tabBarIcon: ({ focused, color }) => (
             <Feather name="home" size={focused ? 25 : 24} color={color} />
@@ -56,10 +52,11 @@ export default () => {
             </Text>
           ),
         }}
-      />
+      >
+        {() => <StackNavFactorty screenName="Home" />}
+      </Tabs.Screen>
       <Tabs.Screen
-        name={"Search"}
-        component={Search}
+        name={"TabSearch"}
         options={{
           tabBarIcon: ({ focused, color }) => (
             <Feather
@@ -81,14 +78,15 @@ export default () => {
             </Text>
           ),
         }}
-      />
+      >
+        {() => <StackNavFactorty screenName="Search" />}
+      </Tabs.Screen>
       <Tabs.Screen
-        name={"Market"}
-        component={Market}
+        name={"TabMarket"}
         options={{
           tabBarIcon: ({ focused, color }) => (
-            <Feather
-              name="shopping-cart"
+            <Entypo
+              name="shop"
               size={focused ? 25 : 24}
               color={color}
               iconStyle={{ fontWeight: focused ? "bold" : "normal" }}
@@ -106,10 +104,11 @@ export default () => {
             </Text>
           ),
         }}
-      />
+      >
+        {() => <StackNavFactorty screenName="Market" />}
+      </Tabs.Screen>
       <Tabs.Screen
-        name={"Profile"}
-        component={Profile}
+        name={"TabMyPage"}
         options={{
           tabBarIcon: ({ focused, color }) => (
             <Svg height="40" width="40">
@@ -143,7 +142,9 @@ export default () => {
             </Text>
           ),
         }}
-      />
+      >
+        {() => <StackNavFactorty screenName="MyPage" />}
+      </Tabs.Screen>
     </Tabs.Navigator>
   );
 };

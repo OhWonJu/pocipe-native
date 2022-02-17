@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components/native";
+import { EvilIcons } from "@expo/vector-icons";
 
 import constants from "../constants";
 import { NoticStar } from "./Icons";
@@ -16,18 +17,15 @@ const Container = styled.View`
   align-items: center;
 `;
 const Left = styled.View`
+  flex: 1;
   justify-content: center;
   /* align-items: center; */
 `;
-const Mid = styled.View`
-  flex: 4;
-  justify-content: center;
-  align-items: center;
-`;
 const Right = styled.View`
-  flex: 2;
-  justify-content: center;
-  align-items: flex-end;
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 const Title = styled.Text`
@@ -42,11 +40,13 @@ const TouchableWithoutFeedback = styled.TouchableWithoutFeedback`
 `;
 const IconWrapper = styled.View`
   height: 100%;
+  height: 40px;
   justify-content: center;
 `;
 
 export default CommonHeader = ({
   navigation,
+  type = "default",
   title = null,
   titleColor = "#F6B93B",
   leftOnPress = () => null,
@@ -54,19 +54,33 @@ export default CommonHeader = ({
   const themeContext = useContext(ThemeContext);
 
   const goToNotification = () => navigation.navigate("Notification");
-  return (
-    <Container>
-      <Left>
-        <Title titleColor={titleColor}>{title}</Title>
-      </Left>
-      <Mid></Mid>
-      <Right>
-        <TouchableWithoutFeedback onPress={goToNotification}>
-          <IconWrapper style={{ height: "100%" }}>
-            <NoticStar size={30} color={themeContext.blackColor} />
-          </IconWrapper>
-        </TouchableWithoutFeedback>
-      </Right>
-    </Container>
-  );
+  if (type === "default") {
+    return (
+      <Container>
+        <Left>
+          <Title titleColor={titleColor}>{title}</Title>
+        </Left>
+        <Right>
+          <TouchableWithoutFeedback onPress={goToNotification}>
+            <IconWrapper>
+              <NoticStar size={28} color={themeContext.blackColor} />
+            </IconWrapper>
+          </TouchableWithoutFeedback>
+        </Right>
+      </Container>
+    );
+  } else {
+    return (
+      <Container>
+        <Left>
+          <Title titleColor={titleColor}>{title}</Title>
+        </Left>
+        <Right>
+          <TouchableWithoutFeedback onPress={goToNotification}>
+            <EvilIcons name="gear" size={30} color={themeContext.blackColor} />
+          </TouchableWithoutFeedback>
+        </Right>
+      </Container>
+    );
+  }
 };
