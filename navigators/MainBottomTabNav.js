@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ThemeContext } from "styled-components/native";
@@ -18,15 +18,18 @@ const Tabs = createBottomTabNavigator();
 export default () => {
   const themeContext = useContext(ThemeContext);
 
+  const [tabBarVisible, setTabBarVisible] = useState("flex"); // flex | none
+
   return (
     <Tabs.Navigator
       screenOptions={{
         tabBarStyle: {
+          display: tabBarVisible,
           height: 58,
           paddingBottom: 3,
           borderTopWidth: 0,
           backgroundColor: themeContext.bgColor,
-          elevation: 1, // 그림자 제거 - 고도 옵션이라.....0이면 딱 달라붙어있는 너낌?
+          elevation: 2, // 그림자 제거 - 고도 옵션이라.....0이면 딱 달라붙어있는 너낌?
         },
         tabBarActiveTintColor: themeContext.yellowColor,
         tabBarInactiveTintColor: themeContext.blackColor + "55",
@@ -53,7 +56,12 @@ export default () => {
           ),
         }}
       >
-        {() => <StackNavFactorty screenName="Home" />}
+        {() => (
+          <StackNavFactorty
+            screenName="Home"
+            setTabBarVisible={setTabBarVisible}
+          />
+        )}
       </Tabs.Screen>
       <Tabs.Screen
         name={"TabSearch"}
@@ -79,7 +87,12 @@ export default () => {
           ),
         }}
       >
-        {() => <StackNavFactorty screenName="Search" />}
+        {() => (
+          <StackNavFactorty
+            screenName="Search"
+            setTabBarVisible={setTabBarVisible}
+          />
+        )}
       </Tabs.Screen>
       <Tabs.Screen
         name={"TabMarket"}
@@ -105,7 +118,12 @@ export default () => {
           ),
         }}
       >
-        {() => <StackNavFactorty screenName="Market" />}
+        {() => (
+          <StackNavFactorty
+            screenName="Market"
+            setTabBarVisible={setTabBarVisible}
+          />
+        )}
       </Tabs.Screen>
       <Tabs.Screen
         name={"TabMyPage"}
@@ -143,7 +161,12 @@ export default () => {
           ),
         }}
       >
-        {() => <StackNavFactorty screenName="MyPage" />}
+        {() => (
+          <StackNavFactorty
+            screenName="MyPage"
+            setTabBarVisible={setTabBarVisible}
+          />
+        )}
       </Tabs.Screen>
     </Tabs.Navigator>
   );

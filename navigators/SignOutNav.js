@@ -1,9 +1,9 @@
 import React from "react";
 import {
   createStackNavigator,
-  CardStyleInterpolators,
-  TransitionSpecs,
 } from "@react-navigation/stack";
+
+import { verticallTransition } from "./NavigationOptions";
 
 import AuthHome from "../screens/AuthScreens/AuthHome/index";
 import SignIn from "../screens/AuthScreens/SignIn/index";
@@ -11,26 +11,6 @@ import SignUp from "../screens/AuthScreens/SignUp/index";
 import SNSAuth from "../screens/AuthScreens/SNSAuth/index";
 
 const SignOutNav = createStackNavigator();
-
-// const horizontalTransition = {
-//   gestureDirection: "horizontal",
-//   transitionSpec: {
-//     open: TransitionSpecs.TransitionIOSSpec,
-//     close: TransitionSpecs.TransitionIOSSpec,
-//   },
-//   //HeaderStyleInterpolator: HeaderStyleInterpolators.forFade,
-//   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-// };
-const verticallTransition = {
-  gestureDirection: "vertical",
-  //gestureResponseDistance: 135, // default
-  transitionSpec: {
-    open: TransitionSpecs.TransitionIOSSpec,
-    close: TransitionSpecs.TransitionIOSSpec,
-  },
-  //HeaderStyleInterpolator: HeaderStyleInterpolators.forFade,
-  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-};
 
 export default () => {
   return (

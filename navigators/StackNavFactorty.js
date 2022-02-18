@@ -1,30 +1,19 @@
 import React from "react";
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-  TransitionSpecs,
-} from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import { verticallTransition } from "./NavigationOptions";
 
 import Home from "../screens/HomeScreens/index";
 import Search from "../screens/Search";
 import Market from "../screens/Market";
 import MyPage from "../screens/MyPage";
-
 import Profile from "../screens/Profile";
+import RecipeDetail from "../screens/RecipeDetailScreens/RecipeDetail";
 import Notification from "../screens/HomeScreens/NotificationScreens/Notification";
 
 const Stacks = createStackNavigator();
 
-const verticallTransition = {
-  gestureDirection: "vertical-inverted",
-  transitionSpec: {
-    open: TransitionSpecs.TransitionIOSSpec,
-    close: TransitionSpecs.TransitionIOSSpec,
-  },
-  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-};
-
-export default ({ screenName }) => {
+export default ({ screenName, setTabBarVisible }) => {
   return (
     <Stacks.Navigator
       screenOptions={{
@@ -43,20 +32,31 @@ export default ({ screenName }) => {
       {screenName === "MyPage" ? (
         <Stacks.Screen name={"MyPage"} component={MyPage} />
       ) : null}
+      <Stacks.Screen name="Profile" component={Profile} />
       <Stacks.Screen
-        name="Profile"
-        component={Profile}
+        name="RecipeDetail"
         options={{
-          //presentation: "modal",
-          // ...verticallTransition,
+          presentation: "card",
+          headerShown: false,
+          ...verticallTransition,
+          gestureDirection: "vertical-inverted",
         }}
-      />
+      >
+        {({ navigation, route }) => (
+          <RecipeDetail
+            navigation={navigation}
+            route={route}
+            setTabBarVisible={setTabBarVisible}
+          />
+        )}
+      </Stacks.Screen>
       <Stacks.Screen
         name="Notification"
         component={Notification}
         options={{
           presentation: "card",
           ...verticallTransition,
+          gestureDirection: "vertical-inverted",
         }}
       />
     </Stacks.Navigator>
