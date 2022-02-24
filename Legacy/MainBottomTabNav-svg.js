@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ThemeContext } from "styled-components/native";
 import { Feather, Entypo } from "@expo/vector-icons";
@@ -130,29 +130,25 @@ export default () => {
         options={{
           tabBarIcon: ({ focused, color }) =>
             data?.me?.profilePhoto ? (
-              <View
-                style={{
-                  top: 1,
-                  height: 28,
-                  width: 28,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 14,
-                  ...(focused && {
-                    borderColor: themeContext.yellowColor,
-                    borderWidth: 2,
-                  }),
-                }}
-              >
-                <Image
-                  source={{ uri: data.me.profilePhoto }}
-                  style={{
-                    height: 25,
-                    width: 25,
-                    borderRadius: 20,
-                  }}
+              <Svg height="40" width="40">
+                <Circle
+                  r={16}
+                  cx={20}
+                  cy={20}
+                  fill={focused ? color : "transparent"}
                 />
-              </View>
+                <ClipPath id="clip">
+                  <Circle r={15} cx={20} cy={20} />
+                </ClipPath>
+                <Image
+                  height={40}
+                  width={40}
+                  //href={require("../assets/pocipeIcon.png")}
+                  source={{ uri: data.me.profilePhoto }}
+                  // preserveAspectRatio="xMidYMid slice"
+                  // clipPath="url(#clip)"
+                />
+              </Svg>
             ) : (
               <Feather
                 name="user"
