@@ -17,8 +17,9 @@ export default useMe = () => {
   const { data } = useQuery(ME_QUERY, {
     skip: !hasToken,
   });
+  // console.log("HOOKS: " + data);
   useEffect(() => {
-    if (data?.me == null) {
+    if (data?.me === null) {
       userSignOut();
     }
   }, [data]);

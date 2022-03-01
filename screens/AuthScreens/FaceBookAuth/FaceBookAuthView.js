@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import { Text } from "react-native";
 import AlertModal from "../../../components/AlertModal";
 
 import Container from "../../../components/Container";
 import Loader from "../../../components/Loader";
 
-const SNSSignInView = () => {
-  return <></>;
-};
 
 export default FaceBookAuthView = ({
   loading,

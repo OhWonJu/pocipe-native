@@ -16,8 +16,9 @@ const Container = styled.View`
   /* position: absolute; */
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
+  flex: 1;
   z-index: 999;
 `;
 const Loader = styled(Animated.View)`

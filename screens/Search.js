@@ -23,7 +23,7 @@ export default Search = ({ navigation, route }) => {
         >
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("RecipeDetail", { from: route.name })
+              navigation.navigate("RecipeDetail", { from: route?.name })
             }
           >
             <Text>Search</Text>

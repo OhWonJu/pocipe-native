@@ -6,14 +6,15 @@ import styled from "styled-components/native";
 const Container = styled.View`
   flex: 1;
   background-color: ${props => props.theme.bgColor};
-  padding: 0px 20px 0px 20px;
+  padding: ${props =>
+    props.paddingSet ? "0px 20px 0px 20px" : "0px 0px 0px 0px"};
 `;
 
-export default ({ route, children }) => {
+export default ({ route, paddingSet = true, children }) => {
   const scrollPropsAndRef = useCollapsibleScene(route.name);
 
   return (
-    <Container>
+    <Container paddingSet={paddingSet}>
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         {...scrollPropsAndRef}

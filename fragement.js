@@ -31,7 +31,7 @@ export const RECIPE_FRAGMENT = gql`
   fragment RecipeFragment on Recipe {
     id
     chefId
-    disCount
+    dipsCount
     title
     caption
     thumbNails

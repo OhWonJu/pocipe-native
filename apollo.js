@@ -38,8 +38,8 @@ export const userSignOut = async () => {
 // pc의 공인 IP를 빌려오는거
 // ngrok, localtunnel을 사용하는거
 // 두 가지 방법 중 하나를 써야..
-// lcaltunnel ->> npx lcaltunnel --port 4000
-const TEMP_URI = "http://fe1d-221-167-62-185.ngrok.io ";
+// lcaltunnel ->> npx localtunnel --port 4000
+const TEMP_URI = "http://2eba-221-167-62-185.ngrok.io ";
 const URI = `${TEMP_URI.trim()}/graphql`;
 
 const httpLink = createHttpLink({

@@ -32,7 +32,6 @@ export default SNSAuthController = ({ navigation, route }) => {
   useEffect(() => {
     switch (route.params.authType) {
       case "kakao":
-        console.log("ASD");
         setAuthType("카카오");
         break;
       case "facebook":

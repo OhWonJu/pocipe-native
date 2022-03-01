@@ -44,7 +44,7 @@ export default SignInController = ({ navigation, route }) => {
       login: { ok, token },
     } = data;
     if (ok) {
-      console.log("TOKEN", token);
+      // console.log("TOKEN", token);
       await userSignIn(token);
     }
   };

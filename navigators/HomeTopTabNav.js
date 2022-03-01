@@ -8,6 +8,7 @@ import HomeHeader from "../components/Home/HomeHeader";
 import Recipes from "../screens/HomeScreens/RecipesScreens/Recipes";
 import ForYou from "../screens/HomeScreens/ForYouScreens/ForYou";
 import Subscribes from "../screens/HomeScreens/SubscribesScreens/Subscribes";
+import Test from "../screens/HomeScreens/TestScreens/index";
 
 const FONT_SIZE = 17;
 const FONT_WEIGHT = "bold";
@@ -21,14 +22,13 @@ const FORYOU = ({ navigation, route }) => (
 const SUBSCRIBES = ({ navigation, route }) => (
   <Subscribes navigation={navigation} route={route} />
 );
+const TEST = ({ navigation, route }) => (
+  <Test navigation={navigation} route={route} />
+);
 
 const Tabs = createMaterialCollapsibleTopTabNavigator();
 
-export default ({
-  headerHeight,
-  setHeaderHeight,
-  goToNotification,
-}) => {
+export default ({ headerHeight, setHeaderHeight, goToNotification }) => {
   const themeContext = useContext(ThemeContext);
   const HOMEHEADER = () => {
     return (
@@ -131,6 +131,25 @@ export default ({
               }}
             >
               구독
+            </Text>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="test"
+        component={TEST}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontSize: FONT_SIZE,
+                fontWeight: FONT_WEIGHT,
+                color: focused
+                  ? themeContext.yellowColor
+                  : themeContext.blackColor + "55",
+              }}
+            >
+              테스트
             </Text>
           ),
         }}

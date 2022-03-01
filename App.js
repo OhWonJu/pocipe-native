@@ -20,6 +20,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   const isSignIn = useReactiveVar(isSignInVar);
+  // console.log(isSignIn);
 
   const onFinish = () =>
     setTimeout(() => {
