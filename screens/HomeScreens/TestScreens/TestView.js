@@ -9,6 +9,10 @@ import RecipeCard from "../../../components/Content/RecipeCard";
 export default ({ navigation, route, data, loading }) => {
   const themeContext = useContext(ThemeContext);
 
+  const RECIPECARD = ({ item }) => (
+    <RecipeCard item={item} navigation={navigation} route={route} />
+  );
+
   return (
     <HomeScreenScrollView
       navigation={navigation}
@@ -19,7 +23,7 @@ export default ({ navigation, route, data, loading }) => {
         <FlatList
           data={data?.seeMyRecipe}
           keyExtractor={recipe => recipe.id}
-          renderItem={RecipeCard}
+          renderItem={RECIPECARD}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         />

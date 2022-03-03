@@ -8,7 +8,7 @@ import Search from "../screens/Search";
 import Market from "../screens/Market";
 import MyPage from "../screens/MyPage";
 import Profile from "../screens/Profile";
-import RecipeDetail from "../screens/RecipeDetailScreens/RecipeDetail";
+import RecipeDetail from "../screens/RecipeDetailScreens/index";
 import Notification from "../screens/HomeScreens/NotificationScreens/Notification";
 
 const Stacks = createStackNavigator();

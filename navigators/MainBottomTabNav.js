@@ -3,7 +3,6 @@ import { Image, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ThemeContext } from "styled-components/native";
 import { Feather, Entypo } from "@expo/vector-icons";
-import Svg, { Circle, ClipPath } from "react-native-svg";
 
 import StackNavFactorty from "./StackNavFactorty";
 import useMe from "../Hooks/useMe";

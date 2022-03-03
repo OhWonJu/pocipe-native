@@ -8,14 +8,19 @@ const CardContainer = styled.View`
   margin: 0px 10px 0px 10px;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.theme.yellowColor + 66};
+  background-color: ${props => props.theme.yellowColor};
   border-radius: 20px;
 `;
 
-export default ({ item: recipe }) => {
+export default ({ item: recipe, navigation, route }) => {
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback
+      onPress={() =>
+        navigation.navigate("RecipeDetail", { recipeId: recipe.id })
+      }
+    >
       <CardContainer>
+        <Text>{recipe.id}</Text>
         <Text>{recipe.title}</Text>
         <Text>{recipe.chef.userName}</Text>
       </CardContainer>

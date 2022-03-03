@@ -31,6 +31,11 @@ export const RECIPE_FRAGMENT = gql`
   fragment RecipeFragment on Recipe {
     id
     chefId
+    chef {
+      userName
+      profilePhoto
+      starAverage
+    }
     dipsCount
     title
     caption
