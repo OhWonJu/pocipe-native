@@ -8,7 +8,6 @@ const useExcuteQuery = (GQL_QUERY, onCompleted) => {
       variables,
       fetchPolicy: "network-only",
     });
-    //console.log("Client.query response", response);
     onCompleted(response.data);
   };
 };

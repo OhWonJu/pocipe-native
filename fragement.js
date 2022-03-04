@@ -30,7 +30,6 @@ export const TODO_FRAGMENT = gql`
 export const RECIPE_FRAGMENT = gql`
   fragment RecipeFragment on Recipe {
     id
-    chefId
     chef {
       userName
       profilePhoto
