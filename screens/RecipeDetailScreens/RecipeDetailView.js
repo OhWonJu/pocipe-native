@@ -1,21 +1,42 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
+import { BlurView } from "expo-blur";
 
 import Container from "../../components/Container";
-import Loader from "../../components/Loader";
+import constants from "../../constants";
 
 export default ({ data, goBack, goProfile }) => {
+  constants;
   return (
-    <>
-      <View style={{ flex: 1, alignItems: "flex-start" }}>
+    <ScrollView>
+      <View
+        style={{
+          minHeight: constants.height,
+        }}
+      >
         {data.thumbNails.map(thumbNail => (
-          <View style={{ width: "100%" }}>
+          <View
+            key={thumbNail}
+            style={{ width: "100%", height: constants.height }}
+          >
             <Image
-              key={thumbNail}
+              style={[StyleSheet.absoluteFill, styles.image]}
               source={{ uri: thumbNail }}
-              style={{ height: "100%" }}
-              resizeMode="contain"
             />
+            <BlurView intensity={100} tint="light" style={styles.blurContainer}>
+              <Image
+                source={{ uri: thumbNail }}
+                style={{ height: constants.width / 1.1, borderRadius: 2 }}
+                resizeMode="contain"
+              />
+            </BlurView>
           </View>
         ))}
       </View>
@@ -23,6 +44,7 @@ export default ({ data, goBack, goProfile }) => {
         <View
           style={{
             flex: 1,
+            minHeight: constants.height,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -31,7 +53,6 @@ export default ({ data, goBack, goProfile }) => {
           <Text>{data.id}</Text>
           <Text>{data.title}</Text>
           <Text>{data.caption}</Text>
-
           <Text>{data.servings}</Text>
           <Text>{data.difficulty}</Text>
           <Text>{data.cookingTime}</Text>
@@ -52,6 +73,26 @@ export default ({ data, goBack, goProfile }) => {
           </TouchableOpacity>
         </View>
       </Container>
-    </>
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  blurContainer: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: "600",
+  },
+});

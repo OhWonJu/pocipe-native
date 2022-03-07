@@ -39,7 +39,7 @@ export default ({ screenName, setTabBarVisible }) => {
           presentation: "card",
           headerShown: false,
           ...verticallTransition,
-          gestureDirection: "vertical-inverted",
+          gestureDirection: "vertical",
         }}
       >
         {({ navigation, route }) => (

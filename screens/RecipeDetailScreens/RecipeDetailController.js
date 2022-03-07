@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@apollo/client";
 
-import { SEE_PROFILE, SEE_RECIPE_QUERY } from "./RecipeDetailModel";
+import { SEE_RECIPE_QUERY } from "./RecipeDetailModel";
 import RecipeDetailView from "./RecipeDetailView";
 import Loader from "../../components/Loader";
 

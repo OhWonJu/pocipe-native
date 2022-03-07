@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-import { RECIPE_FRAGMENT, TODO_FRAGMENT, USER_FRAGMENT } from "../../fragement";
+import { TODO_FRAGMENT } from "../../fragement";
 
 export const SEE_RECIPE_QUERY = gql`
   query seeRecipe($id: String!) {
