@@ -14,7 +14,6 @@ const TitleTest = styled.Text`
   color: ${props => props.theme.blackColor};
 `;
 const ListContainer = styled.View`
-  height: 250px;
   justify-content: center;
   padding: 10px 0px 10px 0px;
 `;
