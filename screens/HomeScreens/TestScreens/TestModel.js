@@ -6,6 +6,7 @@ export const RECIPE_CARD_QUREY = gql`
       id
       chef {
         userName
+        profilePhoto
       }
       title
       thumbNails

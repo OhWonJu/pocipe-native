@@ -28,6 +28,54 @@ export default ({ navigation, route, data, loading }) => {
           showsHorizontalScrollIndicator={false}
         />
       </FlatListContainer>
+
+      <FlatListContainer contentListTitle={"마이레시피"} loading={loading}>
+        <FlatList
+          data={data?.seeMyRecipe}
+          keyExtractor={recipe => recipe.id}
+          renderItem={RECIPECARD}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
+      </FlatListContainer>
+
+      <FlatListContainer contentListTitle={"마이레시피"} loading={loading}>
+        <FlatList
+          data={data?.seeMyRecipe}
+          keyExtractor={recipe => recipe.id}
+          renderItem={RECIPECARD}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
+      </FlatListContainer>
+      <FlatListContainer contentListTitle={"마이레시피"} loading={loading}>
+        <FlatList
+          data={data?.seeMyRecipe}
+          keyExtractor={recipe => recipe.id}
+          renderItem={RECIPECARD}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
+      </FlatListContainer>
+      <FlatListContainer contentListTitle={"마이레시피"} loading={loading}>
+        <FlatList
+          data={data?.seeMyRecipe}
+          keyExtractor={recipe => recipe.id}
+          renderItem={RECIPECARD}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
+      </FlatListContainer>
+      <FlatListContainer contentListTitle={"마이레시피"} loading={loading}>
+        <FlatList
+          data={data?.seeMyRecipe}
+          keyExtractor={recipe => recipe.id}
+          renderItem={RECIPECARD}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
+      </FlatListContainer>
+      
     </HomeScreenScrollView>
   );
 };

@@ -117,25 +117,6 @@ export default ({ headerHeight, setHeaderHeight, goToNotification }) => {
         }}
       />
       <Tabs.Screen
-        name="Subscribes"
-        component={SUBSCRIBES}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <Text
-              style={{
-                fontSize: FONT_SIZE,
-                fontWeight: FONT_WEIGHT,
-                color: focused
-                  ? themeContext.yellowColor
-                  : themeContext.blackColor + "55",
-              }}
-            >
-              구독
-            </Text>
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="test"
         component={TEST}
         options={{
@@ -150,6 +131,25 @@ export default ({ headerHeight, setHeaderHeight, goToNotification }) => {
               }}
             >
               테스트
+            </Text>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Subscribes"
+        component={SUBSCRIBES}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontSize: FONT_SIZE,
+                fontWeight: FONT_WEIGHT,
+                color: focused
+                  ? themeContext.yellowColor
+                  : themeContext.blackColor + "55",
+              }}
+            >
+              구독
             </Text>
           ),
         }}
