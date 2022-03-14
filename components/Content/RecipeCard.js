@@ -3,6 +3,7 @@ import { TouchableWithoutFeedback, View, Image } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 
 import { FilledNoticStar } from "../Icons";
+import ProfilePhoto from "../ProfilePhoto";
 
 const CARD_WIDTH = 160;
 
@@ -49,12 +50,14 @@ const RatingText = styled.Text`
   color: ${props => props.theme.yellowColor};
 `;
 const UserNameText = styled.Text`
+  margin-left: 3px;
   color: ${props => props.theme.darkGreyColor};
 `;
 const ProfileBox = styled.View`
   flex-direction: row;
   align-items: baseline;
   padding-top: 3px;
+  flex: 1;
 `;
 
 export default ({ item: recipe, navigation, route }) => {
@@ -97,24 +100,7 @@ export default ({ item: recipe, navigation, route }) => {
             </RowText>
           </RowBox>
           <ProfileBox>
-            <View
-              style={{
-                height: 22,
-                width: 22,
-                justifyContent: "center",
-                alignItems: "center",
-                marginRight: 2,
-              }}
-            >
-              <Image
-                source={{ uri: recipe.chef.profilePhoto }}
-                style={{
-                  height: 19,
-                  width: 19,
-                  borderRadius: 9,
-                }}
-              />
-            </View>
+            <ProfilePhoto size="small" uri={recipe.chef.profilePhoto} />
             <UserNameText numberOfLines={1} ellipsizeMode="tail">
               {recipe.chef.userName}
             </UserNameText>

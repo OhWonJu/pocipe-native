@@ -11,6 +11,7 @@ import { BlurView } from "expo-blur";
 
 import Container from "../../components/Container";
 import constants from "../../constants";
+import ProfilePhoto from "../../components/ProfilePhoto";
 
 export default ({ data, goBack, goProfile }) => {
   constants;
@@ -58,18 +59,7 @@ export default ({ data, goBack, goProfile }) => {
           <Text>{data.cookingTime}</Text>
           <TouchableOpacity onPress={goProfile}>
             <Text>{data.chef.userName}</Text>
-            <View
-              style={{
-                paddingTop: 10,
-                height: 80,
-                width: 80,
-              }}
-            >
-              <Image
-                source={{ uri: data.chef.profilePhoto }}
-                style={{ height: 80, borderRadius: 40 }}
-              />
-            </View>
+            <ProfilePhoto size="large" uri={data.chef.profilePhoto} />
           </TouchableOpacity>
         </View>
       </Container>
