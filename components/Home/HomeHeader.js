@@ -71,7 +71,7 @@ export default HomeHeader = ({ setHeaderHeight, goToNotification }) => {
         <Right>
           <TouchableWithoutFeedback onPress={goToNotification}>
             <IconWrapper style={{ height: "100%" }}>
-              <NoticStar size={28} color={themeContext.blackColors} />
+              <NoticStar size={28} color={themeContext.blackColor} />
             </IconWrapper>
           </TouchableWithoutFeedback>
         </Right>

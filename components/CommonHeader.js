@@ -3,7 +3,7 @@ import styled, { ThemeContext } from "styled-components/native";
 import { EvilIcons } from "@expo/vector-icons";
 
 import constants from "../constants";
-import { NoticStar } from "./Icons";
+import { FilledNoticStar, NoticStar } from "./Icons";
 
 const Container = styled.View`
   flex-direction: row;
