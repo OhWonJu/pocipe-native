@@ -69,18 +69,15 @@ export default ({ item: recipe, navigation, route }) => {
       onPress={() =>
         navigation.navigate("RecipeDetail", {
           recipeId: recipe.id,
-          test: `${recipe.id}-0`,
         })
       }
     >
       <CardContainer>
         <ThumbNailBox>
-          <SharedElement id={`${recipe.id}-0`}>
-            <ThumbImage
-              source={{ uri: recipe.thumbNails[0] }}
-              resizeMode={"cover"}
-            />
-          </SharedElement>
+          <ThumbImage
+            source={{ uri: recipe.thumbNails[0] }}
+            resizeMode={"cover"}
+          />
         </ThumbNailBox>
         <InfoBox>
           <TitleText numberOfLines={1} ellipsizeMode="tail">

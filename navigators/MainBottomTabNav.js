@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ThemeContext } from "styled-components/native";
 import { Feather, Entypo } from "@expo/vector-icons";
 
-import StackNavFactory from "./StackNavFactory";
+import StackNavFactory from "./StackNavFactorty";
 import useMe from "../Hooks/useMe";
 
 const FONT_SIZE = 10;

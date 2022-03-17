@@ -6,28 +6,23 @@ import { SEE_RECIPE_QUERY } from "./RecipeDetailModel";
 import RecipeDetailView from "./RecipeDetailView";
 import Loader from "../../components/Loader";
 
-const RecipeDetailController = ({
-  navigation,
-  route,
-  // setTabBarVisible,
-}) => {
-  // const isFoused = useIsFocused();
+const RecipeDetailController = ({ navigation, route, setTabBarVisible }) => {
+  const isFoused = useIsFocused();
 
-  // useEffect(() => {
-  //   if (isFoused) {
-  //     setTabBarVisible("none");
-  //   } else {
-  //     setTimeout(() => {
-  //       setTabBarVisible("flex");
-  //     }, 500);
-  //     // setTabBarVisible("flex");
-  //   }
-  // }, [isFoused]);
+  useEffect(() => {
+    if (isFoused) {
+      setTabBarVisible("none");
+    } else {
+      setTimeout(() => {
+        setTabBarVisible("flex");
+      }, 500);
+      // setTabBarVisible("flex");
+    }
+  }, [isFoused]);
   const { data, loading } = useQuery(SEE_RECIPE_QUERY, {
     variables: { id: route.params?.recipeId },
     skip: !route.params.recipeId,
   });
-  console.log("card:", route.params.test);
 
   const goBack = () => navigation.goBack();
   const goProfile = () => navigation.navigate("Profile");

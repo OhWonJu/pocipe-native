@@ -1,12 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import Carousel from "react-native-snap-carousel";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -67,31 +60,26 @@ const IconWrapper = styled.TouchableOpacity`
   transform: rotate(-90deg);
 `;
 
-const RecipeDetailView = ({ data, goBack, goProfile }) => {
+export default RecipeDetailView = ({ data, goBack, goProfile }) => {
   const themeContext = useContext(ThemeContext);
 
   const [activeSlide, setActive] = useState(0);
 
   const renderItem = ({ item: uri, index }) => {
-    if (index === 0) {
-      console.log(`${data.id}-${index}`);
-    }
     return (
       <View
         style={{
           minHeight: constants.height / 1.5,
         }}
       >
-        <SharedElement id={`${data.id}-${index}`}>
-          <Image
-            source={{ uri }}
-            style={{
-              height: constants.width,
-              width: constants.width,
-            }}
-            resizeMode="cover"
-          />
-        </SharedElement>
+        <Image
+          source={{ uri }}
+          style={{
+            height: constants.width,
+            width: constants.width,
+          }}
+          resizeMode="cover"
+        />
       </View>
     );
   };
@@ -209,25 +197,3 @@ const RecipeDetailView = ({ data, goBack, goProfile }) => {
     </>
   );
 };
-
-export default RecipeDetailView;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-  },
-  blurContainer: {
-    flex: 1,
-    padding: 20,
-    justifyContent: "center",
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: "600",
-  },
-});
