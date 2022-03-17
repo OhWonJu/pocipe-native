@@ -6,25 +6,28 @@ import { SEE_RECIPE_QUERY } from "./RecipeDetailModel";
 import RecipeDetailView from "./RecipeDetailView";
 import Loader from "../../components/Loader";
 
-export default RecipeDetailController = ({
+const RecipeDetailController = ({
   navigation,
   route,
-  setTabBarVisible,
+  // setTabBarVisible,
 }) => {
-  const isFoused = useIsFocused();
+  // const isFoused = useIsFocused();
 
-  useEffect(() => {
-    if (isFoused) {
-      setTabBarVisible("none");
-    } else {
-      setTabBarVisible("flex");
-    }
-  }, [isFoused]);
-
+  // useEffect(() => {
+  //   if (isFoused) {
+  //     setTabBarVisible("none");
+  //   } else {
+  //     setTimeout(() => {
+  //       setTabBarVisible("flex");
+  //     }, 500);
+  //     // setTabBarVisible("flex");
+  //   }
+  // }, [isFoused]);
   const { data, loading } = useQuery(SEE_RECIPE_QUERY, {
     variables: { id: route.params?.recipeId },
     skip: !route.params.recipeId,
   });
+  console.log("card:", route.params.test);
 
   const goBack = () => navigation.goBack();
   const goProfile = () => navigation.navigate("Profile");
@@ -39,3 +42,10 @@ export default RecipeDetailController = ({
     />
   );
 };
+
+// RecipeDetailController.sharedElements = route => {
+//   const id = `${route.params.recipeId}-0`;
+//   return [{ id, animation: "move" }];
+// };
+
+export default RecipeDetailController;

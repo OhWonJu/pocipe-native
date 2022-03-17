@@ -26,7 +26,10 @@ export const SEE_RECIPE_QUERY = gql`
       }
       toDosCount
       kategories {
-        type
+        kategorie
+      }
+      ingredients {
+        ingredient
       }
       isMine
       createdAt

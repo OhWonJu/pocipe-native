@@ -1,5 +1,5 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
 import { verticallTransition } from "./NavigationOptions";
 
@@ -11,11 +11,12 @@ import Profile from "../screens/Profile";
 import RecipeDetail from "../screens/RecipeDetailScreens/index";
 import Notification from "../screens/HomeScreens/NotificationScreens/Notification";
 
-const Stacks = createStackNavigator();
+const Stacks = createSharedElementStackNavigator();
 
 export default ({ screenName, setTabBarVisible }) => {
   return (
     <Stacks.Navigator
+      initialRouteName={screenName}
       screenOptions={{
         headerShown: false,
       }}
@@ -33,13 +34,22 @@ export default ({ screenName, setTabBarVisible }) => {
         <Stacks.Screen name={"MyPage"} component={MyPage} />
       ) : null}
       <Stacks.Screen name="Profile" component={Profile} />
+
       <Stacks.Screen
         name="RecipeDetail"
-        options={{
-          presentation: "card",
-          headerShown: false,
-          ...verticallTransition,
-          gestureDirection: "vertical",
+        component={RecipeDetail}
+        sharedElements={(route, otherRoute, showing) => {
+          const id = `${route.params.recipeId}-0`;
+          console.log("NAV", id);
+          return [id];
+        }}
+      />
+
+      {/* <Stacks.Screen
+        name="RecipeDetail"
+        sharedElements={(route, otherRoute, showing) => {
+          const { item } = route.params;
+          return [`item.${item.id}.photo`];
         }}
       >
         {({ navigation, route }) => (
@@ -49,7 +59,7 @@ export default ({ screenName, setTabBarVisible }) => {
             setTabBarVisible={setTabBarVisible}
           />
         )}
-      </Stacks.Screen>
+      </Stacks.Screen> */}
       <Stacks.Screen
         name="Notification"
         component={Notification}

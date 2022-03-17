@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ThemeContext } from "styled-components/native";
 import { Feather, Entypo } from "@expo/vector-icons";
 
-import StackNavFactorty from "./StackNavFactorty";
+import StackNavFactory from "./StackNavFactory";
 import useMe from "../Hooks/useMe";
 
 const FONT_SIZE = 10;
@@ -56,7 +56,7 @@ export default () => {
         }}
       >
         {() => (
-          <StackNavFactorty
+          <StackNavFactory
             screenName="Home"
             setTabBarVisible={setTabBarVisible}
           />
@@ -87,7 +87,7 @@ export default () => {
         }}
       >
         {() => (
-          <StackNavFactorty
+          <StackNavFactory
             screenName="Search"
             setTabBarVisible={setTabBarVisible}
           />
@@ -118,7 +118,7 @@ export default () => {
         }}
       >
         {() => (
-          <StackNavFactorty
+          <StackNavFactory
             screenName="Market"
             setTabBarVisible={setTabBarVisible}
           />
@@ -174,7 +174,7 @@ export default () => {
         }}
       >
         {() => (
-          <StackNavFactorty
+          <StackNavFactory
             screenName="MyPage"
             setTabBarVisible={setTabBarVisible}
           />

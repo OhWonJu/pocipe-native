@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { TouchableWithoutFeedback, View, Image } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
+import { SharedElement } from "react-native-shared-element";
 import styled, { ThemeContext } from "styled-components/native";
 
 import { FilledNoticStar } from "../Icons";
@@ -66,15 +67,20 @@ export default ({ item: recipe, navigation, route }) => {
   return (
     <TouchableWithoutFeedback
       onPress={() =>
-        navigation.navigate("RecipeDetail", { recipeId: recipe.id })
+        navigation.navigate("RecipeDetail", {
+          recipeId: recipe.id,
+          test: `${recipe.id}-0`,
+        })
       }
     >
       <CardContainer>
         <ThumbNailBox>
-          <ThumbImage
-            source={{ uri: recipe.thumbNails[0] }}
-            resizeMode={"cover"}
-          />
+          <SharedElement id={`${recipe.id}-0`}>
+            <ThumbImage
+              source={{ uri: recipe.thumbNails[0] }}
+              resizeMode={"cover"}
+            />
+          </SharedElement>
         </ThumbNailBox>
         <InfoBox>
           <TitleText numberOfLines={1} ellipsizeMode="tail">

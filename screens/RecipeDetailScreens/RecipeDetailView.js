@@ -6,9 +6,7 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  ImageBackground,
 } from "react-native";
-import { BlurView } from "expo-blur";
 import styled, { ThemeContext } from "styled-components/native";
 import Carousel from "react-native-snap-carousel";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -16,6 +14,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Container from "../../components/Container";
 import constants from "../../constants";
 import ProfilePhoto from "../../components/ProfilePhoto";
+import { SharedElement } from "react-native-shared-element";
 
 //https://github.com/meliorence/react-native-snap-carousel
 
@@ -68,55 +67,56 @@ const IconWrapper = styled.TouchableOpacity`
   transform: rotate(-90deg);
 `;
 
-export default ({ data, goBack, goProfile }) => {
+const RecipeDetailView = ({ data, goBack, goProfile }) => {
   const themeContext = useContext(ThemeContext);
 
   const [activeSlide, setActive] = useState(0);
 
   const renderItem = ({ item: uri, index }) => {
+    if (index === 0) {
+      console.log(`${data.id}-${index}`);
+    }
     return (
       <View
         style={{
           minHeight: constants.height / 1.5,
         }}
       >
-        <ImageBackground
-          style={[StyleSheet.absoluteFill, styles.image]}
-          source={{ uri }}
-        />
-        <BlurView intensity={100} tint="light" style={styles.blurContainer}>
+        <SharedElement id={`${data.id}-${index}`}>
           <Image
             source={{ uri }}
             style={{
-              height: constants.width / 1.1,
-              width: constants.width / 1.1,
-              borderRadius: 10,
+              height: constants.width,
+              width: constants.width,
             }}
             resizeMode="cover"
           />
-        </BlurView>
+        </SharedElement>
       </View>
     );
   };
 
   return (
-    <ScrollView>
-      <Carousel
-        // ref={c => {
-        //   this._carousel = c;
-        // }}
-        layout={"default"}
-        data={data.thumbNails}
-        renderItem={renderItem}
-        sliderWidth={constants.width}
-        itemWidth={constants.width}
-        inactiveSlideScale={1}
-        inactiveSlideOpacity={0.2}
-        onSnapToItem={index => setActive(index)}
-      />
-      {data.thumbNails?.length > 1 && (
-        <PaginationBox>
-          {/* <Pagination
+    <>
+      <ScrollView>
+        <Carousel
+          // ref={c => {
+          //   this._carousel = c;
+          // }}
+          layout={"default"}
+          data={data.thumbNails}
+          renderItem={renderItem}
+          sliderWidth={constants.width}
+          itemWidth={constants.width}
+          inactiveSlideScale={1}
+          inactiveSlideOpacity={1}
+          enableMomentum={false}
+          decelerationRate={0}
+          onSnapToItem={index => setActive(index)}
+        />
+        {data.thumbNails?.length > 1 && (
+          <PaginationBox>
+            {/* <Pagination
             dotsLength={data.thumbNails?.length}
             activeDotIndex={activeSlide}
             // containerStyle={{
@@ -137,71 +137,80 @@ export default ({ data, goBack, goProfile }) => {
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.7}
           /> */}
-          <Pagination bgColor={themeContext.blackColor + 70}>
-            <PageIndex fontColor={themeContext.bgColor}>
-              {activeSlide + 1}/{data.thumbNails?.length}
-            </PageIndex>
-          </Pagination>
-        </PaginationBox>
-      )}
-      {/* 헤더 */}
-      <Header>
-        <Left>
-          <IconWrapper onPress={goBack}>
-            <MaterialIcons
-              name="keyboard-arrow-left"
-              size={38}
-              color={themeContext.blackColor}
-            />
-          </IconWrapper>
-        </Left>
-        <Right></Right>
-      </Header>
-      {/* 딥 버튼 */}
-      <View
-        style={{
-          height: 60,
-          width: 60,
-          top: constants.height / 1.57,
-          left: "80%",
-          zIndex: 999,
-          position: "absolute",
-          backgroundColor: "red",
-          borderRadius: 30,
-        }}
-      ></View>
-      {/* Infos */}
-      <View
-        style={{
-          height: constants.height - constants.height / 1.5,
-          backgroundColor: "green",
-        }}
-      ></View>
-      <Container>
+            <Pagination bgColor={themeContext.blackColor + 70}>
+              <PageIndex fontColor={themeContext.bgColor}>
+                {activeSlide + 1}/{data.thumbNails?.length}
+              </PageIndex>
+            </Pagination>
+          </PaginationBox>
+        )}
+        {/* 헤더 */}
+        <Header>
+          <Left>
+            <IconWrapper onPress={goBack}>
+              <MaterialIcons
+                name="keyboard-arrow-left"
+                size={38}
+                color={themeContext.blackColor}
+              />
+            </IconWrapper>
+          </Left>
+          <Right></Right>
+        </Header>
+        {/* 딥 버튼 */}
         <View
           style={{
-            flex: 1,
-            minHeight: constants.height,
-            justifyContent: "center",
-            alignItems: "center",
+            height: 60,
+            width: 60,
+            top: constants.height / 1.57,
+            left: "80%",
+            zIndex: 999,
+            position: "absolute",
+            backgroundColor: "red",
+            borderRadius: 30,
           }}
-        >
-          <Text>Recipe Details! 💚</Text>
-          <Text>{data.id}</Text>
-          <Text>{data.title}</Text>
-          <Text>{data.caption}</Text>
-          <Text>{data.servings}</Text>
-          <Text>{data.difficulty}</Text>
-          <Text>{data.cookingTime}</Text>
-          <TouchableOpacity onPress={goProfile}>
-            <Text>{data.chef.userName}</Text>
-            <ProfilePhoto size="large" uri={data.chef.profilePhoto} />
-          </TouchableOpacity>
-        </View>
-      </Container>
-    </ScrollView>
+        ></View>
+        {/* Infos */}
+        <View
+          style={{
+            height: constants.height - constants.height / 1.5,
+            backgroundColor: "green",
+          }}
+        ></View>
+        <Container>
+          <View
+            style={{
+              flex: 1,
+              minHeight: constants.height,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text>Recipe Details! 💚</Text>
+            <Text>{data.id}</Text>
+            <Text>{data.title}</Text>
+            <Text>{data.caption}</Text>
+            <Text>{data.servings}</Text>
+            <Text>{data.difficulty}</Text>
+            <Text>{data.cookingTime}</Text>
+            {data.kategories.map(obj => (
+              <Text key={obj.kategorie}>{obj.kategorie}</Text>
+            ))}
+            {data.ingredients.map(obj => (
+              <Text key={obj.ingredient}>{obj.ingredient}</Text>
+            ))}
+            <TouchableOpacity onPress={goProfile}>
+              <Text>{data.chef.userName}</Text>
+              <ProfilePhoto size="large" uri={data.chef.profilePhoto} />
+            </TouchableOpacity>
+          </View>
+        </Container>
+      </ScrollView>
+    </>
   );
 };
+
+export default RecipeDetailView;
 
 const styles = StyleSheet.create({
   container: {
