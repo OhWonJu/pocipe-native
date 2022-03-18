@@ -48,6 +48,7 @@ const RatingBox = styled.View`
 `;
 const RatingText = styled.Text`
   font-size: 8px;
+  font-weight: bold;
   color: ${props => props.theme.yellowColor};
 `;
 const UserNameText = styled.Text`

@@ -26,11 +26,11 @@ export const darkTheme = {
   yellowColor: "#F6B93B",
   greyColor: "#AFAFAF",
   darkGreyColor: "#999999",
-  lightGreyColor: "#F5F5F5",
-  redColor: "#ED4956",
+  lightGreyColor: "#F1F1F1",
+  redColor: "#eb2f06",
   blueColor: "#3897f0",
   darkBlueColor: "#003569",
-  boxBorder: "1px solid #D7D7D7",
+  boxBorder: "1px solid #F1F1F1",
   borderRadius: "4px",
   themeBox: `border: ${BOX_BORDER};
             border-radius: ${BORDER_RADIUS};

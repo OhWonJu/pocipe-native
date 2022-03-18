@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components/native";
 
 const Container = styled.TouchableOpacity`
+  flex-direction: row;
   background-color: ${props =>
     props.bgColor ? props.bgColor : props.theme.yellowColor};
   padding: 10px;
   border-radius: ${props => (props.radius ? props.radius : "10px")};
+  ${props => props.height && { height: props.height }}
   width: ${props => (props.width ? props.width : "50%")};
   align-items: center;
   justify-content: center;
@@ -23,18 +25,22 @@ const Button = ({
   onPress,
   disable = false,
   width,
+  height = null,
   bgColor = null,
   txColor = null,
   txSize = null,
-  radius = null
+  icon = null,
+  radius = null,
 }) => (
   <Container
     disabled={disable}
     onPress={onPress}
     bgColor={bgColor}
     width={width}
+    height={height}
     radius={radius}
   >
+    {icon}
     <Text txColor={txColor} txSize={txSize}>
       {text}
     </Text>

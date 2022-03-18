@@ -2,7 +2,7 @@ import React from "react";
 import { Text } from "react-native";
 import styled from "styled-components/native";
 
-import AuthHeader from "../../../components/Auth/AuthHeader";
+import AuthHeader from "../../components/Auth/AuthHeader";
 
 const View = styled.View`
   flex: 1;

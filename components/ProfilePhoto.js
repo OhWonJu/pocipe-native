@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled, { ThemeContext } from "styled-components/native";
 
 const ProfileBox = styled.View`
@@ -17,7 +17,26 @@ const ProfileImage = styled.Image`
 export default ({ size = "normal", uri }) => {
   const themeContext = useContext(ThemeContext);
 
-  const viewSize = size === "normal" ? 28 : size === "small" ? 22 : 83;
+  const [viewSize, setViewSize] = useState(22);
+
+  useEffect(() => {
+    switch (size) {
+      case "small":
+        setViewSize(22);
+        break;
+      case "normal":
+        setViewSize(28);
+        break;
+      case "large":
+        setViewSize(83);
+        break;
+      case "profile":
+        setViewSize(113);
+        break;
+      default:
+        setViewSize(28);
+    }
+  }, []);
 
   return (
     <ProfileBox viewSize={viewSize}>

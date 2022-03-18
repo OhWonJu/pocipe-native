@@ -7,7 +7,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Container from "../../components/Container";
 import constants from "../../constants";
 import ProfilePhoto from "../../components/ProfilePhoto";
-import { SharedElement } from "react-native-shared-element";
 
 //https://github.com/meliorence/react-native-snap-carousel
 
@@ -104,27 +103,6 @@ export default RecipeDetailView = ({ data, goBack, goProfile }) => {
         />
         {data.thumbNails?.length > 1 && (
           <PaginationBox>
-            {/* <Pagination
-            dotsLength={data.thumbNails?.length}
-            activeDotIndex={activeSlide}
-            // containerStyle={{
-            //   backgroundColor: "rgba(0, 0, 0, 0.75)",
-            // }}
-            dotStyle={{
-              width: 5,
-              height: 5,
-              borderRadius: 3,
-              // marginHorizontal: 8,
-              backgroundColor: "rgba(0, 0, 0, 0.75)",
-            }}
-            inactiveDotStyle={
-              {
-                // Define styles for inactive dots here
-              }
-            }
-            inactiveDotOpacity={0.4}
-            inactiveDotScale={0.7}
-          /> */}
             <Pagination bgColor={themeContext.blackColor + 70}>
               <PageIndex fontColor={themeContext.bgColor}>
                 {activeSlide + 1}/{data.thumbNails?.length}

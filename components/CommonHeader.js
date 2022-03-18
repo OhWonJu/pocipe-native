@@ -4,6 +4,7 @@ import { EvilIcons } from "@expo/vector-icons";
 
 import constants from "../constants";
 import { FilledNoticStar, NoticStar } from "./Icons";
+import AuthHeader from "./Auth/AuthHeader";
 
 const Container = styled.View`
   flex-direction: row;
@@ -53,34 +54,41 @@ export default CommonHeader = ({
 }) => {
   const themeContext = useContext(ThemeContext);
 
-  const goToNotification = () => navigation.navigate("Notification");
+  const CONTAINER = ({ leftChildren = null, rightChildren = null }) => {
+    return (
+      <Container>
+        <Left>
+          {leftChildren === null ? (
+            <Title titleColor={titleColor}>{title}</Title>
+          ) : (
+            { leftChildren }
+          )}
+        </Left>
+        <Right>{rightChildren}</Right>
+      </Container>
+    );
+  };
   if (type === "default") {
-    return (
-      <Container>
-        <Left>
-          <Title titleColor={titleColor}>{title}</Title>
-        </Left>
-        <Right>
-          <TouchableWithoutFeedback onPress={goToNotification}>
-            <IconWrapper>
-              <NoticStar size={28} color={themeContext.blackColor} />
-            </IconWrapper>
-          </TouchableWithoutFeedback>
-        </Right>
-      </Container>
+    const rightChildren = (
+      <TouchableWithoutFeedback
+        onPress={() => navigation.navigate("Notification")}
+      >
+        <IconWrapper>
+          <NoticStar size={28} color={themeContext.blackColor} />
+        </IconWrapper>
+      </TouchableWithoutFeedback>
     );
-  } else {
-    return (
-      <Container>
-        <Left>
-          <Title titleColor={titleColor}>{title}</Title>
-        </Left>
-        <Right>
-          <TouchableWithoutFeedback onPress={goToNotification}>
-            <EvilIcons name="gear" size={30} color={themeContext.blackColor} />
-          </TouchableWithoutFeedback>
-        </Right>
-      </Container>
+
+    return <CONTAINER rightChildren={rightChildren} />;
+  } else if (type === "MyPage") {
+    const rightChildren = (
+      <TouchableWithoutFeedback onPress={() => navigation.navigate("Setting")}>
+        <EvilIcons name="gear" size={30} color={themeContext.blackColor} />
+      </TouchableWithoutFeedback>
     );
+
+    return <CONTAINER rightChildren={rightChildren} />;
+  } else if (type === "Setting") {
+    return <AuthHeader title={title} leftOnPress={() => navigation.goBack()} />;
   }
 };

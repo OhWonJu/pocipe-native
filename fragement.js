@@ -8,7 +8,7 @@ export const USER_FRAGMENT = gql`
     userName
     bio
     profilePhoto
-    startCount
+    starCount
     totalStar
     subscribersCount
     subscribingsCount

@@ -1,15 +1,17 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { verticallTransition } from "./NavigationOptions";
+import { verticallTransition, horizontalTransition } from "./NavigationOptions";
 
 import Home from "../screens/HomeScreens/index";
 import Search from "../screens/Search";
 import Market from "../screens/Market";
-import MyPage from "../screens/MyPage";
+import MyPage from "../screens/MyPageScreens/index";
 import Profile from "../screens/Profile";
 import RecipeDetail from "../screens/RecipeDetailScreens/index";
-import Notification from "../screens/HomeScreens/NotificationScreens/Notification";
+import RecipeList from "../screens/RecipeListScreens/index";
+import Notification from "../screens/NotificationScreens/Notification";
+import Setting from "../screens/SettingScreens/index";
 
 const Stacks = createStackNavigator();
 
@@ -52,12 +54,26 @@ export default ({ screenName, setTabBarVisible }) => {
         )}
       </Stacks.Screen>
       <Stacks.Screen
+        name="RecipeList"
+        component={RecipeList}
+        options={{ animationEnabled: false }}
+      />
+      <Stacks.Screen
         name="Notification"
         component={Notification}
         options={{
           presentation: "card",
           ...verticallTransition,
           gestureDirection: "vertical-inverted",
+        }}
+      />
+      <Stacks.Screen
+        name="Setting"
+        component={Setting}
+        options={{
+          presentation: "card",
+          gestureEnabled: true,
+          ...horizontalTransition,
         }}
       />
     </Stacks.Navigator>

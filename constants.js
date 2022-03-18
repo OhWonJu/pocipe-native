@@ -9,3 +9,4 @@ const window = Dimensions.get("window");
 const statusBarHeight = StatusBar.currentHeight;
 
 export default { width, height, window, statusBarHeight };
+
