@@ -6,12 +6,12 @@ import Container from "../components/Container";
 export default ({ navigation, route }) => {
   return (
     <>
-      <CommonHeader navigation={navigation} title={"Someone"} />
+      <CommonHeader navigation={navigation} title={route.params.userName} />
       <Container>
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Text>Someones Profile</Text>
+          <Text>{route.params.userName}'s Profile</Text>
         </View>
       </Container>
     </>

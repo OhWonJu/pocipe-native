@@ -11,7 +11,7 @@ import Profile from "../screens/Profile";
 import RecipeDetail from "../screens/RecipeDetailScreens/index";
 import RecipeList from "../screens/RecipeListScreens/index";
 import Notification from "../screens/NotificationScreens/Notification";
-import Setting from "../screens/SettingScreens/index";
+import Setting from "../screens/MyPageScreens/SettingScreens/index";
 
 const Stacks = createStackNavigator();
 

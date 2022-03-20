@@ -13,5 +13,5 @@ export default ({ navigation }) => {
     return <Loader />;
   }
 
-  return <MyPageView navigation={navigation} data={data.me} />;
+  return <MyPageView {...data.me} />;
 };

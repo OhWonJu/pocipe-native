@@ -18,14 +18,14 @@ const ListContainer = styled.View`
   padding: 10px 0px 10px 0px;
 `;
 
-export default ({ contentListTitle, loading, children }) => {
+export default ({ contentListTitle, loading, navigation, children }) => {
   const themeContext = useContext(ThemeContext);
 
   return (
     <View pointerEvents="box-none">
       <TitleContainer>
         <TouchableOpacity
-          onPress={() => null}
+          onPress={() => navigation.navigate("RecipeList")}
           style={{
             flexDirection: "row",
             alignItems: "center",

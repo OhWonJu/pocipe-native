@@ -20,7 +20,8 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  bgColor: "#FBFBFB",
+  // bgColor: "#FBFBFB",
+  bgColor: "#FBFBF9",
   // bgColor: "#262626",
   blackColor: "#262626",
   yellowColor: "#F6B93B",
@@ -29,6 +30,7 @@ export const darkTheme = {
   lightGreyColor: "#F1F1F1",
   redColor: "#eb2f06",
   blueColor: "#3897f0",
+  blurBlueColor: "#5C83C6",
   darkBlueColor: "#003569",
   boxBorder: "1px solid #F1F1F1",
   borderRadius: "4px",

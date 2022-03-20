@@ -59,7 +59,7 @@ const ProfileBox = styled.View`
   flex-direction: row;
   align-items: baseline;
   padding-top: 3px;
-  flex: 1;
+  padding-bottom: 2px;
 `;
 
 export default ({ item: recipe, navigation, route }) => {

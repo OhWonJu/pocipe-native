@@ -19,28 +19,25 @@ const RecipeDetailController = ({ navigation, route, setTabBarVisible }) => {
       // setTabBarVisible("flex");
     }
   }, [isFoused]);
+
   const { data, loading } = useQuery(SEE_RECIPE_QUERY, {
     variables: { id: route.params?.recipeId },
     skip: !route.params.recipeId,
   });
 
   const goBack = () => navigation.goBack();
-  const goProfile = () => navigation.navigate("Profile");
+  const goProfile = () =>
+    navigation.navigate("Profile", { userName: data.seeRecipe.chef.userName });
 
   if (loading || !data) return <Loader />;
 
   return (
     <RecipeDetailView
-      data={data.seeRecipe}
       goBack={goBack}
       goProfile={goProfile}
+      {...data.seeRecipe}
     />
   );
 };
-
-// RecipeDetailController.sharedElements = route => {
-//   const id = `${route.params.recipeId}-0`;
-//   return [{ id, animation: "move" }];
-// };
 
 export default RecipeDetailController;

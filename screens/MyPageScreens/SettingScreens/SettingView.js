@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
-import CommonHeader from "../../components/CommonHeader";
-import Container from "../../components/Container";
+import CommonHeader from "../../../components/CommonHeader";
+import Container from "../../../components/Container";
 
 export default ({ navigation }) => {
   return (

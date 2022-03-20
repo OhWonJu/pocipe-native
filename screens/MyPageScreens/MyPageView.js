@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import styled, { ThemeContext } from "styled-components/native";
 
 import Button from "../../components/Button";
@@ -13,6 +14,7 @@ import { shadows } from "../../Styles/GlobalStyles";
 const ProfileBox = styled.View`
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
   margin-bottom: 15px;
 `;
 
@@ -62,6 +64,7 @@ const ContentInfoBox = styled.View`
   border-radius: 15px;
   justify-content: space-around;
   align-items: center;
+  margin-bottom: 15px;
 `;
 const InfoColBox = styled.View`
   padding: 3px;
@@ -93,8 +96,17 @@ const IconWrapper = styled.View`
 const BTN_WEIGHT = "47%";
 const BTN_HEIGHT = "47px";
 
-export default MyPageView = ({ navigation, data }) => {
+export default MyPageView = ({
+  userName,
+  profilePhoto,
+  bio,
+  totalStar,
+  subscribersCount,
+  subscribingsCount,
+  recipes,
+}) => {
   const themeContext = useContext(ThemeContext);
+  const navigation = useNavigation();
 
   const INFOBOX = ({ topTx, bottomTx, onPress = null }) => (
     <InfoColBox>
@@ -138,27 +150,27 @@ export default MyPageView = ({ navigation, data }) => {
       <Container>
         <ProfileBox>
           <View style={shadows.photoWrapper}>
-            <ProfilePhoto uri={data.profilePhoto} size={"profile"} />
+            <ProfilePhoto uri={profilePhoto} size={"profile"} />
           </View>
           <RowBox>
             <PublicOps>공개</PublicOps>
-            <UserName>{data.userName}</UserName>
+            <UserName>{userName}</UserName>
           </RowBox>
           <BioBox>
-            <Bio>{data.bio}</Bio>
+            <Bio>{bio}</Bio>
           </BioBox>
           <RatingBox>
             <FilledNoticStar size={15} color={themeContext.yellowColor} />
             <RatingText numberOfLines={1} ellipsizeMode="tail">
-              X{data.totalStar}
+              X{totalStar}
             </RatingText>
           </RatingBox>
         </ProfileBox>
         <ContentInfoBox>
-          <INFOBOX topTx={data.subscribersCount} bottomTx={"구독자"} />
-          <INFOBOX topTx={data.subscribingsCount} bottomTx={"구독중"} />
+          <INFOBOX topTx={subscribersCount} bottomTx={"구독자"} />
+          <INFOBOX topTx={subscribingsCount} bottomTx={"구독중"} />
           <INFOBOX
-            topTx={data.recipes.length}
+            topTx={recipes.length}
             bottomTx={"레시피"}
             onPress={() => navigation.navigate("RecipeList")}
           />

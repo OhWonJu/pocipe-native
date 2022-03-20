@@ -15,7 +15,7 @@ const ProfileImage = styled.Image`
 
 // size -> small || normal || large
 export default ({ size = "normal", uri }) => {
-  const themeContext = useContext(ThemeContext);
+  // const themeContext = useContext(ThemeContext);
 
   const [viewSize, setViewSize] = useState(22);
 

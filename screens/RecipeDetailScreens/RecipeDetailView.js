@@ -7,6 +7,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Container from "../../components/Container";
 import constants from "../../constants";
 import ProfilePhoto from "../../components/ProfilePhoto";
+import { useNavigation } from "@react-navigation/native";
 
 //https://github.com/meliorence/react-native-snap-carousel
 
@@ -59,7 +60,20 @@ const IconWrapper = styled.TouchableOpacity`
   transform: rotate(-90deg);
 `;
 
-export default RecipeDetailView = ({ data, goBack, goProfile }) => {
+export default RecipeDetailView = ({
+  goBack,
+  goProfile,
+  id,
+  title,
+  caption,
+  thumbNails,
+  chef,
+  servings,
+  difficulty,
+  cookingTime,
+  kategories,
+  ingredients,
+}) => {
   const themeContext = useContext(ThemeContext);
 
   const [activeSlide, setActive] = useState(0);
@@ -85,13 +99,13 @@ export default RecipeDetailView = ({ data, goBack, goProfile }) => {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Carousel
           // ref={c => {
           //   this._carousel = c;
           // }}
           layout={"default"}
-          data={data.thumbNails}
+          data={thumbNails}
           renderItem={renderItem}
           sliderWidth={constants.width}
           itemWidth={constants.width}
@@ -101,11 +115,11 @@ export default RecipeDetailView = ({ data, goBack, goProfile }) => {
           decelerationRate={0}
           onSnapToItem={index => setActive(index)}
         />
-        {data.thumbNails?.length > 1 && (
+        {thumbNails?.length > 1 && (
           <PaginationBox>
             <Pagination bgColor={themeContext.blackColor + 70}>
               <PageIndex fontColor={themeContext.bgColor}>
-                {activeSlide + 1}/{data.thumbNails?.length}
+                {activeSlide + 1}/{thumbNails?.length}
               </PageIndex>
             </Pagination>
           </PaginationBox>
@@ -153,21 +167,21 @@ export default RecipeDetailView = ({ data, goBack, goProfile }) => {
             }}
           >
             <Text>Recipe Details! 💚</Text>
-            <Text>{data.id}</Text>
-            <Text>{data.title}</Text>
-            <Text>{data.caption}</Text>
-            <Text>{data.servings}</Text>
-            <Text>{data.difficulty}</Text>
-            <Text>{data.cookingTime}</Text>
-            {data.kategories.map(obj => (
+            <Text>{id}</Text>
+            <Text>{title}</Text>
+            <Text>{caption}</Text>
+            <Text>{servings}</Text>
+            <Text>{difficulty}</Text>
+            <Text>{cookingTime}</Text>
+            {kategories.map(obj => (
               <Text key={obj.kategorie}>{obj.kategorie}</Text>
             ))}
-            {data.ingredients.map(obj => (
+            {ingredients.map(obj => (
               <Text key={obj.ingredient}>{obj.ingredient}</Text>
             ))}
             <TouchableOpacity onPress={goProfile}>
-              <Text>{data.chef.userName}</Text>
-              <ProfilePhoto size="large" uri={data.chef.profilePhoto} />
+              <Text>{chef.userName}</Text>
+              <ProfilePhoto size="large" uri={chef.profilePhoto} />
             </TouchableOpacity>
           </View>
         </Container>
