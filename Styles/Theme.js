@@ -21,13 +21,13 @@ export const lightTheme = {
 
 export const darkTheme = {
   // bgColor: "#FBFBFB",
-  bgColor: "#FBFBF9",
+  bgColor: "#FBFBFB",
   // bgColor: "#262626",
   blackColor: "#262626",
   yellowColor: "#F6B93B",
   greyColor: "#AFAFAF",
   darkGreyColor: "#999999",
-  lightGreyColor: "#F1F1F1",
+  lightGreyColor: "#F3F3F3",
   redColor: "#eb2f06",
   blueColor: "#3897f0",
   blurBlueColor: "#5C83C6",

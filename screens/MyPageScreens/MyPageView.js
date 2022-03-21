@@ -1,5 +1,11 @@
 import React, { useContext } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  ScrollView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled, { ThemeContext } from "styled-components/native";
 
@@ -85,7 +91,8 @@ const RowBox = styled.View`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin-top: ${props => (props.marginTop ? props.marginTop : 10)}px;
+  /* margin-top: ${props => (props.marginTop ? props.marginTop : 10)}px; */
+  margin-top: 10px;
   /* background-color: rgba(80, 100, 5, 0.5); */
 `;
 const IconWrapper = styled.View`
@@ -147,57 +154,79 @@ export default MyPageView = ({
         type={"MyPage"}
         title={"마이페이지"}
       />
-      <Container>
-        <ProfileBox>
-          <View style={shadows.photoWrapper}>
-            <ProfilePhoto uri={profilePhoto} size={"profile"} />
-          </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        // {...scrollPropsAndRef}
+        bounces={false}
+      >
+        <Container>
+          <ProfileBox>
+            <View style={shadows.photoWrapper}>
+              <ProfilePhoto uri={profilePhoto} size={"profile"} />
+            </View>
+            <RowBox>
+              <PublicOps>공개</PublicOps>
+              <UserName>{userName}</UserName>
+            </RowBox>
+            <BioBox>
+              <Bio>{bio}</Bio>
+            </BioBox>
+            <RatingBox>
+              <FilledNoticStar size={15} color={themeContext.yellowColor} />
+              <RatingText numberOfLines={1} ellipsizeMode="tail">
+                X{totalStar}
+              </RatingText>
+            </RatingBox>
+          </ProfileBox>
+          <ContentInfoBox>
+            <INFOBOX topTx={subscribersCount} bottomTx={"구독자"} />
+            <INFOBOX topTx={subscribingsCount} bottomTx={"구독중"} />
+            <INFOBOX
+              topTx={recipes.length}
+              bottomTx={"레시피"}
+              onPress={() =>
+                navigation.navigate("RecipeList", {
+                  title: "내 레시피",
+                  listId: recipes.map(recipe => recipe.id),
+                })
+              }
+            />
+          </ContentInfoBox>
           <RowBox>
-            <PublicOps>공개</PublicOps>
-            <UserName>{userName}</UserName>
+            <BUTTON
+              text={"별점"}
+              icon={STAR}
+              onPress={() =>
+                navigation.navigate("RecipeList", {
+                  title: "별점",
+                  listId: "",
+                })
+              }
+            />
+            <BUTTON
+              text={"찜"}
+              icon={DIP}
+              onPress={() =>
+                navigation.navigate("RecipeList", {
+                  title: "찜",
+                  listId: "",
+                })
+              }
+            />
           </RowBox>
-          <BioBox>
-            <Bio>{bio}</Bio>
-          </BioBox>
-          <RatingBox>
-            <FilledNoticStar size={15} color={themeContext.yellowColor} />
-            <RatingText numberOfLines={1} ellipsizeMode="tail">
-              X{totalStar}
-            </RatingText>
-          </RatingBox>
-        </ProfileBox>
-        <ContentInfoBox>
-          <INFOBOX topTx={subscribersCount} bottomTx={"구독자"} />
-          <INFOBOX topTx={subscribingsCount} bottomTx={"구독중"} />
-          <INFOBOX
-            topTx={recipes.length}
-            bottomTx={"레시피"}
-            onPress={() => navigation.navigate("RecipeList")}
-          />
-        </ContentInfoBox>
-        <RowBox>
-          <BUTTON
-            text={"별점"}
-            icon={STAR}
-            onPress={() => navigation.navigate("RecipeList")}
-          />
-          <BUTTON
-            text={"찜"}
-            icon={DIP}
-            onPress={() => navigation.navigate("RecipeList")}
-          />
-        </RowBox>
-        <RowBox>
-          <BUTTON
-            text={"최근 레시피"}
-            onPress={() => navigation.navigate("RecipeList")}
-          />
-          <BUTTON
-            text={"자주 본 레시피"}
-            onPress={() => navigation.navigate("RecipeList")}
-          />
-        </RowBox>
-      </Container>
+          <RowBox>
+            <BUTTON
+              text={"최근 본 레시피"}
+              onPress={() => navigation.navigate("RecipeList")}
+            />
+            <BUTTON
+              text={"자주 본 레시피"}
+              onPress={() => navigation.navigate("RecipeList")}
+            />
+          </RowBox>
+          <View style={{ height: 500, backgroundColo: "red" }}></View>
+        </Container>
+      </ScrollView>
     </>
   );
 };

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { TouchableWithoutFeedback } from "react-native";
-import { SharedElement } from "react-native-shared-element";
 import styled, { ThemeContext } from "styled-components/native";
 
 import { FilledNoticStar } from "../Icons";
@@ -11,7 +10,7 @@ const CARD_WIDTH = 160;
 const CardContainer = styled.View`
   /* max-height: 340px; */
   width: ${CARD_WIDTH}px;
-  margin: 0px 10px 0px 10px;
+  margin: 10px 10px 10px 10px;
 `;
 const ThumbNailBox = styled.View`
   width: ${CARD_WIDTH}px;
@@ -62,7 +61,7 @@ const ProfileBox = styled.View`
   padding-bottom: 2px;
 `;
 
-export default ({ item: recipe, navigation, route }) => {
+export default ({ item: recipe, navigation, isProfile = false }) => {
   const themeContext = useContext(ThemeContext);
 
   return (
@@ -103,12 +102,14 @@ export default ({ item: recipe, navigation, route }) => {
               {`${Math.floor(recipe.cookingTime / (1000 * 60))} min`}
             </RowText>
           </RowBox>
-          <ProfileBox>
-            <ProfilePhoto size="small" uri={recipe.chef.profilePhoto} />
-            <UserNameText numberOfLines={1} ellipsizeMode="tail">
-              {recipe.chef.userName}
-            </UserNameText>
-          </ProfileBox>
+          {!isProfile && (
+            <ProfileBox>
+              <ProfilePhoto size="small" uri={recipe.chef.profilePhoto} />
+              <UserNameText numberOfLines={1} ellipsizeMode="tail">
+                {recipe.chef.userName}
+              </UserNameText>
+            </ProfileBox>
+          )}
         </InfoBox>
       </CardContainer>
     </TouchableWithoutFeedback>
