@@ -1,12 +1,16 @@
 import React from "react";
 import Svg, { G, Path } from "react-native-svg";
 
-export const NoticStar = ({ size = 24, color = "#262626" }) => (
+export const NoticStar = ({
+  size = 24,
+  color = "#262626",
+  viewBox = "0 0 24 24",
+}) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
     height={size}
-    viewBox="0 0 24 24"
+    viewBox={viewBox}
     stroke={color}
     strokeLinecap="round"
     strokeLinejoin="round"
@@ -76,6 +80,29 @@ export const FilledBookMark = ({ size = 24, color = "#262626" }) => (
 -1 -623 55 -623 26 0 60 25 263 198 79 67 151 122 160 122 24 0 44 -15 235
 -177 173 -148 198 -161 230 -125 15 17 17 73 17 605 l0 587 -29 32 -29 33
 -409 3 c-390 2 -409 1 -440 -17z"
+      />
+    </G>
+  </Svg>
+);
+
+export const TestStar = ({ size = 24, color = "#262626" }) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 64.000000 64.000000"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    <G
+      transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)"
+      fill={color}
+      stroke="none"
+    >
+      <Path
+        d="M299 614 c-7 -8 -29 -52 -49 -97 l-36 -82 -98 -10 c-141 -14 -145
+-25 -43 -119 l78 -72 -22 -97 c-21 -90 -21 -99 -6 -114 15 -15 23 -12 106 36
+l91 52 91 -52 c83 -48 91 -51 106 -36 15 15 15 24 -6 113 l-22 98 75 69 c108
+97 103 111 -44 124 l-94 8 -36 82 c-50 113 -65 129 -91 97z"
       />
     </G>
   </Svg>

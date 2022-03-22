@@ -7,6 +7,8 @@ import { Feather, Entypo } from "@expo/vector-icons";
 import StackNavFactory from "./StackNavFactorty";
 import useMe from "../Hooks/useMe";
 
+import devStackNav from "../dev/devStackNav";
+
 const FONT_SIZE = 10;
 const FONT_WEIGHT = "normal";
 
@@ -124,6 +126,33 @@ export default () => {
           />
         )}
       </Tabs.Screen>
+      {/* 테스트 */}
+      <Tabs.Screen
+        name={"Dev"}
+        component={devStackNav}
+        options={{
+          tabBarIcon: ({ focused, color }) => (
+            <Entypo
+              name="menu"
+              size={focused ? 25 : 24}
+              color={color}
+              iconStyle={{ fontWeight: focused ? "bold" : "normal" }}
+            />
+          ),
+          tabBarLabel: ({ focused, color }) => (
+            <Text
+              style={{
+                fontSize: FONT_SIZE,
+                fontWeight: FONT_WEIGHT,
+                color: color,
+              }}
+            >
+              연구소
+            </Text>
+          ),
+        }}
+      />
+      {/* 테스트 */}
       <Tabs.Screen
         name={"TabMyPage"}
         options={{
