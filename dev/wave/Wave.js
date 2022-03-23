@@ -12,7 +12,7 @@ import { mix } from "react-native-redash";
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-export default Wave = ({ index, color }) => {
+export default Wave = ({ index, color, wavy }) => {
   const progress1 = useSharedValue(0);
   const progress2 = useSharedValue(0);
 
@@ -32,8 +32,8 @@ export default Wave = ({ index, color }) => {
         x: 0,
         y: 0.5,
       },
-      c1: { x: 0.25, y: mix(progress1.value, 0.8, 0.2) },
-      c2: { x: 0.75, y: mix(progress2.value, 0.8, 0.2) },
+      c1: { x: 0.25, y: mix(progress1.value, 1 - wavy / 4, 1 - wavy) },
+      c2: { x: 0.75, y: mix(progress2.value, 1 - wavy / 4, 1 - wavy) },
       to: { x: 1, y: 0.5 },
     };
   });
