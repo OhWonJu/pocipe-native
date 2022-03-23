@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import DevMain from "./devMainView";
-import Wave from "./Wave";
+import Wave from "./wave/Main";
 
 const Stacks = createStackNavigator();
 

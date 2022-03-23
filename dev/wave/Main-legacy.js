@@ -9,12 +9,12 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
-import Svg, { Circle, ClipPath, Path, G } from "react-native-svg";
+import Svg, { Circle, Path } from "react-native-svg";
 import { mix } from "react-native-redash";
 import MaskedView from "@react-native-masked-view/masked-view";
 
-import constants from "../constants";
-import { NoticStar, TestStar } from "../components/Icons";
+import constants from "../../constants";
+import { TestStar } from "../../components/Icons";
 
 const Container = styled.View`
   flex: 1;
@@ -26,7 +26,7 @@ const Container = styled.View`
 const SIZE = constants.window.width - 64;
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-export default Wave = () => {
+export default Main = () => {
   const themeContext = useContext(ThemeContext);
 
   const progress = useSharedValue(0);
