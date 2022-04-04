@@ -12,17 +12,20 @@ import { mix } from "react-native-redash";
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-export default Wave = ({ index, color, wavy }) => {
+export default Wave = ({ totalWave, index, color, wavy }) => {
   const progress1 = useSharedValue(0);
   const progress2 = useSharedValue(0);
 
   useEffect(() => {
-    const duration = 800;
+    const duration = 1000;
     const timingOptions = { duration: duration };
     const pulse = withTiming(1, timingOptions);
     const repeated = withRepeat(pulse, -1, true);
-    progress1.value = withDelay(index * 300, repeated);
-    progress2.value = withDelay((index * 300 + duration) / 2, repeated);
+    progress1.value = withDelay(index * (duration / totalWave), repeated);
+    progress2.value = withDelay(
+      (index * (duration / totalWave) + duration) / 2,
+      repeated
+    );
   }, []);
 
   // c -> y -> 0.5 -> 0 -> 1

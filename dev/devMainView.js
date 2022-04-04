@@ -14,6 +14,7 @@ const TouchableOpacity = styled.TouchableOpacity`
   height: 60px;
   border-radius: 10px;
   padding: 10px 15px 10px 15px;
+  margin: 5px 0px 5px 0px;
   justify-content: center;
   background-color: ${props => props.theme.lightGreyColor};
 `;
@@ -28,6 +29,9 @@ export default DevMain = ({ navigation }) => {
     <Container>
       <TouchableOpacity onPress={() => navigation.navigate("Wave")}>
         <Title>🌊 WAVE</Title>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Rise")}>
+        <Title>☀ RISE</Title>
       </TouchableOpacity>
     </Container>
   );

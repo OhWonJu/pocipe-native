@@ -40,7 +40,6 @@ const Title = styled.Text`
 export default AuthHeader = ({
   title = null,
   titleColor = "#F6B93B",
-  tiltColor = "#F6B93B",
   leftOnPress = () => null,
 }) => {
   return (
@@ -51,7 +50,7 @@ export default AuthHeader = ({
           <MaterialIcons
             name="keyboard-arrow-left"
             size={38}
-            color={tiltColor}
+            color={titleColor}
             style={{ paddingLeft: 15 }}
           />
         </TouchableOpacity>

@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
-import { Image, Text, View } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { Image, Text, View, Keyboard } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ThemeContext } from "styled-components/native";
 import { Feather, Entypo } from "@expo/vector-icons";
 
-import StackNavFactory from "./StackNavFactorty";
+import StackNavFactory from "./StackNavFactory";
 import useMe from "../Hooks/useMe";
 
 import devStackNav from "../dev/devStackNav";
@@ -20,6 +20,28 @@ export default () => {
   const { data } = useMe();
 
   const [tabBarVisible, setTabBarVisible] = useState("flex"); // flex | none
+
+  useEffect(() => {
+    const showKeyboard = Keyboard.addListener(
+      "keyboardDidShow",
+      _keyboardDidShow
+    );
+    const hideKeyboard = Keyboard.addListener(
+      "keyboardDidHide",
+      _keyboardDidHide
+    );
+    return () => {
+      showKeyboard.remove();
+      hideKeyboard.remove();
+    };
+  }, []);
+
+  const _keyboardDidShow = () => {
+    setTabBarVisible("none");
+  };
+  const _keyboardDidHide = () => {
+    setTabBarVisible("flex");
+  };
 
   return (
     <Tabs.Navigator
@@ -67,6 +89,7 @@ export default () => {
       <Tabs.Screen
         name={"TabSearch"}
         options={{
+          // tabBarHideOnKeyboard: true,
           tabBarIcon: ({ focused, color }) => (
             <Feather
               name="search"

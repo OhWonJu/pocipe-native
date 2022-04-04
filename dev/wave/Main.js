@@ -20,7 +20,8 @@ const SIZE = constants.window.width - 64;
 export default Main = () => {
   const themeContext = useContext(ThemeContext);
 
-  const data = ["#3163e1" + 50, "#5e85e8" + 50, "#8aa7ee" + 50, "#b7c9f5" + 50];
+  const data = ["#3163e1" + 60, "#5e85e8" + 70, "#8aa7ee" + 80, "#b7c9f5" + 90];
+  // const data = ["#eb2f06" + 80, "#38ada9" + 80, "#1e3799"];
 
   return (
     // <Container>
@@ -65,7 +66,13 @@ export default Main = () => {
       >
         <Svg width={SIZE} height={SIZE} viewBox="0 0 1 1">
           {data.map((d, i) => (
-            <Wave key={i} index={i} color={d} wavy={0.65} />
+            <Wave
+              key={i}
+              totalWave={data.length}
+              index={i}
+              color={d}
+              wavy={0.65}
+            />
           ))}
         </Svg>
       </MaskedView>

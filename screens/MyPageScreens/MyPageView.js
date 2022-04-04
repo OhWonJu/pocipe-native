@@ -16,6 +16,7 @@ import { FilledNoticStar, FilledBookMark } from "../../components/Icons";
 import ProfilePhoto from "../../components/ProfilePhoto";
 
 import { shadows } from "../../Styles/GlobalStyles";
+import RecipeListComponent from "../../components/List/RecipeListComponent";
 
 const ProfileBox = styled.View`
   justify-content: center;
@@ -89,18 +90,25 @@ const InfoBtmText = styled.Text`
 
 const RowBox = styled.View`
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  /* margin-top: ${props => (props.marginTop ? props.marginTop : 10)}px; */
   margin-top: 10px;
-  /* background-color: rgba(80, 100, 5, 0.5); */
 `;
 const IconWrapper = styled.View`
   justify-content: center;
   margin-right: 2px;
+  top: 1px;
 `;
 
-const BTN_WEIGHT = "47%";
+const SectionTitle = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 25px;
+  padding-bottom: 15px;
+  color: ${props => props.theme.yellowColor};
+`;
+
+const BTN_WEIGHT = "49%";
 const BTN_HEIGHT = "47px";
 
 export default MyPageView = ({
@@ -123,15 +131,21 @@ export default MyPageView = ({
       </TouchableOpacity>
     </InfoColBox>
   );
-  const BUTTON = ({ text, icon = null, onPress = null }) => (
+  const BUTTON = ({
+    text,
+    icon = null,
+    onPress = null,
+    width = BTN_WEIGHT,
+    height = BTN_HEIGHT,
+  }) => (
     <Button
       text={text}
       icon={icon}
       onPress={onPress}
       bgColor={themeContext.lightGreyColor}
       txColor={themeContext.blackColor}
-      width={BTN_WEIGHT}
-      height={BTN_HEIGHT}
+      width={width}
+      height={height}
       txSize={15}
     />
   );
@@ -159,7 +173,7 @@ export default MyPageView = ({
         // {...scrollPropsAndRef}
         bounces={false}
       >
-        <Container>
+        <Container style={{ minHeight: "100%" }}>
           <ProfileBox>
             <View style={shadows.photoWrapper}>
               <ProfilePhoto uri={profilePhoto} size={"profile"} />
@@ -224,7 +238,14 @@ export default MyPageView = ({
               onPress={() => navigation.navigate("RecipeList")}
             />
           </RowBox>
-          <View style={{ height: 500, backgroundColo: "red" }}></View>
+          <View style={{ alignItems: "center", marginTop: 10 }}>
+            <BUTTON
+              text={"새 레시피 만들기"}
+              onPress={() => null}
+              width={"100%"}
+            />
+          </View>
+          <SectionTitle>내 레시피</SectionTitle>
         </Container>
       </ScrollView>
     </>

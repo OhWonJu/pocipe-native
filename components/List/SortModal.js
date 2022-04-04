@@ -109,6 +109,7 @@ export default SortModal = ({
             <ModalContextBox>
               {sortModeText.map((text, index) => (
                 <TouchableOpacity
+                  key={index}
                   onPress={() => {
                     setSortModeIndex(index), setModalVisible(false);
                   }}
