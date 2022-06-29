@@ -1,0 +1,43 @@
+import React, { useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { useQuery } from "@apollo/client";
+
+import { SEE_RECIPE_QUERY } from "./RecipeDetailModel";
+import RecipeDetailView from "./RecipeDetailView";
+import Loader from "../../components/Loader";
+
+const RecipeDetailController = ({ navigation, route, setTabBarVisible }) => {
+  const isFoused = useIsFocused();
+
+  useEffect(() => {
+    if (isFoused) {
+      setTabBarVisible("none");
+    } else {
+      setTimeout(() => {
+        setTabBarVisible("flex");
+      }, 500);
+      // setTabBarVisible("flex");
+    }
+  }, [isFoused]);
+
+  const { data, loading } = useQuery(SEE_RECIPE_QUERY, {
+    variables: { id: route.params?.recipeId },
+    skip: !route.params.recipeId,
+  });
+
+  const goBack = () => navigation.goBack();
+  const goProfile = () =>
+    navigation.navigate("Profile", { userName: data.seeRecipe.chef.userName });
+
+  if (loading || !data) return <Loader />;
+
+  return (
+    <RecipeDetailView
+      goBack={goBack}
+      goProfile={goProfile}
+      {...data.seeRecipe}
+    />
+  );
+};
+
+export default RecipeDetailController;
