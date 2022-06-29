@@ -49,11 +49,7 @@ const IconWrapper = styled.View`
 export default HomeHeader = ({ setHeaderHeight, goToNotification }) => {
   const themeContext = useContext(ThemeContext);
 
-<<<<<<< HEAD
-  const headerOnLayout = useCallback(event => {
-=======
   const headerOnLayout = useCallback((event) => {
->>>>>>> master
     const { height } = event.nativeEvent.layout;
     setHeaderHeight(height);
   }, []);

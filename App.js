@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+//import AppLoading from "expo-app-loading";
+import { Appearance, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import { Asset } from "expo-asset";
+//import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "styled-components/native";
 import { ApolloProvider, useReactiveVar } from "@apollo/client";
@@ -27,7 +30,6 @@ export default function App() {
     }, 3000);
   const preloadAssets = () => {
     const fontsToLoad = [Ionicons.font];
-
     const fontPromises = fontsToLoad.map((font) => Font.loadAsync(font)); // font package의 loadAsync func로 비동기처리 다른 방법들도 있음 DOCS참고
     // preloading images
     const imagesToLoad = [
@@ -36,9 +38,7 @@ export default function App() {
       require("./assets/loadingPage/Logo-white.png"),
       require("./assets/AuthView/bgImage01.jpg"),
     ];
-
     const imagePromises = imagesToLoad.map((image) => Asset.loadAsync(image));
-
     // preloading caches
     return Promise.all([...fontPromises, ...imagePromises]); // 인자로 주어진 promise list가 끝날 때 까지 가디려줌, 두 배열을 언팩해서 하나의 큰 배열로
   };
@@ -73,31 +73,8 @@ export default function App() {
     prepare();
   }, []);
 
-
   const colorScheme = Appearance.getColorScheme();
   let Theme = colorScheme === "light" ? lightTheme : darkTheme;
-
-  // SplashScreen.preventAutoHideAsync() 자체를 안써서
-  // onLayout={onLayoutRootView} 안써도 되는듯..?
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (!loading) {
-  //     await SplashScreen.hideAsync();
-  //   }
-  // }, [loading]);
-  //
-  // if (loading) {
-  //   // 로딩, 에러, 로딩완료 처리
-  //   return (
-  //     <>
-  //       <AppLoading
-  //         startAsync={preload}
-  //         onError={console.warn}
-  //         onFinish={onFinish}
-  //       />
-  //       <Loading />
-  //     </>
-  //   );
-  // }
 
   if (loading) {
     return <SplashView />;
