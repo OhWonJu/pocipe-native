@@ -8,8 +8,8 @@ import constants from "../../constants";
 const Container = styled.View`
   flex-direction: row;
   background-color: ${props => props.theme.bgColor};
-  height: ${constants.statusBarHeight + 60}px;
-  padding-top: ${constants.statusBarHeight + 5}px;
+  height: 60px;
+  /* padding-top: ${constants.statusBarHeight + 5}px; */
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -34,7 +34,6 @@ const Title = styled.Text`
   font-size: 23px;
   font-weight: 700;
   color: ${props => props.titleColor};
-  bottom: 20%;
 `;
 
 export default AuthHeader = ({

@@ -8,7 +8,7 @@ import SignInView from "./SignInView";
 import { SIGN_IN_MUTATION } from "./SignInModel";
 
 export default SignInController = ({ navigation, route }) => {
-  console.log(route.params);
+  // console.log(route.params);
   const themeContext = useContext(ThemeContext);
   const { register, handleSubmit, getValues, setValue, watch } = useForm({
     defaultValues: {

@@ -7,8 +7,8 @@ import { NoticStar } from "../Icons";
 import HomeCarousel from "./HomeCarousel";
 
 const Container = styled.View`
-  background-color: ${props => props.theme.bgColor};
-`;
+  background-color: ${(props) => props.theme.bgColor};
+ `;
 
 const HeaderBox = styled.View`
   flex-direction: row;
@@ -49,7 +49,11 @@ const IconWrapper = styled.View`
 export default HomeHeader = ({ setHeaderHeight, goToNotification }) => {
   const themeContext = useContext(ThemeContext);
 
+<<<<<<< HEAD
   const headerOnLayout = useCallback(event => {
+=======
+  const headerOnLayout = useCallback((event) => {
+>>>>>>> master
     const { height } = event.nativeEvent.layout;
     setHeaderHeight(height);
   }, []);

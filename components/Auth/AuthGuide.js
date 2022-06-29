@@ -44,14 +44,22 @@ const MainText = styled(Animated.Text)`
   color: ${props => props.theme.yellowColor};
   font-weight: 700;
   font-size: 40px;
+<<<<<<< HEAD
   top: 30%;
+=======
+  top: 25%;
+>>>>>>> master
   left: 2%;
 `;
 const SubText = styled(Animated.Text)`
   color: ${props => props.theme.yellowColor};
   font-size: ${props => (props.txSize ? props.txSize : 15)}px;
   font-weight: 700;
+<<<<<<< HEAD
   top: 32%;
+=======
+  top: 28%;
+>>>>>>> master
   left: ${props => (props.left ? props.left : 2)}%;
 `;
 
@@ -208,7 +216,11 @@ const AuthGuide = ({ guideKey, trigger, openEvent, closeEvent }) => {
         ) : (
           <>
             <MainText style={secondMainTextAnimeStyle}>더 많은 혜택!</MainText>
+<<<<<<< HEAD
             <SubText style={secondSubTextAnimeStyle} left={8} txSize={14}>
+=======
+            <SubText style={secondSubTextAnimeStyle} left={2} txSize={14}>
+>>>>>>> master
               추가 정보를 입력하면 더 많은 혜택을 받을 수 있어요.
             </SubText>
           </>

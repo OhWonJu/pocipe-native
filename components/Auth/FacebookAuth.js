@@ -7,7 +7,7 @@ export default FacebookAuth = ({ setUserData, getSNSInfo, loading }) => {
     try {
       await Facebook.initializeAsync({
         // 앱 아이디
-        appId: "953549025266085",
+        appId: "543896153944225",
       });
       const { type, token, expirationDate, permissions, declinedPermissions } =
         await Facebook.logInWithReadPermissionsAsync({

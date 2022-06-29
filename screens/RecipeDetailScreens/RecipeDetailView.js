@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
-import Carousel from "react-native-snap-carousel";
+import Carousel from "react-native-snap-carousel"; // problem....
 import { MaterialIcons } from "@expo/vector-icons";
 
 import Container from "../../components/Container";

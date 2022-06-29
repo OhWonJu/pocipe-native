@@ -73,6 +73,8 @@ export default CreateAccount = ({ navigation, route }) => {
   }, [register]);
 
   // timer Effects
+
+  // 리덕스로 리팩토링 할 것.
   useEffect(() => {
     if (emailCode !== "") {
       let intervalId = setInterval(

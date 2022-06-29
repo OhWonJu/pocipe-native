@@ -1,12 +1,15 @@
 import React from "react";
-import { Animated } from "react-native";
+
+import { Animated, StyleSheet } from "react-native";
 import { useCollapsibleScene } from "react-native-collapsible-tab-view";
 import styled from "styled-components/native";
 
+import constants from "../../constants";
+
 const Container = styled.View`
   flex: 1;
-  background-color: ${props => props.theme.bgColor};
-  padding: ${props =>
+  background-color: ${(props) => props.theme.bgColor};
+  padding: ${(props) =>
     props.paddingSet ? "0px 20px 0px 20px" : "0px 0px 0px 0px"};
 `;
 

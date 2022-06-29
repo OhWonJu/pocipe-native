@@ -9,8 +9,9 @@ import AuthHeader from "./Auth/AuthHeader";
 const Container = styled.View`
   flex-direction: row;
   background-color: ${props => props.theme.bgColor};
-  height: ${constants.statusBarHeight + 60}px;
-  padding-top: ${constants.statusBarHeight + 5}px;
+  /* height: ${constants.statusBarHeight + 60}px; */
+  /* padding-top: ${constants.statusBarHeight + 5}px; */
+  height: 60px;
   padding-left: 20px;
   padding-right: 20px;
   width: 100%;

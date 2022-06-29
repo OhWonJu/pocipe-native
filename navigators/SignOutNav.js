@@ -1,8 +1,7 @@
-import React from "react";
-import {
-  createStackNavigator,
-} from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
 
+import { globalStyles } from "../Styles/GlobalStyles";
 import { verticallTransition } from "./NavigationOptions";
 
 import AuthHome from "../screens/AuthScreens/AuthHome/index";
@@ -14,19 +13,21 @@ const SignOutNav = createStackNavigator();
 
 export default () => {
   return (
-    <SignOutNav.Navigator
-      screenOptions={{
-        presentation: "card",
-        gestureEnabled: true,
-        headerShown: false,
-        ...verticallTransition,
-      }}
-    >
-      <SignOutNav.Screen name="AuthHome" component={AuthHome} />
-      <SignOutNav.Screen name="SignIn" component={SignIn} />
-      <SignOutNav.Screen name="SignUp" component={SignUp} />
-      <SignOutNav.Screen name="SNSAuth" component={SNSAuth} />
-    </SignOutNav.Navigator>
+    <SafeAreaView style={globalStyles.screenWrappper}>
+      <SignOutNav.Navigator
+        screenOptions={{
+          presentation: "card",
+          gestureEnabled: true,
+          headerShown: false,
+          ...verticallTransition,
+        }}
+      >
+        <SignOutNav.Screen name="AuthHome" component={AuthHome} />
+        <SignOutNav.Screen name="SignIn" component={SignIn} />
+        <SignOutNav.Screen name="SignUp" component={SignUp} />
+        <SignOutNav.Screen name="SNSAuth" component={SNSAuth} />
+      </SignOutNav.Navigator>
+    </SafeAreaView>
   );
 };
 

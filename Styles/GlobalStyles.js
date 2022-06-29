@@ -1,5 +1,21 @@
 import { StyleSheet, Platform } from "react-native";
 
+import constants from "../constants";
+
+export const globalStyles = StyleSheet.create({
+  screenWrappper: {
+    flex: 1,
+    backgroundColor: "#FBFBFB",
+    ...Platform.select({
+      android: {
+      },
+      ios: {
+       
+      }
+    }),
+  },
+});
+
 export const shadows = StyleSheet.create({
   photoWrapper: {
     borderRadius: 100,

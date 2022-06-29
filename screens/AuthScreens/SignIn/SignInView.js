@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import {
   MaterialIcons,
@@ -48,11 +48,11 @@ const UtilText = styled.Text`
   font-size: 12px;
   font-weight: bold;
   top: 1%;
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
 `;
 const EasySignInView = styled.View`
   border-style: solid;
-  border-top-color: ${props => props.theme.lightGreyColor};
+  border-top-color: ${(props) => props.theme.lightGreyColor};
   border-top-width: 1.5px;
   margin: 8px 0px 40px 0px;
   align-items: center;
@@ -68,13 +68,13 @@ const EasySignInBox = styled.TouchableOpacity`
   width: 50px;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.bgColor};
+  background-color: ${(props) => props.bgColor};
 `;
 const EasySignText = styled.Text`
   padding: 15px 0px 25px 0px;
   font-size: 15px;
   font-weight: 700;
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
 `;
 
 const NoticView = styled.View`
@@ -83,7 +83,7 @@ const NoticView = styled.View`
 `;
 const NoticText = styled.Text`
   font-size: 13px;
-  color: ${props => props.theme.darkGreyColor};
+  color: ${(props) => props.theme.darkGreyColor};
 `;
 
 const OpacityBox = styled.View`
@@ -99,7 +99,7 @@ const Text = styled.Text`
 `;
 
 const TextInput = styled.TextInput`
-  background-color: ${props => props.theme.lightGreyColor};
+  background-color: ${(props) => props.theme.lightGreyColor};
   height: 50px;
   width: 100%;
   padding: 10px;
@@ -148,7 +148,7 @@ export default SignInView = ({
             placeholder={"이메일"}
             keyboardType={"email-address"}
             returnKeyType="next"
-            onChangeText={text => {
+            onChangeText={(text) => {
               emailCompleted(text);
               setValue("email", text);
             }}
@@ -160,7 +160,7 @@ export default SignInView = ({
               ref={passwordRef}
               placeholder={"비밀번호"}
               returnKeyType={"done"}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 passwordCompleted(text);
                 setValue("password", text);
               }}

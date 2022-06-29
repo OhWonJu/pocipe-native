@@ -8,7 +8,8 @@ import Container from "../components/Container";
 import constants from "../constants";
 
 const SearchInputWrapper = styled.View`
-  padding: ${constants.statusBarHeight + 10}px 0px 20px 0px;
+  /* padding: ${constants.statusBarHeight + 10}px 0px 20px 0px; */
+  padding: 10px 0px 20px 0px;
   flex-direction: row;
 `;
 

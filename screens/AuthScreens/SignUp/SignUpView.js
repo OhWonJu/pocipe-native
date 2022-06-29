@@ -1,4 +1,6 @@
 import React from "react";
+import { SafeAreaView } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 
@@ -8,17 +10,15 @@ import Button from "../../../components/Button";
 import Container from "../../../components/Container";
 import constants from "../../../constants";
 
-const CreateAccountLayout = styled.KeyboardAvoidingView`
-  flex: 1;
-`;
+import { globalStyles } from "../../../Styles/GlobalStyles";
 
 const WelcomeView = styled.View`
   width: ${constants.width}px;
-  /* width: 100%; */
   right: 20px;
-  height: 25%;
-  padding: 0px 10px 10px 10px;
-  margin: 0px 0px 20px 0px;
+  /* height: 20%; */
+  height: 120px;
+  padding: 0px 10px 0px 10px;
+  margin-bottom: 15px;
 `;
 
 const RequiredInputView = styled(Animated.View)`
@@ -38,34 +38,34 @@ const RowBox = styled.View`
 const NoticContext = styled.Text`
   font-size: 15px;
   font-weight: 700;
-  margin-top: 10px;
-  margin-bottom: 3px;
-  color: ${props => props.theme.darkGreyColor};
+  padding-top: 10px;
+  padding-bottom: 3px;
+  color: ${(props) => props.theme.darkGreyColor};
 `;
 const NoticSubContext = styled.Text`
   font-size: 12px;
-  margin-bottom: 5px;
-  color: ${props => props.theme.darkGreyColor};
+  padding-bottom: 5px;
+  color: ${(props) => props.theme.darkGreyColor};
 `;
 
 const TextInput = styled.TextInput`
-  background-color: ${props => props.theme.lightGreyColor};
+  background-color: ${(props) => props.theme.lightGreyColor};
   height: 50px;
-  width: ${props => (props.width ? props.width : "100%")};
+  width: ${(props) => (props.width ? props.width : "100%")};
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 2px;
 `;
 
 const PasswordCheckInput = styled.TextInput`
-  background-color: ${props => props.theme.lightGreyColor};
+  background-color: ${(props) => props.theme.lightGreyColor};
   height: 50px;
-  width: ${props => (props.width ? props.width : "100%")};
+  width: ${(props) => (props.width ? props.width : "100%")};
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 2px;
-  border: ${props => (props.passwordChecked ? 0 : 1)}px;
-  border-color: ${props => props.theme.redColor};
+  border: ${(props) => (props.passwordChecked ? 0 : 1)}px;
+  border-color: ${(props) => props.theme.redColor};
 `;
 
 export default SignUpView = ({
@@ -101,17 +101,17 @@ export default SignUpView = ({
     <>
       <AuthHeader title={"회원가입"} leftOnPress={goBack} />
       <Container>
-        <CreateAccountLayout behavior="padding">
-          <WelcomeView>
-            <AuthGuide
-              guideKey={
-                condition.userNameConfirm && condition.passwordConfirm ? 0 : 1
-              }
-              trigger={trigger}
-              openEvent={openEvent}
-              closeEvent={closeEvent}
-            />
-          </WelcomeView>
+        <WelcomeView>
+          <AuthGuide
+            guideKey={
+              condition.userNameConfirm && condition.passwordConfirm ? 0 : 1
+            }
+            trigger={trigger}
+            openEvent={openEvent}
+            closeEvent={closeEvent}
+          />
+        </WelcomeView>
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
           {trigger == 1 ? (
             <RequiredInputView style={requiredInputAnimeStyle}>
               <NoticContext>아이디</NoticContext>
@@ -122,7 +122,7 @@ export default SignUpView = ({
                   returnKeyType={"next"}
                   autoCapitalize={"none"}
                   onSubmitEditing={() => onNext(emailRef)}
-                  onChangeText={text => {
+                  onChangeText={(text) => {
                     userNameVerification(text), setValue("userName", text);
                   }}
                   width={"66%"}
@@ -154,7 +154,7 @@ export default SignUpView = ({
                       keyboardType={"email-address"}
                       returnKeyType={"next"}
                       onSubmitEditing={() => onNext(passwordRef)}
-                      onChangeText={text => {
+                      onChangeText={(text) => {
                         emailVerification(text), setValue("email", text);
                       }}
                       editable={condition.emailConfirm ? false : true}
@@ -180,7 +180,7 @@ export default SignUpView = ({
                       ref={emailRef}
                       placeholder={"인증코드"}
                       returnKeyType={"done"}
-                      onChangeText={text => setCode(text)}
+                      onChangeText={(text) => setCode(text)}
                       width={"66%"}
                     />
                     <Button
@@ -205,7 +205,7 @@ export default SignUpView = ({
                 returnKeyType={"next"}
                 secureTextEntry={true}
                 onSubmitEditing={() => onNext(passwordCheckRef)}
-                onChangeText={text => {
+                onChangeText={(text) => {
                   passwordVerification(text), setValue("password", text);
                 }}
                 onEndEditing={passwordComparison}
@@ -218,7 +218,7 @@ export default SignUpView = ({
                 secureTextEntry={true}
                 returnKeyType={"done"}
                 passwordChecked={condition.passwordConfirm}
-                onChangeText={text => setValue("passwordCheck", text)}
+                onChangeText={(text) => setValue("passwordCheck", text)}
                 onEndEditing={passwordComparison}
                 onSubmitEditing={() => console.log(condition)}
               />
@@ -236,7 +236,7 @@ export default SignUpView = ({
                   returnKeyType={"next"}
                   autoCapitalize={"none"}
                   onSubmitEditing={() => onNext(firstNameRef)}
-                  onChangeText={text => {
+                  onChangeText={(text) => {
                     setValue("lastName", text);
                   }}
                   width={"35%"}
@@ -248,7 +248,7 @@ export default SignUpView = ({
                   returnKeyType={"next"}
                   autoCapitalize={"none"}
                   onSubmitEditing={() => onNext(phoneNumberRef)}
-                  onChangeText={text => setValue("firstName", text)}
+                  onChangeText={(text) => setValue("firstName", text)}
                   width={"60%"}
                 />
               </RowBox>
@@ -260,13 +260,13 @@ export default SignUpView = ({
                   defaultValue={getValues("phoneNumber")}
                   keyboardType={"number-pad"}
                   returnKeyType={"done"}
-                  onChangeText={text => setValue("phoneNumber", text)}
+                  onChangeText={(text) => setValue("phoneNumber", text)}
                   width={"100%"}
                 />
               </RowBox>
             </SubJoinInputView>
           )}
-        </CreateAccountLayout>
+        </KeyboardAwareScrollView>
       </Container>
       <Button
         text={"Pocipe 시작하기"}
