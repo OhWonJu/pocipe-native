@@ -15,7 +15,7 @@ const RecipeDetailController = ({ navigation, route, setTabBarVisible }) => {
     } else {
       setTimeout(() => {
         setTabBarVisible("flex");
-      }, 500);
+      }, 400);
       // setTabBarVisible("flex");
     }
   }, [isFoused]);

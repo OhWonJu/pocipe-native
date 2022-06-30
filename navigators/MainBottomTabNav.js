@@ -47,6 +47,7 @@ export default () => {
     <Tabs.Navigator
       screenOptions={{
         tabBarStyle: {
+          position: "absolute", // ios tab bar margin problem solved
           display: tabBarVisible,
           height: 58,
           paddingBottom: 3,

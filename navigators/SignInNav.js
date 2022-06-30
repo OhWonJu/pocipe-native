@@ -1,4 +1,3 @@
-
 import React, { useContext } from "react";
 import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -18,8 +17,8 @@ export default () => {
     <View
       style={{
         flex: 1,
-        paddingBottom: insets.bottom,
         paddingTop: insets.top,
+        paddingBottom: insets.bottom,
         backgroundColor: themeContext.bgColor,
       }}
     >

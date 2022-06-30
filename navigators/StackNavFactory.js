@@ -39,7 +39,6 @@ export default ({ screenName, setTabBarVisible }) => {
         name="RecipeDetail"
         options={{
           presentation: "card",
-          headerShown: false,
           ...verticallTransition,
           gestureDirection: "vertical",
           gestureEnabled: false,
