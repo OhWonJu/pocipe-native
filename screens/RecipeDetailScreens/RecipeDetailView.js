@@ -1,27 +1,28 @@
-import React, { useContext, useState } from "react";
-import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import React, { useCallback, useContext, useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
-import Carousel from "react-native-snap-carousel"; // problem....
 import { MaterialIcons } from "@expo/vector-icons";
 
 import Container from "../../components/Container";
 import constants from "../../constants";
 import ProfilePhoto from "../../components/ProfilePhoto";
 import { useNavigation } from "@react-navigation/native";
+import { FlatList } from "react-native-gesture-handler";
 
-//https://github.com/meliorence/react-native-snap-carousel
+const ITEM_WIDTH = constants.width;
+const ITEM_HEIGHT = constants.width;
 
 const Header = styled.View`
   flex-direction: row;
   position: absolute;
-  /* background-color: red; */
-  height: ${constants.statusBarHeight + 60}px;
-  padding-top: ${constants.statusBarHeight + 5}px;
+  height: 60px;
+  padding-top: 5px;
   padding-left: 20px;
   padding-right: 20px;
   width: 100%;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 `;
 const Left = styled.View`
   flex: 1;
@@ -34,14 +35,25 @@ const Right = styled.View`
   justify-content: flex-end;
   align-items: center;
 `;
+
+const CaroselWrapper = styled.View`
+  height: ${ITEM_HEIGHT}px;
+  overflow: hidden;
+`;
+const Image = styled.Image`
+  width: ${ITEM_WIDTH}px;
+  height: ${ITEM_HEIGHT}px;
+`;
+
 const PaginationBox = styled.View`
   position: absolute;
-  top: ${constants.height / 1.59}px;
+  top: ${ITEM_HEIGHT / 1.1}px;
   width: 100%;
   align-items: center;
+  z-index: 999;
 `;
 const Pagination = styled.View`
-  background-color: ${props => props.bgColor};
+  background-color: ${(props) => props.bgColor};
   padding: 5px 10px 5px 10px;
   border-radius: 30px;
 `;
@@ -49,7 +61,7 @@ const Pagination = styled.View`
 const PageIndex = styled.Text`
   font-weight: bold;
   font-size: 12px;
-  color: ${props => props.fontColor};
+  color: ${(props) => props.fontColor};
 `;
 
 const IconWrapper = styled.TouchableOpacity`
@@ -76,116 +88,58 @@ export default RecipeDetailView = ({
 }) => {
   const themeContext = useContext(ThemeContext);
 
-  const [activeSlide, setActive] = useState(0);
+  const [index, setIndex] = useState(0);
 
-  const renderItem = ({ item: uri, index }) => {
-    return (
-      <View
-        style={{
-          minHeight: constants.height / 1.5,
-        }}
-      >
-        <Image
-          source={{ uri }}
-          style={{
-            height: constants.width,
-            width: constants.width,
-          }}
-          resizeMode="cover"
-        />
-      </View>
-    );
+  const _onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
+    setIndex(parseInt(changed[0].index));
+  }, []);
+  const _viewabilityConfig = {
+    itemVisiblePercentThreshold: ITEM_HEIGHT,
   };
 
   return (
-    <>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Carousel
-          // ref={c => {
-          //   this._carousel = c;
-          // }}
-          layout={"default"}
+    <View>
+      {/* 헤더 */}
+      <Header>
+        <Left>
+          <IconWrapper onPress={goBack}>
+            <MaterialIcons
+              name="keyboard-arrow-left"
+              size={38}
+              color={themeContext.blackColor}
+            />
+          </IconWrapper>
+        </Left>
+        <Right></Right>
+      </Header>
+      <CaroselWrapper>
+        <FlatList
           data={thumbNails}
-          renderItem={renderItem}
-          sliderWidth={constants.width}
-          itemWidth={constants.width}
-          inactiveSlideScale={1}
-          inactiveSlideOpacity={1}
-          enableMomentum={false}
-          decelerationRate={0}
-          onSnapToItem={index => setActive(index)}
+          keyExtractor={(_, index) => index.toString()}
+          snapToInterval={ITEM_HEIGHT}
+          decelerationRate="fast"
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          renderItem={({ item }) => {
+            return (
+              <View>
+                <Image source={{ uri: item }} resizeMode="cover" />
+              </View>
+            );
+          }}
+          onViewableItemsChanged={_onViewableItemsChanged}
+          viewabilityConfig={_viewabilityConfig}
         />
         {thumbNails?.length > 1 && (
           <PaginationBox>
             <Pagination bgColor={themeContext.blackColor + 70}>
               <PageIndex fontColor={themeContext.bgColor}>
-                {activeSlide + 1}/{thumbNails?.length}
+                {index + 1}/{thumbNails?.length}
               </PageIndex>
             </Pagination>
           </PaginationBox>
         )}
-        {/* 헤더 */}
-        <Header>
-          <Left>
-            <IconWrapper onPress={goBack}>
-              <MaterialIcons
-                name="keyboard-arrow-left"
-                size={38}
-                color={themeContext.blackColor}
-              />
-            </IconWrapper>
-          </Left>
-          <Right></Right>
-        </Header>
-        {/* 딥 버튼 */}
-        <View
-          style={{
-            height: 60,
-            width: 60,
-            top: constants.height / 1.57,
-            left: "80%",
-            zIndex: 999,
-            position: "absolute",
-            backgroundColor: "red",
-            borderRadius: 30,
-          }}
-        ></View>
-        {/* Infos */}
-        <View
-          style={{
-            height: constants.height - constants.height / 1.5,
-            backgroundColor: "green",
-          }}
-        ></View>
-        <Container>
-          <View
-            style={{
-              flex: 1,
-              minHeight: constants.height,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text>Recipe Details! 💚</Text>
-            <Text>{id}</Text>
-            <Text>{title}</Text>
-            <Text>{caption}</Text>
-            <Text>{servings}</Text>
-            <Text>{difficulty}</Text>
-            <Text>{cookingTime}</Text>
-            {kategories.map(obj => (
-              <Text key={obj.kategorie}>{obj.kategorie}</Text>
-            ))}
-            {ingredients.map(obj => (
-              <Text key={obj.ingredient}>{obj.ingredient}</Text>
-            ))}
-            <TouchableOpacity onPress={goProfile}>
-              <Text>{chef.userName}</Text>
-              <ProfilePhoto size="large" uri={chef.profilePhoto} />
-            </TouchableOpacity>
-          </View>
-        </Container>
-      </ScrollView>
-    </>
+      </CaroselWrapper>
+    </View>
   );
 };
