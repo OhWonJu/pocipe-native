@@ -18,6 +18,7 @@ export const SEE_RECIPE_QUERY = gql`
       difficulty
       cookingTime
       commentsCount
+      totalStar
       givnStar
       starsCount
       starAverage
