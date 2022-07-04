@@ -8,7 +8,6 @@ import Subscribes from "../screens/HomeScreens/SubscribesScreens/Subscribes";
 import Test from "../screens/HomeScreens/TestScreens/index";
 
 import TabBar from "../components/TabBar";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const NEWRECIPES = ({ navigation, route }) => (
   <Recipes navigation={navigation} route={route} />
