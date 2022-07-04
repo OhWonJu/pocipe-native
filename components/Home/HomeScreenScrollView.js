@@ -1,10 +1,7 @@
 import React from "react";
-
-import { Animated, StyleSheet } from "react-native";
+import { Animated } from "react-native";
 import { useCollapsibleScene } from "react-native-collapsible-tab-view";
 import styled from "styled-components/native";
-
-import constants from "../../constants";
 
 const Container = styled.View`
   flex: 1;

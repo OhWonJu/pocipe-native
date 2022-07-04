@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { TouchableOpacity, View } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
+import constants from "../../constants";
 
 import Barcode from "../Content/Barcode";
 import ProfilePhoto from "../ProfilePhoto";
@@ -115,7 +116,7 @@ export default RecipeInfo = ({
           <RowText>{`${Math.floor(cookingTime / (1000 * 60))} min`}</RowText>
         </RowBox>
         <RowBox style={{ paddingTop: 15 }}>
-          <PureRowBox style={{ addingRight: 8 }}>
+          <PureRowBox style={{ paddingRight: 8 }}>
             <TagTitle>Kategories</TagTitle>
             <TagBox>
               {kategories.map((obj) => (
@@ -125,7 +126,7 @@ export default RecipeInfo = ({
               ))}
             </TagBox>
           </PureRowBox>
-          <PureRowBox style={{ addingLeft: 8 }}>
+          <PureRowBox style={{ paddingLeft: 8 }}>
             <TagTitle>ingredients</TagTitle>
             <TagBox>
               {ingredients.map((obj) => (
@@ -162,7 +163,7 @@ export default RecipeInfo = ({
             <RowText>{commentsCount}</RowText>
           </View>
         </RowBox>
-        <RowBox style={{paddingTop: 20}}>
+        <RowBox style={{ paddingTop: 20 }}>
           <TotalStar>TOTAL STAR</TotalStar>
           <TotalStar>{totalStar}</TotalStar>
         </RowBox>
@@ -172,10 +173,11 @@ export default RecipeInfo = ({
       </BarCodeWrapper>
       <View
         style={{
+          height: 60,
           flexDirection: "row",
-          paddingVertical: 10,
           alignItems: "center",
           justifyContent: "center",
+          paddingBottom: 10,
         }}
       >
         <View style={{ paddingRight: 3 }}>
@@ -183,7 +185,10 @@ export default RecipeInfo = ({
         </View>
         <TouchableOpacity
           onPress={goProfile}
-          style={{ flexDirection: "row", alignItems: "center" }}
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+          }}
         >
           <ProfilePhoto size="normal" uri={chef.profilePhoto} />
         </TouchableOpacity>

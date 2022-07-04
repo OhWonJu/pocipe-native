@@ -11,6 +11,7 @@ import Container from "../../components/Container";
 import constants from "../../constants";
 import RecipeCarousel from "../../components/Recipe/RecipeCarousel";
 import RecipeInfo from "../../components/Recipe/RecipeInfo";
+import RecipeTopTabNav from "../../navigators/RecipeTopTabNav";
 
 const ITEM_WIDTH = constants.width;
 const ITEM_HEIGHT = constants.width;
@@ -65,6 +66,8 @@ export default RecipeDetailView = ({
   commentsCount,
   givnStar,
   isMine,
+  headerHeight,
+  setHeaderHeight,
 }) => {
   const themeContext = useContext(ThemeContext);
   // BOTTOM SHEET THINGS //
@@ -82,26 +85,37 @@ export default RecipeDetailView = ({
 
   // collapsible Tab's header //
   const RECIPE_INFO_HEADER = () => {
+    const headerOnLayout = useCallback((event) => {
+      const { height } = event.nativeEvent.layout;
+      if (height > headerHeight) {
+        setHeaderHeight(height);
+      } else {
+        return;
+      }
+    }, []);
+
     return (
-      <Container>
-        <RecipeInfo
-          id={id}
-          title={title}
-          caption={caption}
-          chef={chef}
-          servings={servings}
-          difficulty={difficulty}
-          cookingTime={cookingTime}
-          kategories={kategories}
-          ingredients={ingredients}
-          totalStar={totalStar}
-          starAverage={starAverage}
-          commentsCount={commentsCount}
-          givnStar={givnStar}
-          isMine={isMine}
-          goProfile={goProfile}
-        />
-      </Container>
+      <View onLayout={headerOnLayout}>
+        <Container style={{ paddingTop: 10 }}>
+          <RecipeInfo
+            id={id}
+            title={title}
+            caption={caption}
+            chef={chef}
+            servings={servings}
+            difficulty={difficulty}
+            cookingTime={cookingTime}
+            kategories={kategories}
+            ingredients={ingredients}
+            totalStar={totalStar}
+            starAverage={starAverage}
+            commentsCount={commentsCount}
+            givnStar={givnStar}
+            isMine={isMine}
+            goProfile={goProfile}
+          />
+        </Container>
+      </View>
     );
   };
 
@@ -134,17 +148,15 @@ export default RecipeDetailView = ({
           paddingVertical: 20,
           borderRadius: 30,
         }}
+        enableOverDrag={false}
+        enableContentPanningGesture={false}
         // onChange={handleSheetChanges}
       >
-        <BottomSheetView
-          style={{
-            flex: 1,
-            spaddingTop: 10,
-            backgroundColor: themeContext.bgColor,
-          }}
-        >
-          <RECIPE_INFO_HEADER />
-        </BottomSheetView>
+        <RecipeTopTabNav
+          recipeId={id}
+          InfoHeader={RECIPE_INFO_HEADER}
+          headerHeight={headerHeight}
+        />
       </BottomSheet>
     </View>
   );
