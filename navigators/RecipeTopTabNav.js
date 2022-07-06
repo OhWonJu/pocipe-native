@@ -7,7 +7,7 @@ import RecipeComment from "../screens/RecipeDetailScreens/RecipeCommentScreen/Re
 import RecipeStar from "../screens/RecipeDetailScreens/RecipeStarScreen/RecipeStar";
 import RecipeShop from "../screens/RecipeDetailScreens/RecipeShopScreen/RecipeShop";
 import { ThemeContext } from "styled-components/native";
-import constants from "../constants";
+import TabBar from "../components/TabBar";
 
 const FONT_SIZE = 17;
 const FONT_WEIGHT = "bold";
@@ -34,6 +34,13 @@ export default ({ recipeId, InfoHeader, headerHeight }) => {
     return <InfoHeader />;
   };
 
+  const tabContext = [
+    { key: 1, title: "레시피", name: "RecipeToDo", ref: React.createRef() },
+    { key: 2, title: "댓글", name: "RecipeComment", ref: React.createRef() },
+    { key: 3, title: "Star", name: "RecipeStar", ref: React.createRef() },
+    { key: 4, title: "Shop", name: "RecipeShop", ref: React.createRef() },
+  ];
+
   return (
     <Tabs.Navigator
       collapsibleOptions={{
@@ -41,25 +48,33 @@ export default ({ recipeId, InfoHeader, headerHeight }) => {
         renderHeader: HOMEHEADER,
         disableSnap: true,
       }}
-      screenOptions={{
-        tabBarStyle: {
-          backgroundColor: themeContext.bgColor,
-          marginHorizontal: 20,
-          borderColor: themeContext.lightGreyColor,
-          borderBottomWidth: 1,
-          elevation: 0,
-        },
-        tabBarContentContainerStyle: {},
-        tabBarItemStyle: {},
-        tabBarActiveTintColor: themeContext.yellowColor,
-        tabBarIndicatorContainerStyle: {},
-        tabBarIndicatorStyle: {
-          backgroundColor: themeContext.bgColor,
-          borderBottomColor: themeContext.yellowColor,
-          borderBottomWidth: 2,
-        },
-        tabBarPressColor: "rgba(0, 0, 0, 0)",
-      }}
+      // screenOptions={{
+      //   tabBarStyle: {
+      //     backgroundColor: themeContext.bgColor,
+      //     marginHorizontal: 20,
+      //     borderColor: themeContext.lightGreyColor,
+      //     borderBottomWidth: 1,
+      //     elevation: 0,
+      //   },
+      //   tabBarContentContainerStyle: {},
+      //   tabBarItemStyle: {},
+      //   tabBarActiveTintColor: themeContext.yellowColor,
+      //   tabBarIndicatorContainerStyle: {},
+      //   tabBarIndicatorStyle: {
+      //     backgroundColor: themeContext.bgColor,
+      //     borderBottomColor: themeContext.yellowColor,
+      //     borderBottomWidth: 2,
+      //   },
+      //   tabBarPressColor: "rgba(0, 0, 0, 0)",
+      // }}
+      tabBar={({ navigation, state }) => (
+        <TabBar
+          data={tabContext}
+          navigation={navigation}
+          state={state}
+          // tabContainerStyle={{justifyContent: "flex-start"}}
+        />
+      )}
       backBehavior="none"
     >
       <Tabs.Screen

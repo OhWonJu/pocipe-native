@@ -7,8 +7,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { RECIPE_LIST_QUREY } from "../../screens/RecipeListScreens/RecipeListModel";
 import Loader from "../Loader";
 import RecipeCard from "../Content/RecipeCard";
-import Container from "../Container";
-import SortModal from "./SortModal";
+import SortModal from "../Modals/SortModal";
+import constants from "../../constants";
 
 const UtilView = styled.View`
   flex-direction: row;
@@ -20,9 +20,9 @@ const CountBox = styled.View`
   flex-direction: row;
 `;
 const CountText = styled.Text`
-  font-weight: 700;
+  font-weight: bold;
   font-size: 13px;
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
   padding-right: 3px;
 `;
 const ButtonsBox = styled.View`
@@ -36,10 +36,10 @@ const FilterBtn = styled.TouchableOpacity`
 `;
 const EditText = styled.Text`
   font-size: 13px;
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
 `;
 
-export default ({ navigation, listId }) => {
+export default ({ navigation, listId, isProfile = false }) => {
   const themeContext = useContext(ThemeContext);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -47,16 +47,15 @@ export default ({ navigation, listId }) => {
 
   const sortModeText = ["최근", "작성순", "편집순", "인기순"];
 
-  const { data, loading } = useQuery(RECIPE_LIST_QUREY, {
+  const { data: origin, loading } = useQuery(RECIPE_LIST_QUREY, {
     listId: listId,
     skip: !listId,
   });
+  const data = origin?.seeRecipes;
 
   if (loading) {
     return <Loader />;
   }
-
-  // console.log(data);
 
   const RECIPECARD = ({ item }) => (
     <RecipeCard item={item} navigation={navigation} isProfile={true} />
@@ -75,35 +74,41 @@ export default ({ navigation, listId }) => {
           sortModeText={sortModeText}
         />
       }
-      <Container>
-        <UtilView>
-          <CountBox>
-            {/* <CountText>전체</CountText>
-            <CountText style={{ color: themeContext.yellowColor }}>
-              {data.length}
-            </CountText> */}
-          </CountBox>
-          <ButtonsBox>
-            <FilterBtn onPress={() => setModalVisible(true)}>
-              <View style={{ flexDirection: "row", paddingRight: 5 }}>
-                <EditText>{sortModeText[sortModeIndex]}</EditText>
-                <MaterialIcons
-                  name="keyboard-arrow-right"
-                  size={16}
-                  color={themeContext.blackColor}
-                  style={{ transform: [{ rotate: "90deg" }], left: -3 }}
-                />
-              </View>
-            </FilterBtn>
-            <FilterBtn>
-              <EditText>편집</EditText>
-            </FilterBtn>
-          </ButtonsBox>
-        </UtilView>
-        {data.length > 0 ? (
+      <UtilView>
+        <CountBox>
+          {!isProfile && (
+            <>
+              <CountText>전체</CountText>
+              <CountText style={{ color: themeContext.yellowColor }}>
+                {data.length}
+              </CountText>
+            </>
+          )}
+        </CountBox>
+        <ButtonsBox>
+          <FilterBtn onPress={() => setModalVisible(true)}>
+            <View style={{ flexDirection: "row", paddingRight: 5 }}>
+              <EditText>{sortModeText[sortModeIndex]}</EditText>
+              <MaterialIcons
+                name="keyboard-arrow-right"
+                size={16}
+                color={themeContext.blackColor}
+                style={{ transform: [{ rotate: "90deg" }], left: -3 }}
+              />
+            </View>
+          </FilterBtn>
+          <FilterBtn>
+            <EditText>편집</EditText>
+          </FilterBtn>
+        </ButtonsBox>
+      </UtilView>
+      {data.length > 0 ? (
+        <View
+          style={{ width: constants.width, left: -20 }}
+        >
           <FlatList
             data={data}
-            keyExtractor={recipe => recipe.id}
+            keyExtractor={(recipe) => recipe.id}
             renderItem={RECIPECARD}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
@@ -113,10 +118,10 @@ export default ({ navigation, listId }) => {
               alignItems: "center",
             }}
           />
-        ) : (
-          <RECIPELESS />
-        )}
-      </Container>
+        </View>
+      ) : (
+        <RECIPELESS />
+      )}
     </>
   );
 };

@@ -17,6 +17,8 @@ import styled, { ThemeContext } from "styled-components/native";
 
 import constants from "../constants";
 
+const INDICATOR_LINE_WEIGHT = 2;
+
 const TabText = styled.Text`
   color: ${(props) =>
     props.isFocused ? props.theme.yellowColor : props.theme.blackColor + 55};
@@ -25,7 +27,7 @@ const TabText = styled.Text`
 `;
 const IndicatorView = styled(Animated.View)`
   top: 4%;
-  height: 1.65px;
+  height: ${INDICATOR_LINE_WEIGHT}px;
   background-color: ${(props) => props.theme.yellowColor};
 `;
 
@@ -63,7 +65,7 @@ const Indicator = ({ measures, scrollX }) => {
     return interpolate(scrollX.value, inputRange, inputRange);
   });
 
-  const DURATION = 200;
+  const DURATION = 180;
 
   const animeStyle = useAnimatedStyle(() => {
     return {
@@ -80,7 +82,14 @@ const Indicator = ({ measures, scrollX }) => {
   return <IndicatorView style={animeStyle} />;
 };
 
-const Tabs = ({ scrollX, data, state, onItemPress }) => {
+const Tabs = ({
+  scrollX,
+  data,
+  state,
+  onItemPress,
+  tabContainerStyle,
+  tabHeight,
+}) => {
   const [measures, setMeasures] = useState([]);
   const containerRef = useRef();
   useEffect(() => {
@@ -106,20 +115,23 @@ const Tabs = ({ scrollX, data, state, onItemPress }) => {
   return (
     <View
       style={{
-        height: 48,
+        height: tabHeight,
         width: constants.screenW,
-        borderBottomWidth: 1.65,
+        borderBottomWidth: INDICATOR_LINE_WEIGHT,
         borderBottomColor: "#E1E1E1" + 30,
       }}
     >
       <View
         ref={containerRef}
-        style={{
-          justifyContent: "flex-start",
-          alignItems: "center",
-          flexDirection: "row",
-          flex: 1,
-        }}
+        style={[
+          {
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "row",
+            flex: 1,
+          },
+          tabContainerStyle,
+        ]}
       >
         {data.map((item, index) => {
           return (
@@ -142,7 +154,13 @@ const Tabs = ({ scrollX, data, state, onItemPress }) => {
   );
 };
 
-export default TabBar = ({ data, navigation, state }) => {
+export default TabBar = ({
+  data,
+  navigation,
+  state,
+  tabContainerStyle,
+  tabHeight = 50,
+}) => {
   const themeContext = useContext(ThemeContext);
 
   const scrollX = useSharedValue(0);
@@ -161,6 +179,8 @@ export default TabBar = ({ data, navigation, state }) => {
         data={data}
         state={state}
         onItemPress={onItemPress}
+        tabContainerStyle={tabContainerStyle}
+        tabHeight={tabHeight}
       />
     </View>
   );

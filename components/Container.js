@@ -9,7 +9,7 @@ const Container = styled.TouchableOpacity`
 `;
 
 // TouchableWithoutFeedback은 자식 컴포넌트가 하나로 묶여서 와야하나봄..
-export default ({ onLayout=null, style, children }) => {
+export default ({ onLayout = null, style, children }) => {
   const dismissKeyboard = () => {
     // RN Keyboard API
     Keyboard.dismiss();
@@ -17,6 +17,7 @@ export default ({ onLayout=null, style, children }) => {
 
   return (
     <Container
+      pointerEvent="box-none"
       activeOpacity={1}
       onPress={dismissKeyboard}
       onLayout={onLayout}

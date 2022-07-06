@@ -10,24 +10,16 @@ import Animated, {
 } from "react-native-reanimated";
 import styled from "styled-components/native";
 
-const BlurGround = styled(Animated.View)`
-  /* flex: 1; */
-  /* min-height: 100%; */
-  /* min-width: 100%; */
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-color: rgb(0, 0, 0);
-`;
+import ModalFade from "./ModalFade";
+
 const Container = styled.View`
   flex: 1;
   justify-content: flex-end;
   align-items: center;
   z-index: 3;
-  /* background-color: rgba(0, 0, 0, 0.25); */
 `;
 const ModalView = styled.View`
-  background-color: ${props => props.theme.bgColor};
+  background-color: ${(props) => props.theme.bgColor};
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   align-items: center;
@@ -42,7 +34,7 @@ const ModalContextBox = styled.View`
 `;
 const ModalContextText = styled.Text`
   padding: 5px 0px 5px 0px;
-  color: ${props =>
+  color: ${(props) =>
     props.focused ? props.theme.yellowColor : props.theme.blackColor};
 `;
 
@@ -56,11 +48,11 @@ const ModalButtonBox = styled.TouchableOpacity`
   justify-content: space-around;
   align-items: center;
   border-style: solid;
-  border-top-color: ${props => props.theme.lightGreyColor};
+  border-top-color: ${(props) => props.theme.lightGreyColor};
   border-top-width: 1.5px;
 `;
 const ModalButtonText = styled.Text`
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
 `;
 
 export default SortModal = ({
@@ -68,36 +60,14 @@ export default SortModal = ({
   setModalVisible,
   sortModeIndex,
   setSortModeIndex,
-  sortModeText,
   confirm = () => null,
   cancel = () => null,
 }) => {
-  const animationKey = useDerivedValue(() => (modalVisible ? 1 : 0));
-
-  const BlurZIndex = useDerivedValue(() => {
-    return interpolate(animationKey.value, [0, 1], [-1, 2], Extrapolate.CLAMP);
-  });
-  const BlurOpacity = useDerivedValue(() => {
-    return interpolate(
-      animationKey.value,
-      [0, 1],
-      [0, 0.25],
-      Extrapolate.CLAMP
-    );
-  });
-  const BlurAnimeStyle = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(BlurOpacity.value, {
-        duration: 200,
-        easing: Easing.ease,
-      }),
-      zIndex: BlurZIndex.value,
-    };
-  });
+  const sortModeText = ["최근", "작성순", "편집순", "인기순"];
 
   return (
     <>
-      <BlurGround style={BlurAnimeStyle} />
+      <ModalFade modalVisible={modalVisible} />
       <Modal
         animationType="slide"
         visible={modalVisible}

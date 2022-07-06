@@ -57,10 +57,12 @@ const TagBox = styled.View`
 const TagTextBtn = styled.TouchableOpacity`
   margin: 2px;
   padding: 5px;
-  background-color: ${(props) => props.theme.yellowColor + 50};
+  background-color: ${(props) => props.theme.yellowColor};
   border-radius: 10px;
 `;
-const TagText = styled.Text``;
+const TagText = styled.Text`
+  color: ${(props) => props.theme.bgColor};
+`;
 
 const TotalStar = styled.Text`
   color: ${(props) => props.theme.blackColor};
@@ -84,6 +86,7 @@ export default RecipeInfo = ({
   chef,
   servings,
   difficulty,
+  toDosCount,
   cookingTime,
   kategories,
   ingredients,
@@ -110,6 +113,10 @@ export default RecipeInfo = ({
         <RowBox>
           <RowText>difficulty</RowText>
           <RowText>{difficulty}</RowText>
+        </RowBox>
+        <RowBox>
+          <RowText>steps</RowText>
+          <RowText>{toDosCount}</RowText>
         </RowBox>
         <RowBox>
           <RowText>cookingTime</RowText>

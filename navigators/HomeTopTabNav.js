@@ -1,4 +1,3 @@
-
 import React from "react";
 import { createMaterialCollapsibleTopTabNavigator } from "react-native-collapsible-tab-view";
 import HomeHeader from "../components/Home/HomeHeader";
@@ -42,21 +41,28 @@ export default ({ headerHeight, setHeaderHeight, goToNotification }) => {
   ];
 
   return (
-      <Tabs.Navigator
-        collapsibleOptions={{
-          headerHeight: headerHeight,
-          renderHeader: HOMEHEADER,
-          disableSnap: true,
-        }}
-        tabBar={({ navigation, state }) => (
-          <TabBar data={tabContext} navigation={navigation} state={state} />
-        )}
-        backBehavior="none"
-      >
-        <Tabs.Screen name="NewRecipes" component={NEWRECIPES} />
-        <Tabs.Screen name="ForYou" component={FORYOU} />
-        <Tabs.Screen name="test" component={TEST} />
-        <Tabs.Screen name="Subscribes" component={SUBSCRIBES} />
-      </Tabs.Navigator>
+    <Tabs.Navigator
+      collapsibleOptions={{
+        headerHeight: headerHeight,
+        renderHeader: HOMEHEADER,
+        disableSnap: true,
+      }}
+      tabBar={({ navigation, state }) => (
+        <TabBar
+          data={tabContext}
+          navigation={navigation}
+          state={state}
+          tabContainerStyle={{
+            justifyContent: "flex-start",
+          }}
+        />
+      )}
+      backBehavior="none"
+    >
+      <Tabs.Screen name="NewRecipes" component={NEWRECIPES} />
+      <Tabs.Screen name="ForYou" component={FORYOU} />
+      <Tabs.Screen name="test" component={TEST} />
+      <Tabs.Screen name="Subscribes" component={SUBSCRIBES} />
+    </Tabs.Navigator>
   );
 };

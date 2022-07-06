@@ -6,7 +6,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import CommonHeader from "../../components/CommonHeader";
 import Container from "../../components/Container";
 import RecipeCard from "../../components/Content/RecipeCard";
-import SortModal from "../../components/List/SortModal";
+import SortModal from "../../components/Modals/SortModal";
 import constants from "../../constants";
 
 const UtilView = styled.View`
@@ -21,7 +21,7 @@ const CountBox = styled.View`
 const CountText = styled.Text`
   font-weight: 700;
   font-size: 13px;
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
   padding-right: 3px;
 `;
 const ButtonsBox = styled.View`
@@ -35,7 +35,7 @@ const FilterBtn = styled.TouchableOpacity`
 `;
 const EditText = styled.Text`
   font-size: 13px;
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
 `;
 
 export default ({
@@ -96,7 +96,7 @@ export default ({
         {data.length > 0 ? (
           <FlatList
             data={data}
-            keyExtractor={recipe => recipe.id}
+            keyExtractor={(recipe) => recipe.id}
             renderItem={RECIPECARD}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}

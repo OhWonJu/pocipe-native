@@ -1,117 +1,44 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useRef } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   Animated,
-  ScrollView,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled, { ThemeContext } from "styled-components/native";
 
-import Button from "../../components/Button";
 import CommonHeader from "../../components/CommonHeader";
+import ProfileInfo from "../../components/Profile/ProfileInfo";
+import RecipeListHeader from "../../components/List/RecipeListHeader";
+import CollapsibleHeader from "../../components/Collapsible/CollapsibleHeader";
+import CollapsibleRecipeList from "../../components/Collapsible/CollapsibleRecipeList";
+import SortModal from "../../components/Modals/SortModal";
 import Container from "../../components/Container";
-import { FilledNoticStar, FilledBookMark } from "../../components/Icons";
-import ProfilePhoto from "../../components/ProfilePhoto";
 
-import { shadows } from "../../Styles/GlobalStyles";
-import RecipeListComponent from "../../components/List/RecipeListComponent";
+const LIST_HEADER_HEIGHT = 85;
 
-const ProfileBox = styled.View`
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 15px;
-`;
-
-const PublicOps = styled.Text`
-  border-radius: 5px;
-  padding: 2px 5px 2px 5px;
-  top: 4px;
-  text-align: center;
-  background-color: ${props => props.theme.lightGreyColor};
-  color: ${props => props.theme.darkGreyColor};
-  font-size: 10px;
-  margin-right: 5px;
-`;
-
-const UserName = styled.Text`
-  font-weight: bold;
-  font-size: 28px;
-  text-align: center;
-  color: ${props => props.theme.yellowColor};
-`;
-const BioBox = styled.View`
-  max-width: 80%;
-  padding: 5px 10px 5px 10px;
-`;
-const Bio = styled.Text`
-  font-size: 12px;
-  color: ${props => props.theme.darkGreyColor};
-`;
-
-const RatingBox = styled.View`
-  max-width: 80%;
-  padding: 2px 10px 5px 10px;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
-`;
-const RatingText = styled.Text`
-  font-size: 8px;
-  font-weight: bold;
-  color: ${props => props.theme.yellowColor};
-`;
-const ContentInfoBox = styled.View`
-  flex-direction: row;
-  width: 100%;
-  height: 70px;
-  border: ${props => props.theme.boxBorder};
-  border-radius: 15px;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 15px;
-`;
-const InfoColBox = styled.View`
-  padding: 3px;
-`;
-const InfoTopText = styled.Text`
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  color: ${props => props.theme.blackColor};
-`;
-const InfoBtmText = styled.Text`
-  text-align: center;
-  font-size: 12px;
-  color: ${props => props.theme.blackColor};
-`;
-
-const RowBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-`;
-const IconWrapper = styled.View`
-  justify-content: center;
-  margin-right: 2px;
-  top: 1px;
+const ListHaeder = styled(Animated.View)`
+  background-color: ${(props) => props.theme.bgColor};
+  height: ${LIST_HEADER_HEIGHT}px;
+  padding: 10px 20px 0px 20px;
+  z-index: 800;
 `;
 
 const SectionTitle = styled.Text`
   font-size: 20px;
   font-weight: bold;
-  padding-top: 25px;
-  padding-bottom: 15px;
-  color: ${props => props.theme.yellowColor};
+  color: ${(props) => props.theme.yellowColor};
 `;
 
-const BTN_WEIGHT = "49%";
-const BTN_HEIGHT = "47px";
-
 export default MyPageView = ({
+  headerHeight,
+  setHeaderHeight,
+  modalVisible,
+  setModalVisible,
+  sortModeIndex,
+  setSortModeIndex,
   userName,
   profilePhoto,
   bio,
@@ -123,131 +50,90 @@ export default MyPageView = ({
   const themeContext = useContext(ThemeContext);
   const navigation = useNavigation();
 
-  const INFOBOX = ({ topTx, bottomTx, onPress = null }) => (
-    <InfoColBox>
-      <TouchableOpacity onPress={onPress}>
-        <InfoTopText>{topTx}</InfoTopText>
-        <InfoBtmText>{bottomTx}</InfoBtmText>
-      </TouchableOpacity>
-    </InfoColBox>
-  );
-  const BUTTON = ({
-    text,
-    icon = null,
-    onPress = null,
-    width = BTN_WEIGHT,
-    height = BTN_HEIGHT,
-  }) => (
-    <Button
-      text={text}
-      icon={icon}
-      onPress={onPress}
-      bgColor={themeContext.lightGreyColor}
-      txColor={themeContext.blackColor}
-      width={width}
-      height={height}
-      txSize={15}
-    />
-  );
+  const recipeIds = recipes.map((recipe) => recipe.id);
 
-  const STAR = (
-    <IconWrapper>
-      <FilledNoticStar size={18} color={themeContext.yellowColor} />
-    </IconWrapper>
-  );
-  const DIP = (
-    <IconWrapper>
-      <FilledBookMark size={13} color={themeContext.redColor} />
-    </IconWrapper>
-  );
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const headerTranslateY = scrollY.interpolate({
+    inputRange: [0, headerHeight],
+    outputRange: [0, -headerHeight],
+    extrapolate: "clamp",
+  });
+  const ListHeaderTranslateY = scrollY.interpolate({
+    inputRange: [0, headerHeight],
+    outputRange: [headerHeight, 0],
+    extrapolateRight: "clamp",
+  });
+
+  const headerOnLayout = useCallback((event) => {
+    const { height } = event.nativeEvent.layout;
+    setHeaderHeight(height);
+  }, []);
 
   return (
     <>
-      <CommonHeader
-        navigation={navigation}
-        type={"MyPage"}
-        title={"마이페이지"}
-      />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        // {...scrollPropsAndRef}
-        bounces={false}
-      >
-        <Container style={{ minHeight: "100%" }}>
-          <ProfileBox>
-            <View style={shadows.photoWrapper}>
-              <ProfilePhoto uri={profilePhoto} size={"profile"} />
-            </View>
-            <RowBox>
-              <PublicOps>공개</PublicOps>
-              <UserName>{userName}</UserName>
-            </RowBox>
-            <BioBox>
-              <Bio>{bio}</Bio>
-            </BioBox>
-            <RatingBox>
-              <FilledNoticStar size={15} color={themeContext.yellowColor} />
-              <RatingText numberOfLines={1} ellipsizeMode="tail">
-                X{totalStar}
-              </RatingText>
-            </RatingBox>
-          </ProfileBox>
-          <ContentInfoBox>
-            <INFOBOX topTx={subscribersCount} bottomTx={"구독자"} />
-            <INFOBOX topTx={subscribingsCount} bottomTx={"구독중"} />
-            <INFOBOX
-              topTx={recipes.length}
-              bottomTx={"레시피"}
-              onPress={() =>
-                navigation.navigate("RecipeList", {
-                  title: "내 레시피",
-                  listId: recipes.map(recipe => recipe.id),
-                })
-              }
+      <View style={{ zIndex: 900 }}>
+        <CommonHeader
+          navigation={navigation}
+          type={"MyPage"}
+          title={"마이페이지"}
+        />
+      </View>
+      <SafeAreaView>
+        {headerHeight > 0 && (
+          <>
+            <ListHaeder
+              pointerEvents="box-none"
+              style={{ transform: [{ translateY: ListHeaderTranslateY }] }}
+            >
+              <View pointerEvents="none">
+                <SectionTitle>내 레시피</SectionTitle>
+              </View>
+              <RecipeListHeader
+                recipeCount={recipeIds.length}
+                isProfile={true}
+                setModalVisible={setModalVisible}
+                sortModeIndex={sortModeIndex}
+              />
+            </ListHaeder>
+            <CollapsibleRecipeList
+              navigation={navigation}
+              listId={recipeIds}
+              headerHeight={headerHeight}
+              scrollY={scrollY}
+              onEndReachedThreshold={0.1}
+              onEndReached={null}
+              refreshing={null}
+              onRefresh={null}
+              contentContainerStyle={{
+                paddingBottom: 300,
+                backgroundColor: themeContext.bgColor,
+              }}
             />
-          </ContentInfoBox>
-          <RowBox>
-            <BUTTON
-              text={"별점"}
-              icon={STAR}
-              onPress={() =>
-                navigation.navigate("RecipeList", {
-                  title: "별점",
-                  listId: "",
-                })
-              }
-            />
-            <BUTTON
-              text={"찜"}
-              icon={DIP}
-              onPress={() =>
-                navigation.navigate("RecipeList", {
-                  title: "찜",
-                  listId: "",
-                })
-              }
-            />
-          </RowBox>
-          <RowBox>
-            <BUTTON
-              text={"최근 본 레시피"}
-              onPress={() => navigation.navigate("RecipeList")}
-            />
-            <BUTTON
-              text={"자주 본 레시피"}
-              onPress={() => navigation.navigate("RecipeList")}
-            />
-          </RowBox>
-          <View style={{ alignItems: "center", marginTop: 10 }}>
-            <BUTTON
-              text={"새 레시피 만들기"}
-              onPress={() => null}
-              width={"100%"}
-            />
-          </View>
-          <SectionTitle>내 레시피</SectionTitle>
-        </Container>
-      </ScrollView>
+          </>
+        )}
+        <CollapsibleHeader
+          onLayout={headerOnLayout}
+          headerTranslateY={headerTranslateY}
+        >
+          <ProfileInfo
+            userName={userName}
+            profilePhoto={profilePhoto}
+            bio={bio}
+            totalStar={totalStar}
+            subscribersCount={subscribersCount}
+            subscribingsCount={subscribingsCount}
+            recipes={recipes}
+          />
+        </CollapsibleHeader>
+      </SafeAreaView>
+      {
+        <SortModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          sortModeIndex={sortModeIndex}
+          setSortModeIndex={setSortModeIndex}
+        />
+      }
     </>
   );
 };

@@ -58,6 +58,7 @@ export default RecipeDetailView = ({
   chef,
   servings,
   difficulty,
+  toDosCount,
   cookingTime,
   kategories,
   ingredients,
@@ -104,6 +105,7 @@ export default RecipeDetailView = ({
             chef={chef}
             servings={servings}
             difficulty={difficulty}
+            toDosCount={toDosCount}
             cookingTime={cookingTime}
             kategories={kategories}
             ingredients={ingredients}
