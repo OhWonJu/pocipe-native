@@ -1,7 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, Children } from "react";
 import { View } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import { MaterialIcons } from "@expo/vector-icons";
+import {
+  BaseButton,
+  RectButton,
+  BorderlessButton,
+} from "react-native-gesture-handler";
 
 const UtilView = styled.View`
   flex-direction: row;
@@ -23,10 +28,10 @@ const ButtonsBox = styled.View`
   flex-direction: row;
   justify-content: flex-end;
 `;
-const FilterBtn = styled.TouchableOpacity`
-  /* background-color: red; */
-  padding: 1px 1px 1px 1px;
-`;
+// const FilterBtn = styled.TouchableOpacity`
+//   /* background-color: red; */
+//   padding: 1px 1px 1px 1px;
+// `;
 const EditText = styled.Text`
   font-size: 13px;
   color: ${(props) => props.theme.blackColor};
@@ -42,10 +47,16 @@ export default ({
 
   const sortModeText = ["최근", "작성순", "편집순", "인기순"];
 
+  const FilterBtn = ({ onPress = () => null, children }) => (
+    <BorderlessButton style={{ padding: 1 }} onPress={onPress}>
+      {children}
+    </BorderlessButton>
+  );
+
   return (
     <>
       <UtilView pointerEvents="box-none">
-        <CountBox>
+        <CountBox pointerEvents="none">
           {!isProfile && (
             <>
               <CountText>전체</CountText>
@@ -57,7 +68,11 @@ export default ({
         </CountBox>
         <ButtonsBox pointerEvents="box-none">
           <FilterBtn onPress={() => setModalVisible(true)}>
-            <View style={{ flexDirection: "row", paddingRight: 5 }}>
+            <View
+              accessible
+              accessibilityRole="button"
+              style={{ flexDirection: "row", paddingRight: 5 }}
+            >
               <EditText>{sortModeText[sortModeIndex]}</EditText>
               <MaterialIcons
                 name="keyboard-arrow-right"

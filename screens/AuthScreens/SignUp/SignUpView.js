@@ -271,7 +271,7 @@ export default SignUpView = ({
       <Button
         text={"Pocipe 시작하기"}
         width={"100%"}
-        radius={"0px"}
+        radius={0}
         txSize={25}
         disable={
           !condition.userNameConfirm ||

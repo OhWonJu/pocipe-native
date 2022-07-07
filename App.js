@@ -10,6 +10,7 @@ import { ThemeProvider } from "styled-components/native";
 import { ApolloProvider, useReactiveVar } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import "react-native-reanimated";
+import 'react-native-gesture-handler';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { lightTheme, darkTheme } from "./Styles/Theme";

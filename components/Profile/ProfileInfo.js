@@ -7,7 +7,7 @@ import Button from "../Button";
 import { FilledBookMark, FilledNoticStar } from "../Icons";
 import ProfilePhoto from "../ProfilePhoto";
 import { shadows } from "../../Styles/GlobalStyles";
-import Container from "../Container";
+import { BaseButton } from "react-native-gesture-handler";
 
 const ProfileBox = styled.View`
   justify-content: center;
@@ -107,11 +107,11 @@ export default ProfileInfo = ({
   const navigation = useNavigation();
 
   const INFOBOX = ({ topTx, bottomTx, onPress = null }) => (
-    <InfoColBox>
-      <TouchableOpacity onPress={onPress}>
+    <InfoColBox pointerEvents="box-none">
+      <BaseButton onPress={onPress}>
         <InfoTopText>{topTx}</InfoTopText>
         <InfoBtmText>{bottomTx}</InfoBtmText>
-      </TouchableOpacity>
+      </BaseButton>
     </InfoColBox>
   );
   const BUTTON = ({
@@ -147,7 +147,11 @@ export default ProfileInfo = ({
   return (
     <View
       pointerEvents="box-none"
-      style={{ backgroundColor: themeContext.bgColor, paddingHorizontal: 20 }}
+      style={{
+        backgroundColor: themeContext.bgColor,
+        paddingHorizontal: 20,
+        paddingTop: 5,
+      }}
     >
       <ProfileBox pointerEvents="box-none">
         <View pointerEvents="none" style={shadows.photoWrapper}>
@@ -181,7 +185,7 @@ export default ProfileInfo = ({
           }
         />
       </ContentInfoBox>
-      <RowBox>
+      <RowBox pointerEvents="box-none">
         <BUTTON
           text={"별점"}
           icon={STAR}
@@ -203,17 +207,28 @@ export default ProfileInfo = ({
           }
         />
       </RowBox>
-      <RowBox>
+      <RowBox pointerEvents="box-none">
         <BUTTON
           text={"최근 본 레시피"}
-          onPress={() => navigation.navigate("RecipeList")}
+          onPress={() =>
+            navigation.navigate("RecipeList", {
+              title: "최근 본 레시피",
+              listId: "",
+            })
+          }
         />
         <BUTTON
           text={"자주 본 레시피"}
-          onPress={() => navigation.navigate("RecipeList")}
+          onPress={() => navigation.navigate("RecipeList", {
+            title: "자주 본 레시피",
+            listId: "",
+          })}
         />
       </RowBox>
-      <View style={{ alignItems: "center", marginTop: 10, marginBottom: 35 }}>
+      <View
+        style={{ alignItems: "center", marginTop: 10, marginBottom: 35 }}
+        pointerEvents="box-none"
+      >
         <BUTTON text={"새 레시피 만들기"} onPress={() => null} width={"100%"} />
       </View>
     </View>

@@ -15,7 +15,6 @@ import RecipeListHeader from "../../components/List/RecipeListHeader";
 import CollapsibleHeader from "../../components/Collapsible/CollapsibleHeader";
 import CollapsibleRecipeList from "../../components/Collapsible/CollapsibleRecipeList";
 import SortModal from "../../components/Modals/SortModal";
-import Container from "../../components/Container";
 
 const LIST_HEADER_HEIGHT = 85;
 
@@ -68,6 +67,8 @@ export default MyPageView = ({
     const { height } = event.nativeEvent.layout;
     setHeaderHeight(height);
   }, []);
+
+  // 스크롤 + 터치 문제 리액트네이티브제스쳐의 buttons로 해결할 수 있다?
 
   return (
     <>
