@@ -3,22 +3,15 @@ import { useQuery } from "@apollo/client";
 
 import { RECIPE_LIST_QUREY } from "./RecipeListModel";
 import RecipeListView from "./RecipeListView";
-import Loader from "../../components/Loader";
 
 export default ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [sortModeIndex, setSortModeIndex] = useState(0); // recent || createFirst || editFirst || popularity ||
 
-  const sortModeText = ["최근", "작성순", "편집순", "인기순"];
-
   const { data, loading } = useQuery(RECIPE_LIST_QUREY, {
     listId: route.params?.listId,
     skip: !route.params?.listId,
   });
-
-  if (loading) {
-    return <Loader />;
-  }
 
   return (
     <RecipeListView
@@ -27,9 +20,9 @@ export default ({ navigation, route }) => {
       setModalVisible={setModalVisible}
       sortModeIndex={sortModeIndex}
       setSortModeIndex={setSortModeIndex}
-      sortModeText={sortModeText}
       title={route.params?.title}
-      data={data ? data.seeRecipes : []}
+      data={data?.seeRecipes}
+      loading={loading}
     />
   );
 };

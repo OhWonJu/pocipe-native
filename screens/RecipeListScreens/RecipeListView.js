@@ -1,41 +1,16 @@
-import React, { useContext } from "react";
-import { View, FlatList } from "react-native";
+import React, { useContext, useRef } from "react";
+import { Animated, SafeAreaView } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
-import { MaterialIcons } from "@expo/vector-icons";
 
 import CommonHeader from "../../components/CommonHeader";
-import Container from "../../components/Container";
-import RecipeCard from "../../components/Content/RecipeCard";
 import SortModal from "../../components/Modals/SortModal";
-import constants from "../../constants";
+import CollapsibleRecipeList from "../../components/Collapsible/CollapsibleRecipeList";
+import RecipeListHeader from "../../components/List/RecipeListHeader";
 
-const UtilView = styled.View`
-  flex-direction: row;
-  height: 50px;
-  align-items: center;
-`;
-const CountBox = styled.View`
-  flex: 1;
-  flex-direction: row;
-`;
-const CountText = styled.Text`
-  font-weight: 700;
-  font-size: 13px;
-  color: ${(props) => props.theme.blackColor};
-  padding-right: 3px;
-`;
-const ButtonsBox = styled.View`
-  flex: 1;
-  flex-direction: row;
-  justify-content: flex-end;
-`;
-const FilterBtn = styled.TouchableOpacity`
-  /* background-color: red; */
-  padding: 1px 1px 1px 1px;
-`;
-const EditText = styled.Text`
-  font-size: 13px;
-  color: ${(props) => props.theme.blackColor};
+const ListHaeder = styled(Animated.View)`
+  background-color: ${(props) => props.theme.bgColor};
+  padding: 10px 20px 0px 20px;
+  z-index: 800;
 `;
 
 export default ({
@@ -44,72 +19,50 @@ export default ({
   setModalVisible,
   sortModeIndex,
   setSortModeIndex,
-  sortModeText,
   title = "",
-  data,
+  data = [],
+  loading,
 }) => {
   const themeContext = useContext(ThemeContext);
 
-  const RECIPECARD = ({ item }) => (
-    <RecipeCard item={item} navigation={navigation} isProfile={true} />
-  );
-
-  const RECIPELESS = () => <View></View>;
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   return (
     <>
+      <CommonHeader navigation={navigation} type={"Setting"} title={title} />
+      <SafeAreaView>
+        <ListHaeder>
+          <RecipeListHeader
+            recipeCount={data.length}
+            setModalVisible={setModalVisible}
+            sortModeIndex={sortModeIndex}
+          />
+        </ListHaeder>
+        <CollapsibleRecipeList
+          navigation={navigation}
+          data={data}
+          loading={loading}
+          headerHeight={0}
+          scrollY={scrollY}
+          onEndReachedThreshold={0.1}
+          onEndReached={null}
+          refreshing={null}
+          onRefresh={null}
+          contentContainerStyle={{
+            paddingBottom: 300,
+            backgroundColor: themeContext.bgColor,
+          }}
+          isProfile={false}
+        />
+      </SafeAreaView>
       {
         <SortModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           sortModeIndex={sortModeIndex}
           setSortModeIndex={setSortModeIndex}
-          sortModeText={sortModeText}
         />
       }
-      <CommonHeader navigation={navigation} type={"Setting"} title={title} />
-      <Container>
-        <UtilView>
-          <CountBox>
-            <CountText>전체</CountText>
-            <CountText style={{ color: themeContext.yellowColor }}>
-              {data.length}
-            </CountText>
-          </CountBox>
-          <ButtonsBox>
-            <FilterBtn onPress={() => setModalVisible(true)}>
-              <View style={{ flexDirection: "row", paddingRight: 5 }}>
-                <EditText>{sortModeText[sortModeIndex]}</EditText>
-                <MaterialIcons
-                  name="keyboard-arrow-right"
-                  size={16}
-                  color={themeContext.blackColor}
-                  style={{ transform: [{ rotate: "90deg" }], left: -3 }}
-                />
-              </View>
-            </FilterBtn>
-            <FilterBtn>
-              <EditText>편집</EditText>
-            </FilterBtn>
-          </ButtonsBox>
-        </UtilView>
-        {data.length > 0 ? (
-          <FlatList
-            data={data}
-            keyExtractor={(recipe) => recipe.id}
-            renderItem={RECIPECARD}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            numColumns={2}
-            columnWrapperStyle={{
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          />
-        ) : (
-          <RECIPELESS />
-        )}
-      </Container>
     </>
   );
 };

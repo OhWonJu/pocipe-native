@@ -11,21 +11,32 @@ const TitleContainer = styled.View`
 const TitleTest = styled.Text`
   font-size: 20px;
   font-weight: bold;
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
 `;
 const ListContainer = styled.View`
   justify-content: center;
   padding: 10px 0px 10px 0px;
 `;
 
-export default ({ contentListTitle, loading, navigation, children }) => {
+export default ({
+  contentListTitle,
+  loading,
+  navigation,
+  children,
+  listId = "",
+}) => {
   const themeContext = useContext(ThemeContext);
 
   return (
     <View pointerEvents="box-none">
       <TitleContainer>
         <TouchableOpacity
-          onPress={() => navigation.navigate("RecipeList")}
+          onPress={() =>
+            navigation.navigate("RecipeList", {
+              title: contentListTitle,
+              listId,
+            })
+          }
           style={{
             flexDirection: "row",
             alignItems: "center",

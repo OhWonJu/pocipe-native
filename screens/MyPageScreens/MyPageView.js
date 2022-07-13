@@ -98,7 +98,7 @@ export default MyPageView = ({
             </ListHaeder>
             <CollapsibleRecipeList
               navigation={navigation}
-              listId={recipeIds}
+              data={recipes}
               headerHeight={headerHeight}
               scrollY={scrollY}
               onEndReachedThreshold={0.1}
@@ -109,6 +109,7 @@ export default MyPageView = ({
                 paddingBottom: 300,
                 backgroundColor: themeContext.bgColor,
               }}
+              isProfile={true}
             />
           </>
         )}

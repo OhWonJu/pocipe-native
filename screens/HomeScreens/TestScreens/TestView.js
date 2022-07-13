@@ -23,10 +23,12 @@ export default ({ navigation, route, data, loading }) => {
         contentListTitle={"마이레시피"}
         loading={loading}
         navigation={navigation}
+        title="마이레시피"
+        listId={data?.seeMyRecipe.map((recipe) => recipe.id)}
       >
         <FlatList
           data={data?.seeMyRecipe}
-          keyExtractor={recipe => recipe.id}
+          keyExtractor={(recipe) => recipe.id}
           renderItem={RECIPECARD}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -40,7 +42,7 @@ export default ({ navigation, route, data, loading }) => {
       >
         <FlatList
           data={data?.seeMyRecipe}
-          keyExtractor={recipe => recipe.id}
+          keyExtractor={(recipe) => recipe.id}
           renderItem={RECIPECARD}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -54,7 +56,7 @@ export default ({ navigation, route, data, loading }) => {
       >
         <FlatList
           data={data?.seeMyRecipe}
-          keyExtractor={recipe => recipe.id}
+          keyExtractor={(recipe) => recipe.id}
           renderItem={RECIPECARD}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -67,7 +69,7 @@ export default ({ navigation, route, data, loading }) => {
       >
         <FlatList
           data={data?.seeMyRecipe}
-          keyExtractor={recipe => recipe.id}
+          keyExtractor={(recipe) => recipe.id}
           renderItem={RECIPECARD}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -80,7 +82,7 @@ export default ({ navigation, route, data, loading }) => {
       >
         <FlatList
           data={data?.seeMyRecipe}
-          keyExtractor={recipe => recipe.id}
+          keyExtractor={(recipe) => recipe.id}
           renderItem={RECIPECARD}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -93,7 +95,7 @@ export default ({ navigation, route, data, loading }) => {
       >
         <FlatList
           data={data?.seeMyRecipe}
-          keyExtractor={recipe => recipe.id}
+          keyExtractor={(recipe) => recipe.id}
           renderItem={RECIPECARD}
           horizontal={true}
           showsHorizontalScrollIndicator={false}

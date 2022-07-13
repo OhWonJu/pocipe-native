@@ -219,10 +219,12 @@ export default ProfileInfo = ({
         />
         <BUTTON
           text={"자주 본 레시피"}
-          onPress={() => navigation.navigate("RecipeList", {
-            title: "자주 본 레시피",
-            listId: "",
-          })}
+          onPress={() =>
+            navigation.navigate("RecipeList", {
+              title: "자주 본 레시피",
+              listId: "",
+            })
+          }
         />
       </RowBox>
       <View

@@ -10,7 +10,8 @@ import RecipeCard from "../Content/RecipeCard";
 
 export default CollapsibleRecipeList = ({
   navigation,
-  listId,
+  data,
+  loading,
   headerHeight,
   scrollY,
   onEndReachedThreshold,
@@ -19,31 +20,26 @@ export default CollapsibleRecipeList = ({
   onRefresh,
   containerStyle,
   contentContainerStyle,
+  isProfile = true,
 }) => {
   const keyExtractor = useCallback((_, index) => index.toString(), []);
-
-  const { data: origin, loading } = useQuery(RECIPE_LIST_QUREY, {
-    listId: listId,
-    skip: !listId,
-  });
-  const data = origin?.seeRecipes;
 
   if (loading) {
     return <Loader />;
   }
 
   const RECIPECARD = ({ item }) => (
-    <RecipeCard item={item} navigation={navigation} isProfile={true} />
+    <RecipeCard item={item} navigation={navigation} isProfile={isProfile} />
   );
 
   const RECIPELESS = () => null;
 
   return (
     <>
-      {data.length > 0 ? (
+      {data && data.length > 0 ? (
         <View style={containerStyle} pointerEvents="box-none">
           <Animated.FlatList
-            data={data} 
+            data={data}
             renderItem={RECIPECARD}
             keyExtractor={keyExtractor}
             contentContainerStyle={{
