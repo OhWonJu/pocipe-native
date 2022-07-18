@@ -2,10 +2,7 @@ import React, { useCallback, useContext, useMemo, useRef } from "react";
 import { View } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import { MaterialIcons } from "@expo/vector-icons";
-import BottomSheet, {
-  BottomSheetScrollView,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 import Container from "../../components/Container";
 import constants from "../../constants";
@@ -46,6 +43,12 @@ const IconWrapper = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   transform: rotate(-90deg);
+`;
+
+const InfoHeaderContainer = styled.View`
+  flex: 1;
+  background-color: ${(props) => props.theme.bgColor};
+  padding: 0px 20px 0px 20px;
 `;
 
 export default RecipeDetailView = ({
@@ -96,8 +99,8 @@ export default RecipeDetailView = ({
     }, []);
 
     return (
-      <View onLayout={headerOnLayout}>
-        <Container style={{ paddingTop: 10 }}>
+      <View onLayout={headerOnLayout} pointerEvents="box-none">
+        <InfoHeaderContainer style={{ paddingTop: 10 }} pointerEvents="box-none">
           <RecipeInfo
             id={id}
             title={title}
@@ -116,7 +119,7 @@ export default RecipeDetailView = ({
             isMine={isMine}
             goProfile={goProfile}
           />
-        </Container>
+        </InfoHeaderContainer>
       </View>
     );
   };

@@ -10,11 +10,11 @@ const Container = styled.View`
     props.paddingSet ? "0px 20px 0px 20px" : "0px 0px 0px 0px"};
 `;
 
-export default ({ route, paddingSet = true, children }) => {
+export default ({ route, paddingSet = true, ContainerStyle, children }) => {
   const scrollPropsAndRef = useCollapsibleScene(route.name);
 
   return (
-    <Container paddingSet={paddingSet}>
+    <Container paddingSet={paddingSet} style={ContainerStyle}>
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         {...scrollPropsAndRef}

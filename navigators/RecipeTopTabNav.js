@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Text } from "react-native";
 import { createMaterialCollapsibleTopTabNavigator } from "react-native-collapsible-tab-view";
 
-import RecipeToDo from "../screens/RecipeDetailScreens/RecipeToDoScreen/RecipeToDo";
+import RecipeToDo from "../screens/RecipeDetailScreens/RecipeToDoScreen/index";
 import RecipeComment from "../screens/RecipeDetailScreens/RecipeCommentScreen/RecipeComment";
 import RecipeStar from "../screens/RecipeDetailScreens/RecipeStarScreen/RecipeStar";
 import RecipeShop from "../screens/RecipeDetailScreens/RecipeShopScreen/RecipeShop";
@@ -11,19 +11,6 @@ import TabBar from "../components/TabBar";
 
 const FONT_SIZE = 17;
 const FONT_WEIGHT = "bold";
-
-const TODO = ({ navigation, route }) => (
-  <RecipeToDo navigation={navigation} route={route} />
-);
-const COMMENT = ({ navigation, route }) => (
-  <RecipeComment navigation={navigation} route={route} />
-);
-const STAR = ({ navigation, route }) => (
-  <RecipeStar navigation={navigation} route={route} />
-);
-const SHOP = ({ navigation, route }) => (
-  <RecipeShop navigation={navigation} route={route} />
-);
 
 const Tabs = createMaterialCollapsibleTopTabNavigator();
 
@@ -79,7 +66,6 @@ export default ({ recipeId, InfoHeader, headerHeight }) => {
     >
       <Tabs.Screen
         name="RecipeToDo"
-        component={TODO}
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -95,10 +81,17 @@ export default ({ recipeId, InfoHeader, headerHeight }) => {
             </Text>
           ),
         }}
-      />
+      >
+        {({ navigation, route }) => (
+          <RecipeToDo
+            navigation={navigation}
+            route={route}
+            recipeId={recipeId}
+          />
+        )}
+      </Tabs.Screen>
       <Tabs.Screen
         name="RecipeComment"
-        component={COMMENT}
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -114,10 +107,17 @@ export default ({ recipeId, InfoHeader, headerHeight }) => {
             </Text>
           ),
         }}
-      />
+      >
+        {({ navigation, route }) => (
+          <RecipeComment
+            navigation={navigation}
+            route={route}
+            recipeId={recipeId}
+          />
+        )}
+      </Tabs.Screen>
       <Tabs.Screen
         name="RecipeStar"
-        component={STAR}
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -133,10 +133,17 @@ export default ({ recipeId, InfoHeader, headerHeight }) => {
             </Text>
           ),
         }}
-      />
+      >
+        {({ navigation, route }) => (
+          <RecipeStar
+            navigation={navigation}
+            route={route}
+            recipeId={recipeId}
+          />
+        )}
+      </Tabs.Screen>
       <Tabs.Screen
         name="RecipeShop"
-        component={SHOP}
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -152,7 +159,15 @@ export default ({ recipeId, InfoHeader, headerHeight }) => {
             </Text>
           ),
         }}
-      />
+      >
+        {({ navigation, route }) => (
+          <RecipeShop
+            navigation={navigation}
+            route={route}
+            recipeId={recipeId}
+          />
+        )}
+      </Tabs.Screen>
     </Tabs.Navigator>
   );
 };

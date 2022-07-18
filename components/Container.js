@@ -17,7 +17,7 @@ export default ({ onLayout = null, style, children }) => {
 
   return (
     <Container
-      pointerEvent="box-none"
+      pointerEvents="box-none"
       activeOpacity={1}
       onPress={dismissKeyboard}
       onLayout={onLayout}

@@ -24,7 +24,7 @@ const Title = styled.Text`
 `;
 const Caption = styled.Text`
   color: ${(props) => props.theme.darkGreyColor};
-  font-size: 14px;
+  font-size: 16px;
 `;
 
 const RowBox = styled.View`
@@ -98,34 +98,34 @@ export default RecipeInfo = ({
   goProfile = { goProfile },
 }) => {
   return (
-    <InfoWrapper>
-      <CenteredBox style={{ paddingTop: 0 }}>
+    <InfoWrapper pointerEvents="box-none">
+      <CenteredBox style={{ paddingTop: 0 }} pointerEvents="none">
         <Title>{title}</Title>
         <View style={{ paddingTop: 10 }}>
           <Caption>{caption}</Caption>
         </View>
       </CenteredBox>
-      <CenteredBox>
-        <RowBox>
+      <CenteredBox pointerEvents="box-none">
+        <RowBox pointerEvents="none">
           <RowText>serving</RowText>
           <RowText>{servings}</RowText>
         </RowBox>
-        <RowBox>
+        <RowBox pointerEvents="none">
           <RowText>difficulty</RowText>
           <RowText>{difficulty}</RowText>
         </RowBox>
-        <RowBox>
+        <RowBox pointerEvents="none">
           <RowText>steps</RowText>
           <RowText>{toDosCount}</RowText>
         </RowBox>
-        <RowBox>
+        <RowBox pointerEvents="none">
           <RowText>cookingTime</RowText>
           <RowText>{`${Math.floor(cookingTime / (1000 * 60))} min`}</RowText>
         </RowBox>
-        <RowBox style={{ paddingTop: 15 }}>
-          <PureRowBox style={{ paddingRight: 8 }}>
+        <RowBox style={{ paddingTop: 15 }} pointerEvents="box-none">
+          <PureRowBox style={{ paddingRight: 8 }} pointerEvents="box-none">
             <TagTitle>Kategories</TagTitle>
-            <TagBox>
+            <TagBox pointerEvents="box-none">
               {kategories.map((obj) => (
                 <TagTextBtn key={obj.kategorie}>
                   <TagText>{obj.kategorie}</TagText>
@@ -133,9 +133,9 @@ export default RecipeInfo = ({
               ))}
             </TagBox>
           </PureRowBox>
-          <PureRowBox style={{ paddingLeft: 8 }}>
+          <PureRowBox style={{ paddingLeft: 8 }} pointerEvents="box-none">
             <TagTitle>ingredients</TagTitle>
-            <TagBox>
+            <TagBox pointerEvents="box-none">
               {ingredients.map((obj) => (
                 <TagTextBtn key={obj.ingredient}>
                   <TagText>{obj.ingredient}</TagText>
@@ -145,7 +145,7 @@ export default RecipeInfo = ({
           </PureRowBox>
         </RowBox>
       </CenteredBox>
-      <CenteredBox style={{ borderBottomWidth: 0 }}>
+      <CenteredBox style={{ borderBottomWidth: 0 }} pointerEvents="none">
         <RowBox>
           <View
             style={{
@@ -175,7 +175,7 @@ export default RecipeInfo = ({
           <TotalStar>{totalStar}</TotalStar>
         </RowBox>
       </CenteredBox>
-      <BarCodeWrapper>
+      <BarCodeWrapper pointerEvents="none">
         <Barcode id={id} />
       </BarCodeWrapper>
       <View
@@ -186,8 +186,9 @@ export default RecipeInfo = ({
           justifyContent: "center",
           paddingBottom: 10,
         }}
+        pointerEvents="box-none"
       >
-        <View style={{ paddingRight: 3 }}>
+        <View style={{ paddingRight: 3 }} pointerEvents="none">
           <BarcodeText>Recipe by {chef.userName}</BarcodeText>
         </View>
         <TouchableOpacity

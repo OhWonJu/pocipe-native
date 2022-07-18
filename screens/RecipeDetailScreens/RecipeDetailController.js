@@ -31,6 +31,7 @@ export default RecipeDetailController = ({
     skip: !route.params.recipeId,
   });
 
+
   const goBack = () => navigation.goBack();
   const goProfile = () =>
     navigation.navigate("Profile", { userName: data.seeRecipe.chef.userName });
