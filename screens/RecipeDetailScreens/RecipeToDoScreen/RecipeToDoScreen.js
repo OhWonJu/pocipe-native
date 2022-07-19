@@ -26,7 +26,6 @@ export default RecipeToDoScreen = ({
       {toDos.map((data, index) => (
         <ToDoCard
           key={index}
-          focused={index == 2 ? true : false}
           toDosCount={toDosCount}
           {...data}
         />

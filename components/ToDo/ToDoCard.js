@@ -7,24 +7,25 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import styled from "styled-components/native";
+import { shadows } from "../../Styles/GlobalStyles";
 
 const CardContainer = styled.TouchableOpacity`
   flex: 1;
   /* margin: 10px 0px 10px 0px; */
   background-color: ${(props) => props.theme.bgColor};
-  border-radius: 20px;
-  padding: 20px 15px 20px 15px;
+  border-radius: 15px;
+  padding: 25px 15px 25px 15px;
 `;
 
 const Header = styled.View`
   flex-direction: row;
-  border-bottom-width: 2px;
+  border-bottom-width: 1.2px;
   border-color: ${(props) => props.theme.lightGreyColor};
   padding-bottom: 15px;
   margin-bottom: 15px;
 `;
 const Title = styled.Text`
-  font-size: 30px;
+  font-size: 28px;
   font-weight: bold;
   color: ${(props) => props.theme.blackColor};
 `;
@@ -33,10 +34,10 @@ const Steps = styled.View`
   width: 20%;
   justify-content: center;
   align-items: flex-end;
-  top: 5px;
+  top: 9px;
 `;
 const Step = styled.Text`
-  font-size: 20px;
+  font-size: 13px;
   /* font-weight: bold; */
   color: ${(props) => props.theme.greyColor};
 `;
@@ -47,17 +48,19 @@ const ImagerWrapper = styled.View`
 `;
 const Image = styled.Image`
   width: 100%;
-  height: 200px;
+  height: 300px;
+  /* height: px; */
 `;
 
 const Body = styled.View``;
 const Caption = styled.Text`
   font-size: 18px;
   color: ${(props) => props.theme.blackColor};
-  margin-bottom: 15px;
+  /* margin-bottom: 5px; */
 `;
 
 const TimerWrapper = styled.View`
+  margin-top: 5px;
   align-items: flex-end;
 `;
 
@@ -74,17 +77,17 @@ export default ToDoCard = ({
 }) => {
   const trigger = useSharedValue(focused);
   const AnimatedStyle = useAnimatedStyle(() => {
-    const scale = withSpring(trigger.value ? 1.06 : 1);
+    const scale = withSpring(trigger.value ? 1.05 : 1);
     return {
       flex: 1,
       marginVertical: focused ? 15 : 10,
-      paddingHorizontal: focused ? 20 : 20,
+      paddingHorizontal: 15,
       transform: [{ scale }],
     };
   });
 
   return (
-    <Animated.View style={AnimatedStyle}>
+    <Animated.View style={[AnimatedStyle, shadows.viewWrapper]}>
       <CardContainer activeOpacity={1}>
         <Header>
           <View
@@ -103,7 +106,7 @@ export default ToDoCard = ({
         </Header>
         {file && (
           <ImagerWrapper>
-            <Image source={{ uri: file }} resizeMode={"cover"} />
+            <Image source={{ uri: file }} resizeMode={"contain"} />
           </ImagerWrapper>
         )}
         <Body>

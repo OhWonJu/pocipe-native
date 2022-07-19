@@ -7,11 +7,8 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FBFBFB",
     ...Platform.select({
-      android: {
-      },
-      ios: {
-       
-      }
+      android: {},
+      ios: {},
     }),
   },
 });
@@ -23,14 +20,31 @@ export const shadows = StyleSheet.create({
       ios: {
         shadowColor: "#000",
         shadowOffset: {
-          width: 3,
+          // width: 3,
           height: 3,
         },
-        shadowOpacity: 0.5,
+        shadowOpacity: 0.3,
+        shadowRadius: 9,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
+  },
+  viewWrapper: {
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 1,
+          height: 1,
+        },
+        shadowOpacity: 0.08,
         shadowRadius: 10,
       },
       android: {
-        elevation: 4,
+        borderRadius: 20,
+        // elevation: 6,
       },
     }),
   },
