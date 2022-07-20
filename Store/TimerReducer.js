@@ -26,10 +26,10 @@ export const { setTimer } = timerSlice.actions;
 export default timerSlice.reducer;
 export const getTimer = (state) => {
   return {
-    recipeId: state.timer.recipeId,
-    isAutoRun: state.timer.isAutoRun,
-    nowStep: state.timer.nowStep,
-    nextStep: state.timer.nextStep,
+    recipeId: state.Ttimer.recipeId,
+    isAutoRun: state.Ttimer.isAutoRun,
+    nowStep: state.Ttimer.nowStep,
+    nextStep: state.Ttimer.nextStep,
     // startTime: state.timer.startTime,
     endTime: state.timer.endTime,
   };

@@ -20,6 +20,7 @@ export default ({ size = "normal", uri }) => {
   const viewSize = {
     small: 22,
     normal: 28,
+    middle: 68,
     large: 83,
     profile: 113,
   };

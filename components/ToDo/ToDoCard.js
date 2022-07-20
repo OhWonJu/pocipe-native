@@ -1,5 +1,4 @@
-import { printIntrospectionSchema } from "graphql";
-import React, { useContext } from "react";
+import React from "react";
 import { Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -7,7 +6,9 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import styled from "styled-components/native";
+
 import { shadows } from "../../Styles/GlobalStyles";
+import Timer from "../Timer/Timer";
 
 const CardContainer = styled.TouchableOpacity`
   flex: 1;
@@ -48,7 +49,8 @@ const ImagerWrapper = styled.View`
 `;
 const Image = styled.Image`
   width: 100%;
-  height: 300px;
+  height: 300px; /* 수정 필요 */
+  flex: 1;
   /* height: px; */
 `;
 
@@ -61,7 +63,8 @@ const Caption = styled.Text`
 
 const TimerWrapper = styled.View`
   margin-top: 5px;
-  align-items: flex-end;
+  padding-top: 15px;
+  align-items: center;
 `;
 
 export default ToDoCard = ({
@@ -113,7 +116,7 @@ export default ToDoCard = ({
           <Caption>{caption}</Caption>
           {isTimer && (
             <TimerWrapper>
-              <Text>{time}</Text>
+              <Timer time={time} />
             </TimerWrapper>
           )}
         </Body>

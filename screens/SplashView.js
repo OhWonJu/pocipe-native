@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import styled from "styled-components/native";
 
 const Container = styled.View`
@@ -9,8 +10,10 @@ const Container = styled.View`
   justify-content: center;
 `;
 const ImageBackground = styled.ImageBackground`
-  width: 95%;
-  height: 90%;
+  /* width: 95%; */
+  /* height: 90%; */
+  width: 100%;
+  height: 100%;
   align-items: center;
   justify-content: center;
 `;
@@ -22,10 +25,19 @@ const BottomText = styled.Text`
 export default Loadings = () => {
   return (
     <Container>
-      <ImageBackground
-        source={require("../assets/loadingPage/loadpageEng1.png")}
-        resizeMode="center"
-      ></ImageBackground>
+      <View
+        style={{
+          width: "90%",
+          height: "90%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ImageBackground
+          source={require("../assets/loadingPage/loadpageEng1.png")}
+          resizeMode="center"
+        ></ImageBackground>
+      </View>
       <BottomText>🍕🥗🍣🍙🍝🍰🍮</BottomText>
     </Container>
   );
