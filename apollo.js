@@ -39,7 +39,7 @@ export const userSignOut = async () => {
 // ngrok, localtunnel을 사용하는거
 // 두 가지 방법 중 하나를 써야..
 // lcaltunnel ->> npx localtunnel --port 4000
-const TEMP_URI = "https://b0ac-115-94-36-36.jp.ngrok.io";
+const TEMP_URI = "https://506a-115-94-36-36.jp.ngrok.io";
 const URI = `${TEMP_URI.trim()}/graphql`;
 
 const httpLink = createHttpLink({

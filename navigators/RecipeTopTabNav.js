@@ -87,6 +87,7 @@ export default ({ recipeId, InfoHeader, headerHeight }) => {
             navigation={navigation}
             route={route}
             recipeId={recipeId}
+            headerHeight={headerHeight}
           />
         )}
       </Tabs.Screen>

@@ -1,21 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Vibration, Animated } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import CountDown from "react-native-countdown-component";
 import { ThemeContext } from "styled-components/native";
 import { runOnJS } from "react-native-reanimated";
 
-export default Timer = ({ time, trigger = false }) => {
+export default Timer = ({ time, isDone }) => {
   const themeContext = useContext(ThemeContext);
 
   const [id, setId] = useState(undefined);
   const [until, setUntil] = useState(time / 1000);
-  const [running, setRunning] = useState(trigger);
+  const [running, setRunning] = useState(false);
+
+
+  useEffect(() => {
+    if (isDone) setRunning(false);
+  }, [isDone]);
 
   const _longPressGesture = Gesture.LongPress()
     .minDuration(800)
     .onEnd((e, success) => {
-      if (success) {
+      if (success && !isDone) {
         runOnJS(setUntil)(time / 1000);
         runOnJS(setRunning)(false);
         runOnJS(setId)(new Date().getTime().toString());
@@ -23,7 +28,7 @@ export default Timer = ({ time, trigger = false }) => {
     });
 
   const _tapGesture = Gesture.Tap().onEnd((e, success) => {
-    if (success) {
+    if (success && !isDone) {
       runOnJS(setRunning)(!running);
     }
   });
@@ -31,7 +36,7 @@ export default Timer = ({ time, trigger = false }) => {
   const _doubleTapGesture = Gesture.Tap()
     .numberOfTaps(2)
     .onEnd((e, success) => {
-      if (success) {
+      if (success && !isDone) {
         runOnJS(setUntil)(time / 1000);
         runOnJS(setRunning)(false);
         runOnJS(setId)(new Date().getTime().toString());

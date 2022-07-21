@@ -6,7 +6,12 @@ import { SEE_TODOS_QUERY } from "./RecipeToDoModel";
 
 import RecipeToDoScreen from "./RecipeToDoScreen";
 
-export default RecipeToDoController = ({ navigation, route, recipeId }) => {
+export default RecipeToDoController = ({
+  navigation,
+  route,
+  recipeId,
+  headerHeight,
+}) => {
   const [toDos, setToDos] = useState([]);
   const _onCompleted = ({ seeRecipe }) => {
     setToDos(seeRecipe.toDos);
@@ -26,6 +31,7 @@ export default RecipeToDoController = ({ navigation, route, recipeId }) => {
       route={route}
       toDos={toDos}
       toDosCount={data.seeRecipe.toDosCount}
+      headerHeight={headerHeight}
     />
   );
 };

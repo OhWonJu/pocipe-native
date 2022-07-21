@@ -1,9 +1,8 @@
-import React, { useCallback, useContext } from "react";
-import { Animated, View } from "react-native";
+import React, { useCallback, useRef } from "react";
+import { Animated, TouchableOpacity } from "react-native";
 import { useCollapsibleScene } from "react-native-collapsible-tab-view";
-import { ThemeContext } from "styled-components";
+import ToTopBtn from "../../../components/Recipe/ToTopBtn";
 
-import HomeScreenScrollView from "../../../components/Home/HomeScreenScrollView";
 import ToDoCard from "../../../components/ToDo/ToDoCard";
 
 export default RecipeToDoScreen = ({
@@ -11,11 +10,18 @@ export default RecipeToDoScreen = ({
   route,
   toDos,
   toDosCount,
+  headerHeight,
 }) => {
-  const themeContext = useContext(ThemeContext);
-
   const scrollPropsAndRef = useCollapsibleScene(route.name);
   const keyExtractor = useCallback((_, index) => index.toString(), []);
+
+  const listRef = useRef();
+
+  const toTop = () => {
+    // use current
+    listRef.current.scrollToOffset({ animated: true, offset: headerHeight });
+  };
+  const FOOTER = () => <ToTopBtn to={toTop} />;
 
   const TODOCARD = ({ item }) => {
     return <ToDoCard toDosCount={toDosCount} {...item} />;
@@ -26,6 +32,7 @@ export default RecipeToDoScreen = ({
     <>
       <Animated.FlatList
         {...scrollPropsAndRef}
+        ref={listRef}
         data={toDos}
         keyExtractor={keyExtractor}
         renderItem={TODOCARD}
@@ -34,20 +41,12 @@ export default RecipeToDoScreen = ({
         legacyImplementation={true}
         showsVerticalScrollIndicator={false}
         bounces={false}
-      />
-      {/* <HomeScreenScrollView
-        navigation={navigation}
-        route={route}
-        paddingSet={false}
-        ContainerStyle={{
-          backgroundColor: "",
-          marginTop: 10,
+        ListFooterComponent={FOOTER}
+        ListFooterComponentStyle={{
+          justifyContent: "center",
+          alignItems: "center",
         }}
-      >
-        {toDos.map((data, index) => (
-          <ToDoCard key={index} toDosCount={toDosCount} {...data} />
-        ))}
-      </HomeScreenScrollView> */}
+      />
     </>
   );
 };
