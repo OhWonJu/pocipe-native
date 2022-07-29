@@ -11,6 +11,8 @@ const CardContainer = styled.View`
   /* max-height: 340px; */
   width: ${CARD_WIDTH}px;
   margin: 10px 10px 10px 10px;
+  background-color: ${(props) => props.theme.bgColor};
+  border-radius: 5px;
 `;
 const ThumbNailBox = styled.View`
   width: ${CARD_WIDTH}px;
@@ -29,7 +31,7 @@ const InfoBox = styled.View`
 const TitleText = styled.Text`
   font-weight: bold;
   font-size: 15px;
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
   padding: 5px 0px 3px 0px;
 `;
 const RowBox = styled.View`
@@ -38,7 +40,7 @@ const RowBox = styled.View`
 `;
 const RowText = styled.Text`
   font-size: 12px;
-  color: ${props => props.theme.darkGreyColor};
+  color: ${(props) => props.theme.darkGreyColor};
 `;
 const RatingBox = styled.View`
   flex-direction: row;
@@ -48,11 +50,11 @@ const RatingBox = styled.View`
 const RatingText = styled.Text`
   font-size: 8px;
   font-weight: bold;
-  color: ${props => props.theme.yellowColor};
+  color: ${(props) => props.theme.yellowColor};
 `;
 const UserNameText = styled.Text`
   margin-left: 3px;
-  color: ${props => props.theme.darkGreyColor};
+  color: ${(props) => props.theme.darkGreyColor};
 `;
 const ProfileBox = styled.View`
   flex-direction: row;

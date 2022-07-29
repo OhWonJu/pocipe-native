@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
+import { State } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
+import useGetToDoStep from "../../Hooks/useGetToDoStep";
+import useToDoStepUpdate from "../../Hooks/useToDoStepUpdate";
+import useToggleToDoAutoRun from "../../Hooks/useToggleToDoAutoRun";
+import { setToDoAutoRun } from "../../Store/ToDoAutoRunReducer";
+import { getToDoStep, setToDoStep } from "../../Store/ToDoStepReducer";
 
 import { shadows } from "../../Styles/GlobalStyles";
 import Timer from "../Timer/Timer";
@@ -97,6 +104,31 @@ export default ToDoCard = ({
 }) => {
   const [isDone, setIsDone] = useState(false);
 
+  // REDUX //
+  const dispatch = useDispatch();
+  const toDoStepState = useSelector(getToDoStep);
+  const toDoStepUpdate = () => {
+    toDoStepState.nowStep < toDosCount - 1 &&
+      dispatch(
+        setToDoStep({
+          nowStep: toDoStepState.nextStep,
+          nextStep: toDoStepState.nextStep + 1,
+        })
+      );
+  };
+  const controlDispatch = () => {
+    if (toDoStepState.nowStep === step) {
+      toDoStepUpdate();
+    } else {
+      dispatch(setToDoAutoRun({ isAutoRun: false }));
+    }
+  };
+
+  const _onPressHandler = () => {
+    setIsDone(!isDone);
+    controlDispatch();
+  };
+
   const trigger = useSharedValue(focused);
   const AnimatedStyle = useAnimatedStyle(() => {
     const scale = withSpring(trigger.value ? 1.05 : 1);
@@ -112,7 +144,7 @@ export default ToDoCard = ({
     return (
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => setIsDone(!isDone)}
+        onPress={() => _onPressHandler()}
         style={style}
       >
         {children}
@@ -159,7 +191,14 @@ export default ToDoCard = ({
             </TOUCHABLE>
             {isTimer && (
               <TimerWrapper>
-                <Timer time={time} isDone={isDone} />
+                <Timer
+                  step={step}
+                  time={time}
+                  isDone={isDone}
+                  setIsDone={setIsDone}
+                  toDoStepState={toDoStepState}
+                  toDoStepUpdate={toDoStepUpdate}
+                />
               </TimerWrapper>
             )}
           </Body>

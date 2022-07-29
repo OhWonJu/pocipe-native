@@ -1,21 +1,47 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View, Vibration, Animated } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import CountDown from "react-native-countdown-component";
 import { ThemeContext } from "styled-components/native";
 import { runOnJS } from "react-native-reanimated";
+import { useSelector } from "react-redux";
 
-export default Timer = ({ time, isDone }) => {
+import { getToDoAutoRun } from "../../Store/ToDoAutoRunReducer";
+
+export default Timer = ({
+  step,
+  time,
+  isDone,
+  setIsDone,
+  toDoStepState,
+  toDoStepUpdate,
+}) => {
   const themeContext = useContext(ThemeContext);
 
   const [id, setId] = useState(undefined);
   const [until, setUntil] = useState(time / 1000);
   const [running, setRunning] = useState(false);
 
+  // REDUX //
+  const { isAutoRun } = useSelector(getToDoAutoRun);
+  // ----------------------------------------------- //
+
+  useEffect(() => {
+    if (isAutoRun && toDoStepState.nowStep === step) {
+      setRunning(true);
+    }
+  }, [toDoStepState]);
 
   useEffect(() => {
     if (isDone) setRunning(false);
   }, [isDone]);
+
+  const _onFinishHandler = () => {
+    toDoStepUpdate();
+    setIsDone(true);
+    Vibration.vibrate(500);
+    alert("finished");
+  };
 
   const _longPressGesture = Gesture.LongPress()
     .minDuration(800)
@@ -73,10 +99,7 @@ export default Timer = ({ time, isDone }) => {
             id={id}
             until={until}
             running={running}
-            onFinish={() => {
-              Vibration.vibrate(500);
-              alert("finished");
-            }}
+            onFinish={() => _onFinishHandler()}
             // onPress={() => _onPress()}
             timeToShow={["M", "S"]}
             timeLabels={{ m: "", s: "" }}

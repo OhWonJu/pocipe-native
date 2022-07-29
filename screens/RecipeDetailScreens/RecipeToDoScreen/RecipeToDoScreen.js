@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react";
-import { Animated, TouchableOpacity } from "react-native";
+import { Animated } from "react-native";
 import { useCollapsibleScene } from "react-native-collapsible-tab-view";
 import ToTopBtn from "../../../components/Recipe/ToTopBtn";
 
@@ -34,6 +34,7 @@ export default RecipeToDoScreen = ({
         {...scrollPropsAndRef}
         ref={listRef}
         data={toDos}
+        style={{ backgroundColor: "#FAFAFA" }}
         keyExtractor={keyExtractor}
         renderItem={TODOCARD}
         scrollEventThrottle={16}
