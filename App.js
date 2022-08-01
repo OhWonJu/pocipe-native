@@ -10,16 +10,20 @@ import { ThemeProvider } from "styled-components/native";
 import { ApolloProvider, useReactiveVar } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import "react-native-reanimated";
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  Provider as StoreProvider,
+} from "react-redux";
 
 import { lightTheme, darkTheme } from "./Styles/Theme";
 import SplashView from "./screens/SplashView";
 import SignOutNav from "./navigators/SignOutNav";
 import SignInNav from "./navigators/SignInNav";
 import client, { isSignInVar, tokenVar } from "./apollo";
+import Store from "./Store/Store";
 
-export default function App() {
+function App() {
   const [loading, setLoading] = useState(true);
 
   const isSignIn = useReactiveVar(isSignInVar);
@@ -86,12 +90,20 @@ export default function App() {
       <ApolloProvider client={client}>
         <SafeAreaProvider>
           <ThemeProvider theme={Theme}>
-              <NavigationContainer>
-                {isSignIn ? <SignInNav /> : <SignOutNav />}
-              </NavigationContainer>
+            <NavigationContainer>
+              {isSignIn ? <SignInNav /> : <SignOutNav />}
+            </NavigationContainer>
           </ThemeProvider>
         </SafeAreaProvider>
       </ApolloProvider>
     </>
+  );
+}
+
+export default function AppWrapper() {
+  return (
+    <StoreProvider store={Store}>
+      <App />
+    </StoreProvider>
   );
 }

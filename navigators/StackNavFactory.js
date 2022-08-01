@@ -10,6 +10,7 @@ import MyPage from "../screens/MyPageScreens/index";
 import Profile from "../screens/Profile";
 import RecipeDetail from "../screens/RecipeDetailScreens/index";
 import RecipeList from "../screens/RecipeListScreens/index";
+import RecipeEdit from "../screens/RecipeEditScreens/index";
 import Notification from "../screens/NotificationScreens/Notification";
 import Setting from "../screens/MyPageScreens/SettingScreens/index";
 
@@ -57,6 +58,7 @@ export default ({ screenName, setTabBarVisible }) => {
         component={RecipeList}
         options={{ animationEnabled: false }}
       />
+      <Stacks.Screen name="RecipeEdit" component={RecipeEdit} />
       <Stacks.Screen
         name="Notification"
         component={Notification}

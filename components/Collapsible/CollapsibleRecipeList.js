@@ -51,7 +51,7 @@ export default CollapsibleRecipeList = ({
             showsVerticalScrollIndicator={false}
             numColumns={2}
             columnWrapperStyle={{
-              justifyContent: "space-around",
+              justifyContent: "space-evenly",
               alignItems: "center",
             }}
             scrollEventThrottle={20}

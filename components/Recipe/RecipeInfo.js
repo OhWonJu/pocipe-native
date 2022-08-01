@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import constants from "../../constants";
 
@@ -77,6 +77,11 @@ const BarCodeWrapper = styled.View`
 const BarcodeText = styled.Text`
   color: ${(props) => props.theme.blackColor};
   font-size: 13px;
+`;
+
+const ChefNameText = styled.Text`
+  color: ${(props) => props.theme.blackColor};
+  font-size: 28px;
 `;
 
 export default RecipeInfo = ({
@@ -178,9 +183,26 @@ export default RecipeInfo = ({
       <BarCodeWrapper pointerEvents="none">
         <Barcode id={id} />
       </BarCodeWrapper>
-      <View
+      <View style={{ paddingVertical: 15 }} pointerEvents="box-none">
+        <RowBox pointerEvents="box-none">
+          <View style={{ justifyContent: "center" }} pointerEvents="none">
+            <RowText style={{ fontSize: 12, top: 3 }}>Recipe by</RowText>
+            <ChefNameText style={{bottom:3}}>{chef.userName}</ChefNameText>
+          </View>
+          <TouchableOpacity
+            onPress={goProfile}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <ProfilePhoto size="middle" uri={chef.profilePhoto} />
+          </TouchableOpacity>
+        </RowBox>
+      </View>
+      {/* <View
         style={{
-          height: 60,
+          height: 50,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
@@ -200,7 +222,7 @@ export default RecipeInfo = ({
         >
           <ProfilePhoto size="normal" uri={chef.profilePhoto} />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </InfoWrapper>
   );
 };

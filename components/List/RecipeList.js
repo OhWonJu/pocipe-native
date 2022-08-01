@@ -39,7 +39,7 @@ export default ({ navigation, listId }) => {
             showsVerticalScrollIndicator={false}
             numColumns={2}
             columnWrapperStyle={{
-              justifyContent: "space-between",
+              justifyContent: "space-evenly",
               alignItems: "center",
             }}
           />
