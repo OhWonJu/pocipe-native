@@ -33,9 +33,6 @@ export default RecipeToDoController = ({
   }, []);
   // ------------------------------------------------- //
 
-  const state = useSelector(getToDoStep);
-  console.log("STATE: ", state);
-
   if (loading) {
     return <Loader />;
   }

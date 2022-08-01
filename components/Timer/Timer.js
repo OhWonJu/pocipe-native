@@ -26,6 +26,7 @@ export default Timer = ({
   const { isAutoRun } = useSelector(getToDoAutoRun);
   // ----------------------------------------------- //
 
+  // TIMER RUN CONTROL //
   useEffect(() => {
     if (isAutoRun && toDoStepState.nowStep === step) {
       setRunning(true);
@@ -42,7 +43,9 @@ export default Timer = ({
     Vibration.vibrate(500);
     alert("finished");
   };
+  // --------------------------------------------------- //
 
+  // ANIMATION //
   const _longPressGesture = Gesture.LongPress()
     .minDuration(800)
     .onEnd((e, success) => {
@@ -74,6 +77,7 @@ export default Timer = ({
     _doubleTapGesture, // for android
     _tapGesture
   );
+  // -------------------------------------------------------- //
 
   // Timer removeEventListener deprecated 이슈
   // index 찾아가서...

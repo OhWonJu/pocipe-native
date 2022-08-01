@@ -123,12 +123,14 @@ export default ToDoCard = ({
       dispatch(setToDoAutoRun({ isAutoRun: false }));
     }
   };
+  // ------------------------------------------------- //
 
   const _onPressHandler = () => {
     setIsDone(!isDone);
     controlDispatch();
   };
 
+  // Animations //
   const trigger = useSharedValue(focused);
   const AnimatedStyle = useAnimatedStyle(() => {
     const scale = withSpring(trigger.value ? 1.05 : 1);
@@ -139,7 +141,9 @@ export default ToDoCard = ({
       transform: [{ scale }],
     };
   });
+  // --------------------------------------------------- //
 
+  // TPUCHABLE COMPONENT //
   const TOUCHABLE = ({ style, children }) => {
     return (
       <TouchableOpacity
@@ -151,6 +155,7 @@ export default ToDoCard = ({
       </TouchableOpacity>
     );
   };
+  // ----------------------------------------- //
 
   return (
     <>
